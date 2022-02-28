@@ -25,7 +25,7 @@
         "plugin:@angular-eslint/template/process-inline-templates"
       ],
       "rules": {
-        "prefer-arrow/prefer-arrow-functions": 0,
+        "prefer-arrow/prefer-arrow-functions": 2,
         "@angular-eslint/directive-selector":  0,
         "@angular-eslint/component-selector": [
           "error",

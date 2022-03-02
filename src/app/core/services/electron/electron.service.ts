@@ -7,7 +7,7 @@ import * as childProcess from 'child_process';
 import * as fs from 'fs';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ElectronService {
   ipcRenderer: typeof ipcRenderer;
@@ -40,5 +40,24 @@ export class ElectronService {
 
   get isElectron(): boolean {
     return !!(window && window.process && window.process.type);
+  }
+
+  /**
+   * Notifies electron for an event
+   *
+   * @param channel
+   */
+  send(channel: string, message: string) {
+    this.ipcRenderer.send(channel, message);
+  }
+
+  /**
+   * Similar to channel but it's two way. Returns a promise of main response
+   *
+   * @param channel Channel were event is sended
+   * @returns Promise of the data return by main
+   */
+  public invoke(channel: string): Promise<any> {
+    return this.ipcRenderer.invoke(channel);
   }
 }

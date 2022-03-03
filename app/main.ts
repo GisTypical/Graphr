@@ -1,6 +1,6 @@
-import { app, BrowserWindow, screen } from 'electron';
-import * as path from 'path';
+import { app, BrowserWindow, ipcMain, screen } from 'electron';
 import * as fs from 'fs';
+import * as path from 'path';
 import * as url from 'url';
 
 let win: BrowserWindow = null;
@@ -25,7 +25,7 @@ function createWindow(): BrowserWindow {
   });
 
   if (serve) {
-    win.webContents.openDevTools();
+    // win.webContents.openDevTools();
     require('electron-reload')(__dirname, {
       electron: require(path.join(__dirname, '/../node_modules/electron')),
     });
@@ -64,7 +64,19 @@ try {
   // initialization and is ready to create browser windows.
   // Some APIs can only be used after this event occurs.
   // Added 400 ms to fix the black background issue while using transparent window. More detais at https://github.com/electron/electron/issues/15947
-  app.on('ready', () => setTimeout(createWindow, 400));
+  app.on('ready', () => {
+    /**
+     * Testing IPC
+     */
+
+    ipcMain.on('ping', (event, message) => console.log(`recieved ${message}!`));
+    ipcMain.handle('pong', () => {
+      console.log('se ha hecho un invoke!');
+      return 'Pong!';
+    });
+
+    setTimeout(createWindow, 400);
+  });
 
   // Quit when all windows are closed.
   app.on('window-all-closed', () => {

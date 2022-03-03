@@ -53,8 +53,8 @@ Para utilizar el `IpcRenderer`, se tiene un servicio de Angular donde se tiene e
 ## `core` module:
 
 - singleton services
-- components necessary for the application (_not shared_, like header or footer)
-- models
+- interceptors
+- guards
 
 ```
 - core/
@@ -71,14 +71,17 @@ Para utilizar el `IpcRenderer`, se tiene un servicio de Angular donde se tiene e
 
 ## `shared` module (_used in multiple components_):
 
+- import `FormsModule`, `ReactiveFormsModule` and other 3rd party modules
+
 ```
 - shared/
   - shared.module.ts
   - components/
     - card/
-    - primary-button/
+    - button/
   - directives/
   - pipes/
+  - models/
 ```
 
 ---

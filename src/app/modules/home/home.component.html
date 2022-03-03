@@ -1,0 +1,7 @@
+<div class="container">
+  <p>Las cosas son como son cuando son como son</p>
+  <button (click)="sendPing('ping')">Send a ping</button>
+  <button (click)="sendPing('pang')">Send a pang</button>
+  <button (click)="invoke()" cdkDrag>Change text</button>
+  <p>{{pong ? "PONG!" : 'No se ha recibido nada de main'}}</p>
+</div>

@@ -1,7 +1,33 @@
-<div class="container">
-  <p>Las cosas son como son cuando son como son</p>
-  <button (click)="sendPing('ping')">Send a ping</button>
-  <button (click)="sendPing('pang')">Send a pang</button>
-  <button (click)="invoke()" cdkDrag>Change text</button>
-  <p>{{pong ? "PONG!" : 'No se ha recibido nada de main'}}</p>
+<div class="parent" cdkDropListGroup>
+  <header>
+    <p>Toolbar</p>
+  </header>
+
+  <aside class="left-sidebar">
+    <p>Components</p>
+    <ul
+      class="flex"
+      cdkDropList
+      cdkDropListSortingDisabled
+      [cdkDropListData]="list"
+    >
+      <ng-container *ngFor="let i of list">
+        <article>
+          <div class="element-wrapper" cdkDrag >
+            <li>{{ i }}</li>
+            <div *cdkDragPlaceholder></div>
+            <li *cdkDragPreview>{{ i }}</li>
+          </div>
+        </article>
+      </ng-container>
+    </ul>
+  </aside>
+
+  <main #canvas cdkDropList (cdkDropListDropped)="drop($event)">
+    <span *ngFor="let el of selectedElements">{{el}}</span>
+  </main>
+
+  <aside class="right-sidebar">
+    <p>Styles</p>
+  </aside>
 </div>

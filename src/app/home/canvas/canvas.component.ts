@@ -48,10 +48,9 @@ export class CanvasComponent {
      * Made this way to access the components dimensions
      * without appending the element to the DOM
      */
-    const component =
-      event.previousContainer.element.nativeElement.children[
-        event.previousIndex
-      ].firstChild.firstChild;
+    const component = event.previousContainer.element.nativeElement.children[
+      event.previousIndex
+    ].firstChild.firstChild as HTMLElement;
 
     const clonedComponent = component.cloneNode(true) as HTMLElement;
 
@@ -93,12 +92,10 @@ export class CanvasComponent {
     this.renderer.appendChild(this.canvas.nativeElement, clonedComponent);
   }
 
-  private isOutOfBounds(event: CdkDragDrop<number[]>, component: Node) {
+  private isOutOfBounds(event: CdkDragDrop<number[]>, component: HTMLElement) {
     // Get Canvas Dimensions
     const canvasRect = this.canvas.nativeElement.getBoundingClientRect();
-    // Get component as HTMLElement so ts doesn't complain
-    const tempComp = component as HTMLElement;
-    const componentRect = tempComp.getBoundingClientRect();
+    const componentRect = component.getBoundingClientRect();
 
     const outOfBoundsX =
       event.dropPoint.x < canvasRect.x ||

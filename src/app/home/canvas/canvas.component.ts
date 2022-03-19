@@ -15,7 +15,7 @@ export class CanvasComponent {
     private canvas: ElementRef
   ) {}
 
-  // Check for keyboards events
+  // Check keyboards events for components deletion
   @HostListener('document:keydown', ['$event'])
   handleKey(event: KeyboardEvent): void {
     if (event.key === 'Backspace' || event.key === 'Delete') {
@@ -26,7 +26,7 @@ export class CanvasComponent {
     }
   }
 
-  // Check every click in document
+  // Check every click in document for element deselection
   @HostListener('document:click', ['$event'])
   handleClick(event: PointerEvent) {
     console.log(event);
@@ -68,7 +68,7 @@ export class CanvasComponent {
       `${event.dropPoint.y.toString()}px`
     );
 
-    // Add click event for added element to canvas
+    // Add selection click event for every new element in canvas
     clonedComponent.addEventListener('click', (e) => {
       e.stopPropagation();
       this.renderer.addClass(e.target, 'selected');
@@ -82,7 +82,7 @@ export class CanvasComponent {
       }
     });
 
-    // Create draggable clonedComponent
+    // Create draggable element from clonedComponent
     const dragComponent = this.dragDrop.createDrag(clonedComponent);
     dragComponent.withBoundaryElement(this.canvas);
     // Check if element is dropped outside the canvas, if it is, return
@@ -90,15 +90,13 @@ export class CanvasComponent {
       return;
     }
 
-    // Get drop list element
-    const currContainer = event.container.element.nativeElement;
-
-    this.renderer.appendChild(currContainer, clonedComponent);
+    this.renderer.appendChild(this.canvas.nativeElement, clonedComponent);
   }
 
   private isOutOfBounds(event: CdkDragDrop<number[]>, component: Node) {
     // Get Canvas Dimensions
     const canvasRect = this.canvas.nativeElement.getBoundingClientRect();
+    // Get component as HTMLElement so ts doesn't complain
     const tempComp = component as HTMLElement;
     const componentRect = tempComp.getBoundingClientRect();
 

@@ -1,33 +1,6 @@
 <div class="parent" cdkDropListGroup>
-  <header>
-    <p>Toolbar</p>
-  </header>
-
-  <aside class="left-sidebar">
-    <p>Components</p>
-    <ul
-      class="flex"
-      cdkDropList
-      cdkDropListSortingDisabled
-      [cdkDropListData]="list"
-    >
-      <ng-container *ngFor="let i of list">
-        <article>
-          <div class="element-wrapper" cdkDrag >
-            <li>{{ i }}</li>
-            <div *cdkDragPlaceholder></div>
-            <li *cdkDragPreview>{{ i }}</li>
-          </div>
-        </article>
-      </ng-container>
-    </ul>
-  </aside>
-
-  <main #canvas cdkDropList (cdkDropListDropped)="drop($event)">
-    <span *ngFor="let el of selectedElements">{{el}}</span>
-  </main>
-
-  <aside class="right-sidebar">
-    <p>Styles</p>
-  </aside>
+  <app-toolbar></app-toolbar>
+  <app-components-bar></app-components-bar>
+  <app-canvas cdkDropList></app-canvas>
+  <app-styles-bar></app-styles-bar>
 </div>

@@ -24,7 +24,6 @@ export class HomeComponent implements OnInit {
 
   @HostListener('document:keydown', ['$event'])
   handleKey(event: KeyboardEvent): void {
-    console.log(event);
     if (event.key === 'Backspace' || event.key === 'Delete') {
       for (const element of this.selectedElements) {
         element.remove();

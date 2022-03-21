@@ -1,18 +1,9 @@
 <aside>
   <p>Components</p>
-  <ul
-    class="flex"
-    cdkDropList
-    cdkDropListSortingDisabled
-    [cdkDropListData]="list"
-  >
+  <ul class="flex" cdkDropList cdkDropListSortingDisabled [cdkDropListData]="list">
     <ng-container *ngFor="let i of list">
       <article>
-        <div
-          class="element-wrapper"
-          cdkDrag
-          (cdkDragStarted)="something($event)"
-        >
+        <div class="element-wrapper" cdkDrag (cdkDragStarted)="something($event)">
           <li>{{ i }}</li>
           <div *cdkDragPlaceholder></div>
           <li *cdkDragPreview>{{ i }}</li>

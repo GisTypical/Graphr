@@ -7,13 +7,11 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./components-bar.component.scss', '../home.component.scss'],
 })
 export class ComponentsBarComponent implements OnInit {
-  list = Array(15)
-    .fill('')
-    .map((_, i) => i + 1);
+  list = Array(15).fill('').map((_, i) => i + 1);
 
-  constructor() {}
+  constructor() { }
 
-  ngOnInit(): void {}
+  ngOnInit(): void { }
 
   something(event: CdkDragStart<any>) {
     console.log('something', event);

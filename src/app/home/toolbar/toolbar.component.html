@@ -1,3 +1,90 @@
 <header>
-  <p>Toolbar</p>
+  <div class="title-bar">
+    <i class="ph-minus-thin" (click)="minimizeWindow()"></i>
+    <i class="ph-cards-thin" (click)="maximizeWindow()"></i>
+    <i class="ph-x-thin" (click)="closeWindow()"></i>
+  </div>
+  <nav class="header-navbar">
+    <div class="options">
+      <article #projectButton (click)="toggleProjectMenu()">
+        <i class="ph-squares-four-thin"></i>
+        <i class="ph-caret-down-thin"></i>
+      </article>
+      <article #moveButton (click)="toggleMoveMenu()">
+        <i class="ph-cursor-thin"></i>
+        <i class="ph-caret-down-thin"></i>
+      </article>
+  
+      <hr class="separator">
+  
+      <article>
+        <i class="ph-magnifying-glass-plus-thin"></i>
+        <i class="ph-caret-down-thin"></i>
+      </article>
+      <article>
+        <i class="ph-magnifying-glass-minus-thin"></i>
+        <i class="ph-caret-down-thin"></i>
+      </article>
+    </div>
+  
+    <div class="title">
+      <h1>Page title</h1>
+    </div>
+  
+    <div class="generate-btn">
+      <button type="button">Generate</button>
+    </div>
+  </nav>
 </header>
+
+<!--Project Menu-->
+<section #projectMenu class="project-menu" *ngIf="isProjectMenuOpen">
+  <article>
+    <span>New project...</span>
+    <span>Ctrl + N</span>
+  </article>
+  <article>
+    <span>Open...</span>
+    <span>Ctrl + O</span>
+  </article>
+  <article>
+    <span>Open recent</span>
+    <i class="ph-caret-right-thin"></i>
+  </article>
+
+  <hr>
+
+  <article>
+    <span>Save</span>
+    <span>Ctrl + S</span>
+  </article>
+  <article>
+    <span>Save as...</span>
+    <span>Ctrl + Shift + S</span>
+  </article>
+
+  <hr>
+
+  <article>
+    <span>Exit</span>
+  </article>
+</section>
+
+<!--Move/Scale Menu-->
+<section #moveMenu class="move-menu" *ngIf="isMoveMenuOpen">
+  <article>
+    <div>
+      <i class="ph-cursor-thin"></i>
+      <span>Move</span>
+    </div>
+    <span>V</span>
+  </article>
+
+  <article>
+    <div>
+      <i class="ph-frame-corners-thin"></i>
+      <span>Scale</span>
+    </div>
+    <span>K</span>
+  </article>
+</section>

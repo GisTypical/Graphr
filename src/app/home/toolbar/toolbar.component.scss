@@ -1,17 +1,4 @@
-// :host {
-//   grid-column: 1/4;
-// }
-
-// header {
-//   padding: 2rem;
-//   background-color: rgb(255, 103, 103);
-// }
-
-// :host {
-//   width: 100%;
-//   height: 100%;
-//   background-color: red;
-// }
+// Toolbar styles
 
 @mixin text-gradient($direction, $color1, $color2) {
   background: linear-gradient($direction, $color1, $color2);
@@ -25,6 +12,7 @@ header {
   justify-content: center;
   align-items: center;
   flex-flow: column wrap;
+  user-select: none;
 }
 
 .title-bar {
@@ -88,18 +76,18 @@ header {
       background-color: var(--independence);
     }
 
-    > i:first-child {
+    > i {
       font-size: 1.9vmax;
       color: var(--light-grey);
     }
 
-    > i:last-child {
+    > .arrow-down {
       font-size: 0.8vmax;
       color: var(--light-grey);
     }
   }
 
-  > .separator {
+  > hr {
     border: none;
     background-color: var(--light-grey);
     height: 3vmax;
@@ -152,10 +140,18 @@ header {
   }
 }
 
-.project-menu {
-  position: absolute;
+.project-menu-location {
   top: 7vmax;
   left: 1.5vmax;
+}
+
+.project-menu-location-no-titlebar {
+  top: 4.5vmax;
+  left: 1.5vmax;
+}
+
+.project-menu {
+  position: absolute;
   width: 25vmax;
   height: 21vmax;
   background-color: var(--dark-purple);
@@ -195,10 +191,18 @@ header {
   }
 }
 
-.move-menu {
-  position: absolute;
+.move-menu-location {
   top: 7vmax;
   left: 6.5vmax;
+}
+
+.move-menu-location-no-titlebar {
+  top: 4.5vmax;
+  left: 6.5vmax;
+}
+
+.move-menu {
+  position: absolute;
   width: 15vmax;
   height: 7vmax;
   background-color: var(--dark-purple);

@@ -1,5 +1,6 @@
+/* eslint-disable max-len */
 import { CdkDragStart } from '@angular/cdk/drag-drop';
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 
 @Component({
   selector: 'app-components-bar',
@@ -7,7 +8,14 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./components-bar.component.scss', '../home.component.scss'],
 })
 export class ComponentsBarComponent implements OnInit {
-  list = Array(15).fill('').map((_, i) => i + 1);
+  @ViewChild('layout_dropdown') layoutDropdown: ElementRef;
+  @ViewChild('text_dropdown') textDropdown: ElementRef;
+  @ViewChild('forms_dropdown') formsDropdown: ElementRef;
+
+  list = Array(5).fill('').map((_, i) => i + 1);
+  isOpenLayout = false;
+  isOpenText = false;
+  isOpenForms = false;
 
   constructor() { }
 
@@ -15,5 +23,13 @@ export class ComponentsBarComponent implements OnInit {
 
   something(event: CdkDragStart<any>) {
     console.log('something', event);
+  }
+
+  toggleDetails(): boolean {
+    this.isOpenLayout = this.layoutDropdown.nativeElement.hasAttribute('open');
+    this.isOpenText = this.textDropdown.nativeElement.hasAttribute('open');
+    this.isOpenForms = this.formsDropdown.nativeElement.hasAttribute('open');
+
+    return this.isOpenLayout || this.isOpenText || this.isOpenForms;
   }
 }

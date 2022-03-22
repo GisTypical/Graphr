@@ -15,6 +15,7 @@ export class ToolbarComponent implements OnInit {
 
   isProjectMenuOpen = false;
   isMoveMenuOpen = false;
+  isElectron: boolean;
 
   constructor(
     private electronService: ElectronService,
@@ -34,6 +35,7 @@ export class ToolbarComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.isElectron = this.electronService.isElectron;
   }
 
   minimizeWindow(): void {

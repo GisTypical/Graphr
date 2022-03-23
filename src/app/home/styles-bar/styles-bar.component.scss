@@ -1,5 +1,64 @@
-:host {
-  grid-column: 3/4;
-  background-color: #FEE8b4;
-  width: 250px;
+aside {
+  background-color: var(--dark-purple);
+  width: 18vmax;
+  height: 69.4vmax;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  flex-flow: column wrap;
+}
+
+.tabs {
+  flex: 1;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  flex-flow: row wrap;
+  width: 18vmax;
+  border-bottom: 1px solid var(--french-mauve);
+
+  > button {
+    border: none;
+    outline: none;
+    padding: 0.7vmax 2vmax;
+    border-radius: 10px;
+
+    font: {
+      family: questrial;
+      size: 1vmax;
+    };
+  }
+}
+
+.deactivated {
+  background-color: transparent;
+  color: var(--french-mauve);
+}
+
+.activated {
+  background-color: var(--independence);
+  color: var(--columbia-blue);
+}
+
+.content {
+  flex: 13;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  flex-flow: column wrap;
+  padding: 2vmax;
+  text-align: center;
+  color: var(--french-mauve);
+
+  > p {
+    font: {
+      family: karla_medium;
+      size: 1.05vmax
+    };
+  }
+
+  > i {
+    font-size: 4.5vmax;
+    margin-top: 1.8vmax;
+  }
 }

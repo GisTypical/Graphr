@@ -47,7 +47,7 @@ export class ElectronService {
    *
    * @param channel
    */
-  send(channel: string, message: string) {
+  send(channel: string, message?: string) {
     this.ipcRenderer.send(channel, message);
   }
 

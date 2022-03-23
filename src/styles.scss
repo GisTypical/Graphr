@@ -60,3 +60,54 @@ p, h1, h2, h3, h4, h5, h6 {
 #root, #__next {
   isolation: isolate;
 }
+
+:root {
+  --winter-sky: #f52276;
+  --plum-web: #f0a5f1;
+  --columbia-blue: #ccecfc;
+  --dogwood-rose: #d61b66;
+  --french-mauve: #d895da;
+  --pewter-blue: #a9c6d3;
+  --dark-purple: #3a2d46;
+  --english-violet: #4c4057;
+  --independence: #5c5166;
+  --dark-liver: #2b2134;
+  --black: #000000;
+  --mid-grey: #bbbbbb;
+  --light-grey: #eeeeee;
+  --white: #ffffff;
+}
+
+
+// Raleway Font
+@font-face {
+  font-family: raleway;
+  src: url(assets/fonts/raleway/Raleway-VariableFont_wght.ttf);
+}
+
+@font-face {
+  font-family: raleway_semibold;
+  src: url(assets/fonts/raleway/Raleway-SemiBold.ttf);
+}
+
+@font-face {
+  font-family: raleway_medium;
+  src: url(assets/fonts/raleway/Raleway-Medium.ttf);
+}
+
+// Questrial Font
+@font-face {
+  font-family: questrial;
+  src: url(assets/fonts/questrial/Questrial-Regular.ttf);
+}
+
+// Karla Font
+@font-face {
+  font-family: karla;
+  src: url(assets/fonts/karla/Karla-VariableFont_wght.ttf);
+}
+
+@font-face {
+  font-family: karla_medium;
+  src: url(assets/fonts/karla/Karla-Medium.ttf);
+}

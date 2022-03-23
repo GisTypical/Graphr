@@ -13,10 +13,13 @@ function createWindow(): BrowserWindow {
 
   // Create the browser window.
   win = new BrowserWindow({
-    x: 0,
-    y: 0,
-    width: size.width,
-    height: size.height,
+    // x: 0,
+    // y: 0,
+    width: 1200,
+    height: 680,
+    minWidth: 940,
+    minHeight: 560,
+    titleBarStyle: 'hidden',
     webPreferences: {
       nodeIntegration: true,
       allowRunningInsecureContent: serve ? true : false,
@@ -68,7 +71,12 @@ try {
     /**
      * Testing IPC
      */
-
+    ipcMain.on('closeApp', () => win.close())
+    ipcMain.on('minimizeApp', () => win.minimize())
+    ipcMain.on('maximizeApp', () => {
+      if (win.isMaximized()) win.restore()
+      else win.maximize()
+    })
     ipcMain.on('ping', (event, message) => console.log(`recieved ${message}!`));
     ipcMain.handle('pong', () => {
       console.log('se ha hecho un invoke!');

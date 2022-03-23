@@ -21,10 +21,6 @@ export class ComponentsBarComponent implements OnInit {
 
   ngOnInit(): void { }
 
-  something(event: CdkDragStart<any>) {
-    console.log('something', event);
-  }
-
   toggleDetails(): boolean {
     this.isOpenLayout = this.layoutDropdown.nativeElement.hasAttribute('open');
     this.isOpenText = this.textDropdown.nativeElement.hasAttribute('open');

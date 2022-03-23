@@ -12,7 +12,7 @@ export class ComponentsBarComponent implements OnInit {
   @ViewChild('text_dropdown') textDropdown: ElementRef;
   @ViewChild('forms_dropdown') formsDropdown: ElementRef;
 
-  list = Array(5).fill('').map((_, i) => i + 1);
+  list = Array(15).fill('').map((_, i) => i + 1);
   isOpenLayout = false;
   isOpenText = false;
   isOpenForms = false;

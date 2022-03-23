@@ -1,67 +1,72 @@
 <aside>
   <div class="components-bar">
     <p>Components</p>
-    <!-- <ul class="flex" cdkDropList cdkDropListSortingDisabled [cdkDropListData]="list">
-    <ng-container *ngFor="let i of list">
-      <article>
-        <div class="element-wrapper" cdkDrag (cdkDragStarted)="something($event)">
-          <li>{{ i }}</li>
-          <div *cdkDragPlaceholder></div>
-          <li *cdkDragPreview>{{ i }}</li>
-        </div>
-      </article>
-    </ng-container>
-  </ul> -->
-  
-  <!--Layout dropdown-->
-  <details open #layout_dropdown class="layout-dropdown" (toggle)="toggleDetails()">
-    <summary>
-      <i [ngClass]="isOpenLayout ? 'ph-caret-up-thin' : 'ph-caret-down-thin'"></i>
-      <span>Layout</span>
-    </summary>
-    <ul cdkDropList cdkDropListSortingDisabled>
-      <article>
-        <div cdkDrag (cdkDragStarted)="something($event)">
-          <li><span>Container</span></li>
-          <div *cdkDragPlaceholder></div>
-          <li *cdkDragPreview><span>Container</span></li>
-        </div>
-      </article>
-  
-      <article>
-        <div cdkDrag (cdkDragStarted)="something($event)">
-          <li><span>Image</span></li>
-          <div *cdkDragPlaceholder></div>
-          <li *cdkDragPreview><span>Image</span></li>
-        </div>
-      </article>
-  
-      <article>
-        <div cdkDrag (cdkDragStarted)="something($event)">
-          <li><span>Table</span></li>
-          <div *cdkDragPlaceholder></div>
-          <li *cdkDragPreview><span>Table</span></li>
-        </div>
-      </article>
-  
-      <article>
-        <div cdkDrag (cdkDragStarted)="something($event)">
-          <li><span>Toggle list</span></li>
-          <div *cdkDragPlaceholder></div>
-          <li *cdkDragPreview><span>Toggle list</span></li>
-        </div>
-      </article>
-  
-      <article>
-        <div cdkDrag (cdkDragStarted)="something($event)">
-          <li><span>Divider</span></li>
-          <div *cdkDragPlaceholder></div>
-          <li *cdkDragPreview><span>Divider</span></li>
-        </div>
-      </article>
+    <!-- <details>
+      <summary>
+        Layout
+      </summary>
+      <ul class="flex" cdkDropList cdkDropListSortingDisabled [cdkDropListData]="list">
+        <ng-container *ngFor="let i of list">
+          <article>
+            <div class="element-wrapper" cdkDrag (cdkDragStarted)="something($event)">
+              <li>{{ i }}</li>
+              <div *cdkDragPlaceholder></div>
+              <li *cdkDragPreview>{{ i }}</li>
+            </div>
+          </article>
+        </ng-container>
+      </ul>
+    </details> -->
+
+    <!--Layout dropdown-->
+    <details open #layout_dropdown (toggle)="toggleDetails()">
+      <summary>
+        <i [ngClass]="isOpenLayout ? 'ph-caret-up-thin' : 'ph-caret-down-thin'"></i>
+        <span>Layout</span>
+      </summary>
+      <ul class="flex" cdkDropList cdkDropListSortingDisabled>
+        <article>
+          <div class="element-wrapper" cdkDrag (cdkDragStarted)="something($event)">
+            <li><span>Container</span></li>
+            <div *cdkDragPlaceholder></div>
+            <li *cdkDragPreview><span>Container</span></li>
+          </div>
+        </article>
+
+        <article>
+          <div cdkDrag (cdkDragStarted)="something($event)">
+            <li><span>Image</span></li>
+            <div *cdkDragPlaceholder></div>
+            <li *cdkDragPreview><span>Image</span></li>
+          </div>
+        </article>
+
+        <article>
+          <div cdkDrag (cdkDragStarted)="something($event)">
+            <li><span>Table</span></li>
+            <div *cdkDragPlaceholder></div>
+            <li *cdkDragPreview><span>Table</span></li>
+          </div>
+        </article>
+
+        <article>
+          <div cdkDrag (cdkDragStarted)="something($event)">
+            <li><span>Toggle list</span></li>
+            <div *cdkDragPlaceholder></div>
+            <li *cdkDragPreview><span>Toggle list</span></li>
+          </div>
+        </article>
+
+        <article>
+          <div cdkDrag (cdkDragStarted)="something($event)">
+            <li><span>Divider</span></li>
+            <div *cdkDragPlaceholder></div>
+            <li *cdkDragPreview><span>Divider</span></li>
+          </div>
+        </article>
       </ul>
     </details>
-    
+
     <!--Text dropdown-->
     <details open #text_dropdown class="text-dropdown" (toggle)="toggleDetails()">
       <summary>
@@ -76,7 +81,7 @@
             <li *cdkDragPreview><span>Link text</span></li>
           </div>
         </article>
-    
+
         <article>
           <div cdkDrag (cdkDragStarted)="something($event)">
             <li><span>Paragraph</span></li>
@@ -84,7 +89,7 @@
             <li *cdkDragPreview><span>Paragraph</span></li>
           </div>
         </article>
-    
+
         <article>
           <div cdkDrag (cdkDragStarted)="something($event)">
             <li><span>Heading</span></li>
@@ -92,7 +97,7 @@
             <li *cdkDragPreview><span>Heading</span></li>
           </div>
         </article>
-    
+
         <article>
           <div cdkDrag (cdkDragStarted)="something($event)">
             <li><span>Line text</span></li>
@@ -100,7 +105,7 @@
             <li *cdkDragPreview><span>Line text</span></li>
           </div>
         </article>
-    
+
         <article>
           <div cdkDrag (cdkDragStarted)="something($event)">
             <li><span>Code</span></li>
@@ -108,7 +113,7 @@
             <li *cdkDragPreview><span>Code</span></li>
           </div>
         </article>
-    
+
         <article>
           <div cdkDrag (cdkDragStarted)="something($event)">
             <li><span>Quote</span></li>
@@ -116,7 +121,7 @@
             <li *cdkDragPreview><span>Quote</span></li>
           </div>
         </article>
-    
+
         <article>
           <div cdkDrag (cdkDragStarted)="something($event)">
             <li><span>Bulleted list</span></li>
@@ -124,7 +129,7 @@
             <li *cdkDragPreview><span>Bulleted list</span></li>
           </div>
         </article>
-    
+
         <article>
           <div cdkDrag (cdkDragStarted)="something($event)">
             <li><span>Numbered list</span></li>
@@ -132,7 +137,7 @@
             <li *cdkDragPreview><span>Numbered list</span></li>
           </div>
         </article>
-    
+
         <article>
           <div cdkDrag (cdkDragStarted)="something($event)">
             <li><span>Description list</span></li>
@@ -142,7 +147,7 @@
         </article>
       </ul>
     </details>
-    
+
     <!--Forms dropdown-->
     <details open #forms_dropdown class="forms-dropdown" (toggle)="toggleDetails()">
       <summary>
@@ -157,7 +162,7 @@
             <li *cdkDragPreview><span>Form container</span></li>
           </div>
         </article>
-    
+
         <article>
           <div cdkDrag (cdkDragStarted)="something($event)">
             <li><span>Text input</span></li>
@@ -165,7 +170,7 @@
             <li *cdkDragPreview><span>Text input</span></li>
           </div>
         </article>
-    
+
         <article>
           <div cdkDrag (cdkDragStarted)="something($event)">
             <li><span>Label</span></li>
@@ -173,7 +178,7 @@
             <li *cdkDragPreview><span>Label</span></li>
           </div>
         </article>
-    
+
         <article>
           <div cdkDrag (cdkDragStarted)="something($event)">
             <li><span>Number stepper</span></li>
@@ -181,7 +186,7 @@
             <li *cdkDragPreview><span>Number stepper</span></li>
           </div>
         </article>
-    
+
         <article>
           <div cdkDrag (cdkDragStarted)="something($event)">
             <li><span>Check list</span></li>
@@ -189,7 +194,7 @@
             <li *cdkDragPreview><span>Check list</span></li>
           </div>
         </article>
-    
+
         <article>
           <div cdkDrag (cdkDragStarted)="something($event)">
             <li><span>Radio list</span></li>
@@ -197,7 +202,7 @@
             <li *cdkDragPreview><span>Radio list</span></li>
           </div>
         </article>
-    
+
         <article>
           <div cdkDrag (cdkDragStarted)="something($event)">
             <li><span>Date picker</span></li>
@@ -205,7 +210,7 @@
             <li *cdkDragPreview><span>Date picker</span></li>
           </div>
         </article>
-    
+
         <article>
           <div cdkDrag (cdkDragStarted)="something($event)">
             <li><span>Textarea</span></li>
@@ -213,7 +218,7 @@
             <li *cdkDragPreview><span>Textarea</span></li>
           </div>
         </article>
-    
+
         <article>
           <div cdkDrag (cdkDragStarted)="something($event)">
             <li><span>File picker</span></li>
@@ -221,7 +226,7 @@
             <li *cdkDragPreview><span>File picker</span></li>
           </div>
         </article>
-    
+
         <article>
           <div cdkDrag (cdkDragStarted)="something($event)">
             <li><span>Select</span></li>
@@ -229,7 +234,7 @@
             <li *cdkDragPreview><span>Select</span></li>
           </div>
         </article>
-    
+
         <article>
           <div cdkDrag (cdkDragStarted)="something($event)">
             <li><span>Button</span></li>
@@ -237,7 +242,7 @@
             <li *cdkDragPreview><span>Button</span></li>
           </div>
         </article>
-    
+
         <article>
           <div cdkDrag (cdkDragStarted)="something($event)">
             <li><span>Range</span></li>
@@ -245,7 +250,7 @@
             <li *cdkDragPreview><span>Range</span></li>
           </div>
         </article>
-    
+
         <article>
           <div cdkDrag (cdkDragStarted)="something($event)">
             <li><span>Color picker</span></li>
@@ -255,5 +260,5 @@
         </article>
       </ul>
     </details>
-    </div>
+  </div>
 </aside>

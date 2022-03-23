@@ -36,7 +36,7 @@
 .parent {
   background-color: var(--dark-liver);
   position: relative;
-  // height: 100vh;
+  // height: 100vmax;
 }
 
 .content {
@@ -44,6 +44,7 @@
   justify-content: flex-start;
   align-items: flex-start;
   flex-flow: row wrap;
+  height: 69.4vmax;
 }
 
 

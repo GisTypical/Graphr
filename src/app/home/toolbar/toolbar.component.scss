@@ -124,15 +124,19 @@ header {
   > button {
     width: 12.5vmax;
     height: 3.5vmax;
-    font-size: 1.25vmax;
     background: linear-gradient(to right, var(--winter-sky), var(--columbia-blue));
     border: none;
     outline: none;
     border-radius: 10px;
-    font-family: raleway_semibold;
     margin-right: 1vmax;
     cursor: pointer;
     transition: box-shadow 0.2s ease-in-out 0s;
+    color: var(--dark-liver);
+
+    font: {
+      family: raleway_semibold;
+      size: 1.25vmax;
+    }
 
     &:hover {
       box-shadow: 0px 0px 10px var(--winter-sky);

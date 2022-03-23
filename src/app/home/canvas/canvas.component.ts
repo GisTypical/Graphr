@@ -29,7 +29,6 @@ export class CanvasComponent {
   // Check every click in document for element deselection
   @HostListener('document:click', ['$event'])
   handleClick(event: PointerEvent) {
-    console.log(event);
     for (const element of this.selectedElements) {
       this.renderer.removeClass(element, 'selected');
     }

@@ -23,6 +23,11 @@ header {
   justify-content: flex-end;
   align-items: center;
   flex-flow: row wrap;
+  -webkit-app-region: drag;
+
+  .no-drag {
+    -webkit-app-region: no-drag;
+  }
 
   > i {
     font-size: 1.5vmax;

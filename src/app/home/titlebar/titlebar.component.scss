@@ -1,0 +1,37 @@
+.title-bar {
+  position: sticky;
+  top: 0;
+  width: 100%;
+  height: 2rem;
+  background-color: var(--black);
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  flex-flow: row wrap;
+  -webkit-app-region: drag;
+
+  .no-drag {
+    -webkit-app-region: no-drag;
+  }
+
+  > i {
+    font-size: 1rem;
+    width: 3rem;
+    height: 100%;
+    color: var(--light-grey);
+    transition: background-color 0.2s ease-in-out 0s;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-flow: row wrap;
+    cursor: pointer;
+
+    &:hover {
+      background-color: var(--independence);
+    }
+
+    &:last-child:hover {
+      background-color: var(--dogwood-rose);
+    }
+  }
+}

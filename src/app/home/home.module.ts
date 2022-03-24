@@ -7,9 +7,10 @@ import { ToolbarComponent } from './toolbar/toolbar.component';
 import { ComponentsBarComponent } from './components-bar/components-bar.component';
 import { CanvasComponent } from './canvas/canvas.component';
 import { StylesBarComponent } from './styles-bar/styles-bar.component';
+import { TitlebarComponent } from './titlebar/titlebar.component';
 
 @NgModule({
-  declarations: [HomeComponent, ToolbarComponent, ComponentsBarComponent, CanvasComponent, StylesBarComponent],
+  declarations: [HomeComponent, ToolbarComponent, ComponentsBarComponent, CanvasComponent, StylesBarComponent, TitlebarComponent],
   imports: [CommonModule, SharedModule, HomeRoutingModule],
 })
 export class HomeModule {}

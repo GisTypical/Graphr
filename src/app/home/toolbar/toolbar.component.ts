@@ -1,6 +1,5 @@
 /* eslint-disable max-len */
 import { Component, ElementRef, OnInit, Renderer2, ViewChild } from '@angular/core';
-import { ElectronService } from '../../core/services';
 
 @Component({
   selector: 'app-toolbar',
@@ -17,10 +16,7 @@ export class ToolbarComponent implements OnInit {
   isMoveMenuOpen = false;
   isElectron: boolean;
 
-  constructor(
-    private electronService: ElectronService,
-    private renderer: Renderer2
-  ) {
+  constructor(private renderer: Renderer2) {
     this.renderer.listen('window', 'click', (e: Event) => {
       if (this.projectButton && this.projectMenu) {
         if (!this.projectButton.nativeElement.contains(e.target) && !this.projectMenu.nativeElement.contains(e.target)) {
@@ -35,19 +31,6 @@ export class ToolbarComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.isElectron = this.electronService.isElectron;
-  }
-
-  minimizeWindow(): void {
-    this.electronService.send('minimizeApp');
-  }
-
-  maximizeWindow(): void {
-    this.electronService.send('maximizeApp');
-  }
-
-  closeWindow(): void {
-    this.electronService.send('closeApp');
   }
 
   toggleProjectMenu(): void {

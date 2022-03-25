@@ -1,6 +1,6 @@
 {
   "name": "graphr",
-  "version": "10.4.1",
+  "version": "0.2.0",
   "description": "Web user interface creator with drag and drop, made with Angular 13 and Electron 17",
   "homepage": "https://github.com/maximegris/angular-electron",
   "author": {
@@ -30,7 +30,7 @@
     "build": "npm run electron:serve-tsc && ng build --base-href ./",
     "build:dev": "npm run build -- -c dev",
     "build:prod": "npm run build -- -c production",
-    "ng:serve": "ng serve -c web -o",
+    "ng:serve": "ng serve -c web",
     "electron": "electron",
     "electron:serve-tsc": "tsc -p tsconfig.serve.json",
     "electron:serve": "wait-on tcp:4200 && npm run electron:serve-tsc && electron . --serve",
@@ -55,6 +55,7 @@
     "@angular/platform-browser": "13.3.0",
     "@angular/platform-browser-dynamic": "13.3.0",
     "@angular/router": "13.3.0",
+    "phosphor-icons": "1.4.2",
     "rxjs": "7.5.5",
     "tslib": "^2.3.1",
     "zone.js": "~0.11.5"

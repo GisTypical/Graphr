@@ -68,12 +68,18 @@ export class CanvasComponent {
 
     // Add selection click event for every new element in canvas
     clonedComponent.addEventListener('click', (e) => {
+      // Prevent event bubbling
       e.stopPropagation();
       this.renderer.addClass(e.target, 'selected');
       if (e.ctrlKey) {
+        // If multiple selection active, append elements to selected array
         this.selectedElements.push(e.target as HTMLElement);
       } else {
+        // If single element selection, remove other elements from selection
         for (const element of this.selectedElements) {
+          if (element === e.target) {
+            break;
+          }
           this.renderer.removeClass(element, 'selected');
         }
         this.selectedElements = [e.target as HTMLElement];

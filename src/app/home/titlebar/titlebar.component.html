@@ -1,0 +1,6 @@
+<!--Title bar-->
+<div *ngIf="isElectron" class="title-bar">
+  <i class="ph-minus-thin no-drag" (click)="minimizeWindow()"></i>
+  <i class="ph-cards-thin no-drag" (click)="maximizeWindow()"></i>
+  <i class="ph-x-thin no-drag" (click)="closeWindow()"></i>
+</div>

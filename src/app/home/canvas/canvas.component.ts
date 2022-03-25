@@ -41,15 +41,15 @@ export class CanvasComponent {
     console.log(event);
     /**
      * Get dragging component
-     * - nativeElement -> children[index] -> *firstChild* -> **firstChild**
-     * - dropList div -> article -> *div drag wrapper* -> **component**
+     * - nativeElement -> children[index] -> *firstChild* -> **firstChild** -> **firstChild**
+     * - dropList div -> article -> *div drag wrapper* -> li -> **component**
      *
      * Made this way to access the components dimensions
      * without appending the element to the DOM
      */
     const component = event.previousContainer.element.nativeElement.children[
       event.previousIndex
-    ].firstChild.firstChild as HTMLElement;
+    ].firstChild.firstChild.firstChild as HTMLElement;
 
     const clonedComponent = component.cloneNode(true) as HTMLElement;
 

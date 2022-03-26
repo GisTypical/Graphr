@@ -5,7 +5,17 @@
   </div>
 
   <div class="content">
-    <p>Drag and drop a component to the canvas to enable the style and presets options</p>
-    <i class="ph-sparkle"></i>
+    <!-- When a element is selected -->
+    <ng-container *ngIf="isElementSelected(); else placeholder">
+    </ng-container>
+
+    <!-- When no element is selected -->
+    <ng-template #placeholder>
+      <p>
+        Drag and drop a component to the canvas to enable the style and presets
+        options
+      </p>
+      <i class="ph-sparkle"></i>
+    </ng-template>
   </div>
 </aside>

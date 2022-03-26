@@ -12,7 +12,8 @@ export class CanvasComponent {
   constructor(
     private dragDrop: DragDrop,
     private renderer: Renderer2,
-    private canvas: ElementRef
+    private canvas: ElementRef,
+    private selectedService: SelectedElementsService
   ) {}
 
   // Check keyboards events for components deletion
@@ -22,17 +23,17 @@ export class CanvasComponent {
       for (const element of this.selectedElements) {
         element.remove();
       }
-      this.selectedElements = [];
+      this.clearSelectedElements();
     }
   }
 
   // Check every click in document for element deselection
   @HostListener('document:click', ['$event'])
-  handleClick(event: PointerEvent) {
+  handleClick() {
     for (const element of this.selectedElements) {
       this.renderer.removeClass(element, 'selected');
     }
-    this.selectedElements = [];
+    this.clearSelectedElements();
   }
 
   // Dropped element event
@@ -84,6 +85,8 @@ export class CanvasComponent {
         }
         this.selectedElements = [e.target as HTMLElement];
       }
+
+      this.selectedService.setSelected(this.selectedElements);
     });
 
     // Create draggable element from clonedComponent
@@ -95,6 +98,11 @@ export class CanvasComponent {
     }
 
     this.renderer.appendChild(this.canvas.nativeElement, clonedComponent);
+  }
+
+  clearSelectedElements() {
+    this.selectedElements = [];
+    this.selectedService.setSelected([]);
   }
 
   private isOutOfBounds(event: CdkDragDrop<number[]>, component: HTMLElement) {

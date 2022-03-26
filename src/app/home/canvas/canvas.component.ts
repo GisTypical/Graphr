@@ -1,5 +1,6 @@
 import { CdkDragDrop, DragDrop } from '@angular/cdk/drag-drop';
 import { Component, ElementRef, HostListener, Renderer2 } from '@angular/core';
+import { SelectedElementsService } from '../../core/services/selected-elements/selected-elements.service';
 
 @Component({
   selector: 'app-canvas',
@@ -16,8 +17,8 @@ export class CanvasComponent {
     private selectedService: SelectedElementsService
   ) {}
 
-  // Check keyboards events for components deletion
   @HostListener('document:keydown', ['$event'])
+  // Check for Backspace or Delete for components deletion
   handleKey(event: KeyboardEvent): void {
     if (event.key === 'Backspace' || event.key === 'Delete') {
       for (const element of this.selectedElements) {
@@ -27,8 +28,8 @@ export class CanvasComponent {
     }
   }
 
-  // Check every click in document for element deselection
   @HostListener('document:click', ['$event'])
+  // Check if there was a click on the document for deselect elements
   handleClick() {
     for (const element of this.selectedElements) {
       this.renderer.removeClass(element, 'selected');
@@ -42,7 +43,7 @@ export class CanvasComponent {
     console.log(event);
     /**
      * Get dragging component
-     * - nativeElement -> children[index] -> *firstChild* -> **firstChild** -> **firstChild**
+     * - nativeElement -> children[index] -> firstChild -> firstChild -> **firstChild**
      * - dropList div -> article -> *div drag wrapper* -> li -> **component**
      *
      * Made this way to access the components dimensions
@@ -72,11 +73,12 @@ export class CanvasComponent {
       // Prevent event bubbling
       e.stopPropagation();
       this.renderer.addClass(e.target, 'selected');
+
+      // If multiple selection active, append elements to selected array
       if (e.ctrlKey) {
-        // If multiple selection active, append elements to selected array
         this.selectedElements.push(e.target as HTMLElement);
       } else {
-        // If single element selection, remove other elements from selection
+        // If single element selection, remove other elements, except current el
         for (const element of this.selectedElements) {
           if (element === e.target) {
             break;
@@ -92,7 +94,7 @@ export class CanvasComponent {
     // Create draggable element from clonedComponent
     const dragComponent = this.dragDrop.createDrag(clonedComponent);
     dragComponent.withBoundaryElement(this.canvas);
-    // Check if element is dropped outside the canvas, if it is, return
+
     if (this.isOutOfBounds(event, component)) {
       return;
     }
@@ -105,6 +107,14 @@ export class CanvasComponent {
     this.selectedService.setSelected([]);
   }
 
+  /**
+   * Method that calculates if an element is out of bound depending of
+   * the dropPoint of the drop event and the element width or height
+   *
+   * @param event Event from dropping the element
+   * @param component Component that's getting dragged
+   * @returns If the element is out of bounds
+   */
   private isOutOfBounds(event: CdkDragDrop<number[]>, component: HTMLElement) {
     // Get Canvas Dimensions
     const canvasRect = this.canvas.nativeElement.getBoundingClientRect();

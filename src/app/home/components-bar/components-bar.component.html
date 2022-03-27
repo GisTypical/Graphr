@@ -1,24 +1,11 @@
 <aside>
   <div class="components-bar">
-    <p>Components</p>
-    <!-- <details>
-      <summary>
-        Layout
-      </summary>
-      <ul class="flex" cdkDropList cdkDropListSortingDisabled [cdkDropListData]="list">
-        <ng-container *ngFor="let i of list">
-          <article>
-            <div class="element-wrapper" cdkDrag (cdkDragStarted)="something($event)">
-              <li>{{ i }}</li>
-              <div *cdkDragPlaceholder></div>
-              <li *cdkDragPreview>{{ i }}</li>
-            </div>
-          </article>
-        </ng-container>
-      </ul>
-    </details> -->
+    <div>
+      <p>Components</p>
+    </div>
 
-    <!--Layout dropdown-->
+    <div class="details-bar">
+      <!--Layout dropdown-->
     <details open #layout_dropdown (toggle)="toggleDetails()">
       <summary>
         <i [ngClass]="isOpenLayout ? 'ph-caret-up-thin' : 'ph-caret-down-thin'"></i>
@@ -263,5 +250,6 @@
         </article>
       </ul>
     </details>
+    </div>
   </div>
 </aside>

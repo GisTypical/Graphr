@@ -17,7 +17,7 @@ export class CanvasComponent {
     private selectedService: SelectedElementsService
   ) {}
 
-  @HostListener('document:keydown', ['$event'])
+  @HostListener('keydown', ['$event'])
   // Check for Backspace or Delete for components deletion
   handleKey(event: KeyboardEvent): void {
     if (event.key === 'Backspace' || event.key === 'Delete') {
@@ -28,8 +28,8 @@ export class CanvasComponent {
     }
   }
 
-  @HostListener('document:click', ['$event'])
-  // Check if there was a click on the document for deselect elements
+  @HostListener('click', ['$event'])
+  // Check if there was a click on canvas for deselect elements
   handleClick() {
     for (const element of this.selectedElements) {
       this.renderer.removeClass(element, 'selected');

@@ -7,6 +7,25 @@
   <div class="content">
     <!-- When a element is selected -->
     <ng-container *ngIf="isElementSelected(); else placeholder">
+      <form>
+        <label for="left">X</label>
+        <input
+          min="0"
+          type="number"
+          name="left"
+          [ngModel]="elementAtt.left"
+          (input)="changePos($event)"
+        />
+
+        <label for="top">Y</label>
+        <input
+        min="0"
+        type="number"
+        name="top"
+        [ngModel]="elementAtt.top"
+        (input)="changePos($event)"
+        />
+      </form>
     </ng-container>
 
     <!-- When no element is selected -->

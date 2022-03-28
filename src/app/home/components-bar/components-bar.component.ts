@@ -1,5 +1,4 @@
 /* eslint-disable max-len */
-import { CdkDragStart } from '@angular/cdk/drag-drop';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 
 @Component({

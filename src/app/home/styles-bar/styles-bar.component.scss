@@ -1,7 +1,7 @@
 aside {
   background-color: var(--dark-purple);
-  width: 18vmax;
-  height: 69.4vmax;
+  width: 14.2em;
+  height: 55.5em;
   display: flex;
   justify-content: flex-start;
   align-items: center;
@@ -14,18 +14,18 @@ aside {
   justify-content: space-around;
   align-items: center;
   flex-flow: row wrap;
-  width: 18vmax;
+  width: 100%;
   border-bottom: 1px solid var(--french-mauve);
 
   > button {
     border: none;
     outline: none;
-    padding: 0.7vmax 2vmax;
+    padding: 0.7em 2em;
     border-radius: 10px;
 
     font: {
       family: questrial;
-      size: 1vmax;
+      size: 0.8em;
     };
   }
 }
@@ -46,19 +46,19 @@ aside {
   justify-content: flex-start;
   align-items: center;
   flex-flow: column wrap;
-  padding: 2vmax;
+  padding: 1.6em;
   text-align: center;
   color: var(--french-mauve);
 
   > p {
     font: {
       family: karla_medium;
-      size: 1.05vmax
+      size: 0.8em;
     };
   }
 
   > i {
-    font-size: 4.5vmax;
-    margin-top: 1.8vmax;
+    font-size: 3.5em;
+    margin-top: 0.4em;
   }
 }

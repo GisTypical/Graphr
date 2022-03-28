@@ -8,7 +8,8 @@ import { ElectronService } from '../../core/services';
 })
 export class TitlebarComponent implements OnInit {
 
-  isElectron = false;
+  isElectron = true;
+
   constructor(private electronService: ElectronService) {
     this.isElectron = electronService.isElectron;
   }

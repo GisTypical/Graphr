@@ -1,4 +1,4 @@
-import { CdkDragDrop, DragDrop } from '@angular/cdk/drag-drop';
+import { CdkDragDrop, DragDrop, DragRef, Point } from '@angular/cdk/drag-drop';
 import { Component, ElementRef, HostListener, Renderer2 } from '@angular/core';
 import { SelectedElementsService } from '../../core/services/selected-elements/selected-elements.service';
 
@@ -102,12 +102,34 @@ export class CanvasComponent {
     this.selectedService.setSelected([]);
   }
 
-    this.renderer.appendChild(this.canvas.nativeElement, clonedComponent);
-  }
+  private movedEnd(event: {
+    source: DragRef<any>;
+    distance: Point;
+    dropPoint: Point;
+  }) {
+    // Reset element transform that sets while dragging
+    event.source.reset();
+    const canvasRect = this.canvas.nativeElement.getBoundingClientRect();
 
-  clearSelectedElements() {
-    this.selectedElements = [];
-    this.selectedService.setSelected([]);
+    const elementRect = event.source.getRootElement().getBoundingClientRect();
+    // If pointer is out of bounds return (TODO: can be reworked)
+    // console.log(
+    //   elementRect.x,
+    //   canvasRect.x + canvasRect.width - elementRect.width
+    // );
+    // if (
+    //   elementRect.x < canvasRect.x ||
+    //   elementRect.x > canvasRect.x + canvasRect.width - elementRect.width
+    // ) {
+    //   return;
+    // }
+
+    const draggedElement = event.source.getRootElement();
+    const lastTop = parseInt(draggedElement.style.top, 10);
+    draggedElement.style.top = `${lastTop + event.distance.y}px`;
+
+    const lastLeft = parseInt(draggedElement.style.left, 10);
+    draggedElement.style.left = `${lastLeft + event.distance.x}px`;
   }
 
   /**

@@ -8,9 +8,17 @@ import { ComponentsBarComponent } from './components-bar/components-bar.componen
 import { CanvasComponent } from './canvas/canvas.component';
 import { StylesBarComponent } from './styles-bar/styles-bar.component';
 import { TitlebarComponent } from './titlebar/titlebar.component';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
-  declarations: [HomeComponent, ToolbarComponent, ComponentsBarComponent, CanvasComponent, StylesBarComponent, TitlebarComponent],
-  imports: [CommonModule, SharedModule, HomeRoutingModule],
+  declarations: [
+    HomeComponent,
+    ToolbarComponent,
+    ComponentsBarComponent,
+    CanvasComponent,
+    StylesBarComponent,
+    TitlebarComponent,
+  ],
+  imports: [CommonModule, SharedModule, HomeRoutingModule, FormsModule],
 })
 export class HomeModule {}

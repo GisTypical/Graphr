@@ -37,22 +37,11 @@ export class CanvasComponent {
     this.clearSelectedElements();
   }
 
-  // Dropped element event
   @HostListener('cdkDropListDropped', ['$event'])
+  // - Dropped element event -
   drop(event: CdkDragDrop<number[]>) {
-    console.log(event);
-    /**
-     * Get dragging component
-     * - nativeElement -> children[index] -> firstChild -> firstChild -> **firstChild**
-     * - dropList div -> article -> *div drag wrapper* -> li -> **component**
-     *
-     * Made this way to access the components dimensions
-     * without appending the element to the DOM
-     */
-    const component = event.previousContainer.element.nativeElement.children[
-      event.previousIndex
-    ].firstChild.firstChild.firstChild as HTMLElement;
-
+    // Get dragging component from index
+    const component = event.item.getRootElement().firstChild.firstChild;
     const clonedComponent = component.cloneNode(true) as HTMLElement;
 
     // Set styles to component
@@ -68,36 +57,50 @@ export class CanvasComponent {
       `${event.dropPoint.y.toString()}px`
     );
 
-    // Add selection click event for every new element in canvas
-    clonedComponent.addEventListener('click', (e) => {
-      // Prevent event bubbling
-      e.stopPropagation();
-      this.renderer.addClass(e.target, 'selected');
-
-      // If multiple selection active, append elements to selected array
-      if (e.ctrlKey) {
-        this.selectedElements.push(e.target as HTMLElement);
-      } else {
-        // If single element selection, remove other elements, except current el
-        for (const element of this.selectedElements) {
-          if (element === e.target) {
-            break;
-          }
-          this.renderer.removeClass(element, 'selected');
-        }
-        this.selectedElements = [e.target as HTMLElement];
-      }
-
-      this.selectedService.setSelected(this.selectedElements);
-    });
+    // Append element for making width and height accessible
+    this.renderer.appendChild(this.canvas.nativeElement, clonedComponent);
 
     // Create draggable element from clonedComponent
     const dragComponent = this.dragDrop.createDrag(clonedComponent);
     dragComponent.withBoundaryElement(this.canvas);
 
-    if (this.isOutOfBounds(event, component)) {
-      return;
+    // Add selection click event for every new element in canvas
+    clonedComponent.addEventListener('click', (e) => this.selectElements(e));
+    // Add event when element is move in canvas
+    dragComponent.ended.subscribe((dragEnd) => this.movedEnd(dragEnd));
+
+    // Remove added element if it is out of bounds
+    if (this.isOutOfBounds(event, clonedComponent)) {
+      this.renderer.removeChild(this.canvas.nativeElement, clonedComponent);
     }
+  }
+
+  private selectElements(e: MouseEvent) {
+    // Prevent event bubbling
+    e.stopPropagation();
+    this.renderer.addClass(e.target, 'selected');
+
+    // If multiple selection active, append elements to selected array
+    if (e.ctrlKey) {
+      this.selectedElements.push(e.target as HTMLElement);
+    } else {
+      // If single element selection, remove other elements, except current el
+      for (const element of this.selectedElements) {
+        if (element === e.target) {
+          break;
+        }
+        this.renderer.removeClass(element, 'selected');
+      }
+      this.selectedElements = [e.target as HTMLElement];
+    }
+
+    this.selectedService.setSelected(this.selectedElements);
+  }
+
+  private clearSelectedElements() {
+    this.selectedElements = [];
+    this.selectedService.setSelected([]);
+  }
 
     this.renderer.appendChild(this.canvas.nativeElement, clonedComponent);
   }
@@ -108,7 +111,7 @@ export class CanvasComponent {
   }
 
   /**
-   * Method that calculates if an element is out of bound depending of
+   * Method that calculates if an **element** is out of bound depending of
    * the dropPoint of the drop event and the element width or height
    *
    * @param event Event from dropping the element

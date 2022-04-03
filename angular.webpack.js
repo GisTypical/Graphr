@@ -8,7 +8,7 @@ module.exports = (config, options) => {
     config.target = 'electron-renderer';
 
     if (options.fileReplacements) {
-        for(let fileReplacement of options.fileReplacements) {
+        for (let fileReplacement of options.fileReplacements) {
             if (fileReplacement.replace !== 'src/environments/environment.ts') {
                 continue;
             }
@@ -24,8 +24,8 @@ module.exports = (config, options) => {
     config.plugins = [
         ...config.plugins,
         new NodePolyfillPlugin({
-			excludeAliases: ["console"]
-		})
+            excludeAliases: ["console"]
+        })
     ];
 
     return config;

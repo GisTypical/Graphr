@@ -16,6 +16,7 @@ export class ToolbarComponent implements OnInit {
   isProjectMenuOpen = false;
   isMoveMenuOpen = false;
   isElectron = true;
+  canvasRect: DOMRect;
 
   constructor(
     private renderer: Renderer2,
@@ -46,13 +47,52 @@ export class ToolbarComponent implements OnInit {
     this.isMoveMenuOpen = !this.isMoveMenuOpen;
   }
 
+  // Generate CSS
+  generateCSS(canvasChildren): string {
+    let css = '';
+    for (const element of canvasChildren) {
+      const htmlElement = element as HTMLElement;
+
+      this.canvasRect = htmlElement.parentElement.getBoundingClientRect();
+      const elementTop = parseInt(htmlElement.style.top, 10);
+      const top = elementTop - this.canvasRect.top;
+
+      const elementLeft = parseInt(htmlElement.style.left, 10);
+      const left = elementLeft - this.canvasRect.left;
+
+      let elementStyles = htmlElement.style.cssText;
+      elementStyles = elementStyles.replace(/top: \d+/, `top: ${top}`);
+      elementStyles = elementStyles.replace(/left: \d+/, `left: ${left}`);
+
+      css += `${htmlElement.tagName.toLowerCase()} { ${elementStyles} }\n`;
+    }
+    return css;
+  }
+
+  // Generate HTML
+  generateHTML(canvasChildren): string {
+    let html = '';
+    for (const element of canvasChildren) {
+      const htmlElement = element as HTMLElement;
+      let elementTag = htmlElement.outerHTML;
+
+      elementTag = elementTag.replace(/style="(\w+:\s?\w+;\s?)*"/, '');
+      elementTag = elementTag.replace(/_ngcontent-\w+-\w+=""/, '');
+      elementTag = elementTag.replace(/\w+\s\s/, htmlElement.tagName.toLowerCase());
+
+      html += `${elementTag}\n`;
+    }
+    return html;
+  }
+
+  // GENERATE PAGE FILES
   generatePageFiles(): void {
     const canvas = document.getElementsByTagName('app-canvas')[0].children;
     const canvasChildren = Array.from(canvas);
+    const css = this.generateCSS(canvasChildren);
+    const html = this.generateHTML(canvasChildren);
 
-    for (const element of canvasChildren) {
-      console.log((element as HTMLElement).style);
-    }
+    this.electronService.invoke('generate', css, html)
+    .then(result => console.log(result));
   }
-
 }

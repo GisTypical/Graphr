@@ -47,7 +47,7 @@ export class ElectronService {
    *
    * @param channel
    */
-  send(channel: string, message?: string) {
+  send(channel: string, ...message: string[]) {
     this.ipcRenderer.send(channel, message);
   }
 
@@ -57,7 +57,7 @@ export class ElectronService {
    * @param channel Channel were event is sended
    * @returns Promise of the data return by main
    */
-  public invoke(channel: string): Promise<any> {
-    return this.ipcRenderer.invoke(channel);
+  public invoke(channel: string, ...message: string[]): Promise<any> {
+    return this.ipcRenderer.invoke(channel, message);
   }
 }

@@ -1,7 +1,8 @@
-import { app, BrowserWindow, ipcMain, screen } from 'electron';
+import { app, BrowserWindow, ipcMain, screen, dialog } from 'electron';
 import * as fs from 'fs';
 import * as path from 'path';
 import * as url from 'url';
+import * as beautify from 'beautify'
 
 let win: BrowserWindow = null;
 const args = process.argv.slice(1);
@@ -78,10 +79,57 @@ try {
       else win.maximize()
     })
     ipcMain.on('ping', (event, message) => console.log(`recieved ${message}!`));
-    ipcMain.handle('pong', () => {
-      console.log('se ha hecho un invoke!');
+    ipcMain.handle('pong', (event, message) => {
+      console.log('se ha hecho un invoke!', message);
       return 'Pong!';
     });
+
+    ipcMain.handle('generate', (event, message) => {
+      const css = message[0]
+      const html = message[1]
+
+      const result = dialog.showSaveDialogSync({
+        title: 'Select the folder path to save the page files',
+        filters: [{ name: 'Folder', extensions: ['*'] }]
+      })
+
+      if (result !== undefined) {
+        try {
+          const dirPath = path.normalize(result)
+
+          // CREATING FOLDER
+          fs.mkdirSync(dirPath)
+
+          // CREATING HTML
+          fs.writeFileSync(path.join(dirPath, 'index.html'), beautify(`<!DOCTYPE html>
+          <html lang="en">
+          
+          <head>
+            <meta charset="UTF-8">
+            <meta http-equiv="X-UA-Compatible" content="IE=edge">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>Document</title>
+            <link rel="stylesheet" href="styles.css">
+          </head>
+          
+          <body>
+            ${html}
+          </body>
+          
+          </html>`, { format: 'html' }))
+
+          // CREATING CSS
+          fs.writeFileSync(path.join(dirPath, 'styles.css'), beautify(`html, body {
+          position: relative; } ${css}`, { format: 'css' }))
+
+          return 'Page files created successfully ✨'
+
+        } catch (error) {
+          console.error(error)
+          return 'Something went wrong 😭'
+        }
+      }
+    })
 
     setTimeout(createWindow, 400);
   });

@@ -152,7 +152,7 @@ export class CanvasComponent {
     const outOfBoundsY =
       event.dropPoint.y < canvasRect.y ||
       event.dropPoint.y >
-        canvasRect.y + canvasRect.height - componentRect.height;
+      canvasRect.y + canvasRect.height - componentRect.height;
 
     return outOfBoundsX || outOfBoundsY;
   }

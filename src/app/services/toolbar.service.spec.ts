@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { IPCService } from './ipc.service';
+import { ToolbarService } from './toolbar.service';
 
-describe('IPCService', () => {
-  let service: IPCService;
+describe('ToolbarService', () => {
+  let service: ToolbarService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(IPCService);
+    service = TestBed.inject(ToolbarService);
   });
 
   it('should be created', () => {

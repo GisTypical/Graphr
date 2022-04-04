@@ -70,7 +70,7 @@ export class CanvasComponent {
     dragComponent.ended.subscribe((dragEnd) => this.movedEnd(dragEnd));
 
     // Remove added element if it is out of bounds
-    if (this.isOutOfBounds(event, clonedComponent)) {
+    if (this.isOutOfBounds(event.dropPoint, clonedComponent)) {
       this.renderer.removeChild(this.canvas.nativeElement, clonedComponent);
     }
   }
@@ -109,27 +109,21 @@ export class CanvasComponent {
   }) {
     // Reset element transform that sets while dragging
     event.source.reset();
-    const canvasRect = this.canvas.nativeElement.getBoundingClientRect();
-
-    const elementRect = event.source.getRootElement().getBoundingClientRect();
-    // If pointer is out of bounds return (TODO: can be reworked)
-    // console.log(
-    //   elementRect.x,
-    //   canvasRect.x + canvasRect.width - elementRect.width
-    // );
-    // if (
-    //   elementRect.x < canvasRect.x ||
-    //   elementRect.x > canvasRect.x + canvasRect.width - elementRect.width
-    // ) {
-    //   return;
-    // }
 
     const draggedElement = event.source.getRootElement();
-    const lastTop = parseInt(draggedElement.style.top, 10);
-    draggedElement.style.top = `${lastTop + event.distance.y}px`;
+    const elementRect = draggedElement.getBoundingClientRect();
 
-    const lastLeft = parseInt(draggedElement.style.left, 10);
-    draggedElement.style.left = `${lastLeft + event.distance.x}px`;
+    const elPosition = {
+      x: elementRect.x + event.distance.x,
+      y: elementRect.y + event.distance.y,
+    };
+    // If pointer is out of bounds return (TODO: can be reworked)
+    if (this.isOutOfBounds(elPosition, draggedElement)) {
+      return;
+    }
+
+    this.renderer.setStyle(draggedElement, 'left', `${elPosition.x}px`);
+    this.renderer.setStyle(draggedElement, 'top', `${elPosition.y}px`);
   }
 
   /**
@@ -140,19 +134,21 @@ export class CanvasComponent {
    * @param component Component that's getting dragged
    * @returns If the element is out of bounds
    */
-  private isOutOfBounds(event: CdkDragDrop<number[]>, component: HTMLElement) {
+  private isOutOfBounds(
+    dropPoint: { x: number; y: number },
+    component: HTMLElement
+  ) {
     // Get Canvas Dimensions
     const canvasRect = this.canvas.nativeElement.getBoundingClientRect();
     const componentRect = component.getBoundingClientRect();
 
     const outOfBoundsX =
-      event.dropPoint.x < canvasRect.x ||
-      event.dropPoint.x > canvasRect.x + canvasRect.width - componentRect.width;
+      dropPoint.x < canvasRect.x ||
+      dropPoint.x > canvasRect.x + canvasRect.width - componentRect.width;
 
     const outOfBoundsY =
-      event.dropPoint.y < canvasRect.y ||
-      event.dropPoint.y >
-      canvasRect.y + canvasRect.height - componentRect.height;
+      dropPoint.y < canvasRect.y ||
+      dropPoint.y > canvasRect.y + canvasRect.height - componentRect.height;
 
     return outOfBoundsX || outOfBoundsY;
   }

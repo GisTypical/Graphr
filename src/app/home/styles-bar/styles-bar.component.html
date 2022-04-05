@@ -8,24 +8,145 @@
     <!-- When a element is selected -->
     <ng-container *ngIf="isElementSelected(); else placeholder">
       <form>
-        <label for="left">X</label>
+        <div class="grid">
+          <!-- TOP POSITION OF ELEMENT -->
+          <div class="label-input">
+            <label for="left">X</label>
+            <input
+              min="0"
+              type="number"
+              name="left"
+              [(ngModel)]="elementAtt.x"
+              (input)="changePos($event)"
+            />
+          </div>
+
+          <!-- LEFT POSITION OF ELEMENT -->
+          <div class="label-input">
+            <label for="top">Y</label>
+            <input
+              min="0"
+              type="number"
+              name="top"
+              [(ngModel)]="elementAtt.y"
+              (input)="changePos($event)"
+            />
+          </div>
+
+          <!-- WIDTH OF ELEMENT -->
+          <div class="label-input">
+            <label for="width">W</label>
+            <input
+              min="0"
+              type="number"
+              name="width"
+              [(ngModel)]="elementAtt.width"
+              (input)="changeValue($event)"
+            />
+          </div>
+
+          <!-- HEIGHT OF ELEMENT -->
+          <div class="label-input">
+            <label for="height">H</label>
+            <input
+              min="0"
+              type="number"
+              name="height"
+              [(ngModel)]="elementAtt.height"
+              (input)="changeValue($event)"
+            />
+          </div>
+
+          <!-- ROTATION OF ELEMENT -->
+          <div class="label-input">
+            <label for="rotation">Rot.</label>
+            <input
+              type="number"
+              name="rotation"
+              [(ngModel)]="elementAtt.rotation"
+              (input)="changeValue($event)"
+            />
+          </div>
+
+          <!-- BORDER RADIUS OF ELEMENT -->
+          <div class="label-input">
+            <label for="border-radius">Rad.</label>
+            <input
+              min="0"
+              type="number"
+              name="border-radius"
+              [(ngModel)]="elementAtt.borderRadius"
+              (input)="changeValue($event)"
+            />
+          </div>
+
+          <!-- TEXT COLOR OF ELEMENT -->
+          <div class="label-input">
+            <label for="color">Text Color</label>
+            <input
+              type="color"
+              name="color"
+              [(ngModel)]="elementAtt.color"
+              (input)="changeValue($event)"
+            />
+          </div>
+        </div>
+
+        <hr />
+        <input type="checkbox" name="checkbox-fill" />
+        <label for="background-color">Fill</label>
+        <input
+          type="color"
+          name="background-color"
+          [(ngModel)]="elementAtt.bgColor"
+          (input)="changeValue($event)"
+        />
+
+        <hr />
+        <input type="checkbox" name="checkbox-stroke" />
+        <label for="border">Border Color</label>
+        <input
+          type="color"
+          name="border-color"
+          [(ngModel)]="elementAtt.borderColor"
+          (input)="changeValue($event)"
+        />
+
+        <select
+          name="border-style"
+          [(ngModel)]="elementAtt.borderStyle"
+          (change)="changeValue($event)"
+        >
+          <option value="solid">Solid</option>
+          <option value="dashed">Dashed</option>
+          <option value="dotted">Dotted</option>
+          <option value="inset">Inset</option>
+          <option value="outset">Outset</option>
+        </select>
+
+        <label for="border-width">Border Width</label>
         <input
           min="0"
           type="number"
-          name="left"
-          [ngModel]="elementAtt.left"
-          (input)="changePos($event)"
+          name="border-width"
+          [(ngModel)]="elementAtt.borderWidth"
+          (input)="changeValue($event)"
         />
 
-        <label for="top">Y</label>
+        <hr />
+
+        <label for="opacity">Opacity</label>
         <input
-        min="0"
-        type="number"
-        name="top"
-        [ngModel]="elementAtt.top"
-        (input)="changePos($event)"
+          min="0"
+          max="100"
+          type="number"
+          name="opacity"
+          [(ngModel)]="elementAtt.opacity"
+          (input)="changeValue($event)"
         />
       </form>
+
+      <p>{{ elementAtt | json }}</p>
     </ng-container>
 
     <!-- When no element is selected -->

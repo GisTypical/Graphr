@@ -62,3 +62,30 @@ aside {
     margin-top: 0.4em;
   }
 }
+
+.label-input {
+  display: flex;
+  font-family: karla_medium;
+  font-size: 0.8rem;
+  gap: 1em;
+
+  input[type="number"] {
+    width: 4em;
+    background-color: transparent;
+    border: none;
+    color: white;
+
+    &::-webkit-inner-spin-button {
+      appearance: none;
+    }
+  }
+}
+
+.grid { 
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+
+  :last-child {
+    grid-column: 1/3;
+  }
+}

@@ -67,7 +67,7 @@ export class CanvasComponent {
     // Add selection click event for every new element in canvas
     clonedComponent.addEventListener('click', (e) => this.selectElements(e));
     // Add event when element is move in canvas
-    dragComponent.ended.subscribe((dragEnd) => this.movedEnd(dragEnd));
+    dragComponent.ended.subscribe((dragEnd) => this.moved(dragEnd));
 
     // Remove added element if it is out of bounds
     if (this.isOutOfBounds(event.dropPoint, clonedComponent)) {
@@ -102,7 +102,7 @@ export class CanvasComponent {
     this.selectedService.setSelected([]);
   }
 
-  private movedEnd(event: {
+  private moved(event: {
     source: DragRef<any>;
     distance: Point;
     dropPoint: Point;

@@ -94,7 +94,7 @@
 
         <!-- ELEMENT FILL -->
         <hr />
-        <input type="checkbox" name="checkbox-fill" [(ngModel)]="elementAtt.hasFill" (change)="transparent()"/>
+        <input type="checkbox" name="checkbox-fill" [(ngModel)]="elementAtt.hasFill" (change)="toggleFill()"/>
         <label for="background-color">Fill</label>
         <input
           type="color"
@@ -106,7 +106,7 @@
 
         <!-- ELEMENT BORDER -->
         <hr />
-        <input type="checkbox" [(ngModel)]="elementAtt.hasBorder" name="checkbox-stroke" (change)="handleBorder()" />
+        <input type="checkbox" [(ngModel)]="elementAtt.hasBorder" name="checkbox-stroke" (change)="toggleBorder()" />
         <label for="border">Border Color</label>
         <input
           type="color"

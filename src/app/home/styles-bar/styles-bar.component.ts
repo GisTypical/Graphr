@@ -147,7 +147,7 @@ export class StylesBarComponent implements OnInit {
     this.renderer.setStyle(this.selectedElement, input.name, input.value);
   }
 
-  transparent() {
+  toggleFill() {
     const settedColor = this.elementAtt.hasFill ? '#FFFFFF' : 'transparent';
     this.renderer.setStyle(
       this.selectedElement,
@@ -159,7 +159,7 @@ export class StylesBarComponent implements OnInit {
     this.elementAtt.bgColor = '#FFFFFF';
   }
 
-  handleBorder() {
+  toggleBorder() {
     const settedBorder = this.elementAtt.hasBorder ? 'solid 2px black' : 'none';
     this.renderer.setStyle(
       this.selectedElement,

@@ -61,7 +61,7 @@ export class StylesBarComponent implements OnInit {
     this.elementAtt.color = rgb2hex(this.getComputedStyle('color'));
 
     this.elementAtt.rotation = this.selectedElement.style.transform
-      ? parseInt(this.selectedElement.style.transform.match(/\d+deg/gm)[0], 10)
+      ? parseInt(this.selectedElement.style.transform.match(/-?\d+deg/gm)[0], 10)
       : 0;
 
     // const [a, b] = this.getComputedStyle('transform').match(

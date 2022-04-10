@@ -93,13 +93,14 @@
         </div>
 
         <hr />
-        <input type="checkbox" name="checkbox-fill" />
+        <input type="checkbox" name="checkbox-fill" [(ngModel)]="elementAtt.hasFill" (change)="transparent()"/>
         <label for="background-color">Fill</label>
         <input
           type="color"
           name="background-color"
           [(ngModel)]="elementAtt.bgColor"
           (input)="changeValue($event)"
+          [disabled]="!elementAtt.hasFill"
         />
 
         <hr />
@@ -144,6 +145,10 @@
           [(ngModel)]="elementAtt.opacity"
           (input)="changeValue($event)"
         />
+
+        <hr /> 
+
+        
       </form>
 
       <p>{{ elementAtt | json }}</p>

@@ -17,6 +17,7 @@ export class StylesBarComponent implements OnInit {
     height: 0,
     color: '',
     bgColor: '',
+    hasFill: false,
     borderColor: '',
     rotation: 0,
     borderRadius: 0,
@@ -73,6 +74,9 @@ export class StylesBarComponent implements OnInit {
       this.getComputedStyle('borderRadius'),
       10
     );
+
+
+    this.elementAtt.hasFill = this.getComputedStyle('backgroundColor') !== 'rgba(0, 0, 0, 0)';
 
     this.elementAtt.bgColor = rgb2hex(this.getComputedStyle('backgroundColor'));
 
@@ -139,4 +143,16 @@ export class StylesBarComponent implements OnInit {
 
     this.renderer.setStyle(this.selectedElement, input.name, input.value);
   }
+
+  transparent() {
+    const settedColor = this.elementAtt.hasFill ? '#FFFFFF' : 'transparent';
+    this.renderer.setStyle(
+      this.selectedElement,
+      'background-color',
+      settedColor
+    );
+
+    this.elementAtt.bgColor = '#FFFFFF';
+  }
+
 }

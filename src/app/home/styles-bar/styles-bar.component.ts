@@ -89,7 +89,7 @@ export class StylesBarComponent implements OnInit {
       10
     );
 
-    this.elementAtt.opacity = +this.selectedElement.style.opacity * 100;
+    this.elementAtt.opacity = +this.getComputedStyle('opacity') * 100;
   }
 
   isElementSelected(): boolean {

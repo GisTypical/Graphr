@@ -25,6 +25,7 @@ export class StylesBarComponent implements OnInit {
     hasBorder: false,
     borderWidth: 0,
     opacity: 0,
+    zIndex: 0,
   };
 
   constructor(
@@ -93,6 +94,9 @@ export class StylesBarComponent implements OnInit {
     );
 
     this.elementAtt.opacity = +this.getComputedStyle('opacity') * 100;
+
+    this.elementAtt.zIndex = +this.selectedElement.style.zIndex;
+
   }
 
   isElementSelected(): boolean {
@@ -171,5 +175,30 @@ export class StylesBarComponent implements OnInit {
     this.elementAtt.borderStyle = this.elementAtt.hasBorder ? 'solid': 'none';
     this.elementAtt.borderWidth = this.elementAtt.hasBorder ? 2 : 0;
     this.elementAtt.borderColor = 'black';
+  }
+
+  sendBackward() {
+    /**
+     * If zIndex is lower or equal than 0, return
+     * so it doesn't put the element behind the canvas
+     * */
+    if (this.elementAtt.zIndex <= 0) {
+      return;
+    }
+    this.elementAtt.zIndex--;
+    this.renderer.setStyle(
+      this.selectedElement,
+      'z-index',
+      this.elementAtt.zIndex
+      );
+    }
+
+  sendForward() {
+    this.elementAtt.zIndex = this.elementAtt.zIndex + 1;
+    this.renderer.setStyle(
+      this.selectedElement,
+      'z-index',
+      this.elementAtt.zIndex
+    );
   }
 }

@@ -92,6 +92,7 @@
           </div>
         </div>
 
+        <!-- ELEMENT FILL -->
         <hr />
         <input type="checkbox" name="checkbox-fill" [(ngModel)]="elementAtt.hasFill" (change)="transparent()"/>
         <label for="background-color">Fill</label>
@@ -103,20 +104,23 @@
           [disabled]="!elementAtt.hasFill"
         />
 
+        <!-- ELEMENT BORDER -->
         <hr />
-        <input type="checkbox" name="checkbox-stroke" />
+        <input type="checkbox" [(ngModel)]="elementAtt.hasBorder" name="checkbox-stroke" (change)="handleBorder()" />
         <label for="border">Border Color</label>
         <input
           type="color"
           name="border-color"
           [(ngModel)]="elementAtt.borderColor"
           (input)="changeValue($event)"
+          [disabled]="!elementAtt.hasBorder"
         />
 
         <select
           name="border-style"
           [(ngModel)]="elementAtt.borderStyle"
           (change)="changeValue($event)"
+          [disabled]="!elementAtt.hasBorder"
         >
           <option value="solid">Solid</option>
           <option value="dashed">Dashed</option>
@@ -132,10 +136,12 @@
           name="border-width"
           [(ngModel)]="elementAtt.borderWidth"
           (input)="changeValue($event)"
+          [disabled]="!elementAtt.hasBorder"
         />
 
+        
+        <!-- ELEMENT OPACITY -->
         <hr />
-
         <label for="opacity">Opacity</label>
         <input
           min="0"

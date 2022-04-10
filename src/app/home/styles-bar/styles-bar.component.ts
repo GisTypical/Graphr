@@ -15,13 +15,14 @@ export class StylesBarComponent implements OnInit {
     y: 0,
     width: 0,
     height: 0,
+    rotation: 0,
+    borderRadius: 0,
     color: '',
     bgColor: '',
     hasFill: false,
     borderColor: '',
-    rotation: 0,
-    borderRadius: 0,
     borderStyle: '',
+    hasBorder: false,
     borderWidth: 0,
     opacity: 0,
   };
@@ -83,6 +84,8 @@ export class StylesBarComponent implements OnInit {
     this.elementAtt.borderColor = rgb2hex(this.getComputedStyle('borderColor'));
 
     this.elementAtt.borderStyle = this.getComputedStyle('borderStyle');
+
+    this.elementAtt.hasBorder = this.elementAtt.borderStyle !== 'none';
 
     this.elementAtt.borderWidth = parseInt(
       this.getComputedStyle('borderWidth'),
@@ -152,7 +155,21 @@ export class StylesBarComponent implements OnInit {
       settedColor
     );
 
+    // Set default background color
     this.elementAtt.bgColor = '#FFFFFF';
   }
 
+  handleBorder() {
+    const settedBorder = this.elementAtt.hasBorder ? 'solid 2px black' : 'none';
+    this.renderer.setStyle(
+      this.selectedElement,
+      'border',
+      settedBorder
+    );
+
+    // Set default border styles
+    this.elementAtt.borderStyle = this.elementAtt.hasBorder ? 'solid': 'none';
+    this.elementAtt.borderWidth = this.elementAtt.hasBorder ? 2 : 0;
+    this.elementAtt.borderColor = 'black';
+  }
 }

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/prefer-for-of */
 import { CdkDragDrop, DragDrop, DragRef, Point } from '@angular/cdk/drag-drop';
 import { Component, ElementRef, HostListener, Renderer2 } from '@angular/core';
 import { SelectedElementsService } from '../../core/services/selected-elements/selected-elements.service';
@@ -15,7 +16,7 @@ export class CanvasComponent {
     private renderer: Renderer2,
     private canvas: ElementRef,
     private selectedService: SelectedElementsService
-  ) {}
+  ) { }
 
   @HostListener('keydown', ['$event'])
   // Check for Backspace or Delete for components deletion
@@ -26,6 +27,15 @@ export class CanvasComponent {
       }
       this.clearSelectedElements();
     }
+
+    // if (event.key === 'Enter') {
+    //   for (const element of this.selectedElements) {
+    //     console.log(element.tagName, element);
+    //     if ((element as HTMLElement).tagName === 'SPAN') {
+    //       event.preventDefault();
+    //     }
+    //   }
+    // }
   }
 
   @HostListener('click', ['$event'])
@@ -56,6 +66,17 @@ export class CanvasComponent {
       'top',
       `${event.dropPoint.y.toString()}px`
     );
+
+    this.renderer.setAttribute(clonedComponent, 'contenteditable', 'true');
+    this.renderer.setAttribute(clonedComponent, 'spellcheck', 'false');
+
+    if (clonedComponent.tagName === 'SPAN') {
+      clonedComponent.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') {
+          e.preventDefault();
+        }
+      });
+    }
 
     // Append element for making width and height accessible
     this.renderer.appendChild(this.canvas.nativeElement, clonedComponent);

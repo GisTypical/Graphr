@@ -7,6 +7,7 @@ aside {
   justify-content: center;
   align-items: center;
   flex-flow: column wrap;
+  user-select: none;
 }
 
 ::-webkit-scrollbar {
@@ -29,16 +30,15 @@ aside {
   justify-content: flex-start;
   align-items: center;
   flex-flow: column nowrap;
-  
 
   > div {
     width: 100%;
 
-    p {
+    > p {
       width: 100%;
       color: var(--plum-web);
       padding: 0.9em;
-  
+
       font: {
         family: questrial;
         size: 1.15em;
@@ -57,7 +57,7 @@ aside {
   height: 100%;
 }
 
-details {
+.details {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -93,7 +93,7 @@ details {
   }
 }
 
-ul {
+.flex {
   padding: 0;
   display: flex;
   justify-content: flex-start;
@@ -102,7 +102,7 @@ ul {
   padding-block: 0.3em;
 }
 
-article {
+.flex > article {
   background-color: var(--english-violet);
   border-radius: 10px;
   width: 5.64em;
@@ -116,7 +116,7 @@ article {
   }
 }
 
-li {
+.component {
   list-style: none;
   color: var(--light-grey);
   width: 5.64rem;
@@ -133,11 +133,201 @@ li {
     size: 0.65em;
   }
 
-  > span {
+  // > span {
+  //   background-color: var(--independence);
+  //   width: 5.64rem;
+  //   padding: 0.1em;
+  //   border-radius: 0px 0px 10px 10px;
+  //   text-align: center;
+  // }
+  > .component-title {
     background-color: var(--independence);
     width: 5.64rem;
     padding: 0.1em;
     border-radius: 0px 0px 10px 10px;
     text-align: center;
   }
+}
+
+.default-style {
+  user-select: none;
+  font-family: roboto;
+}
+
+button.default-style {
+  background-color: var(--light-grey);
+  color: var(--black);
+  border: 1px solid var(--light-grey);
+  padding: 0.4em 0.9em;
+  border-radius: 2px;
+  cursor: pointer;
+
+  font: {
+    family: roboto_medium;
+    size: 1em;
+    weight: 500;
+  }
+}
+
+div.default-style {
+  width: 20em;
+  height: 5em;
+  background-color: var(--light-grey);
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-flow: row wrap;
+  cursor: context-menu;
+  border: 1px solid transparent;
+}
+
+hr.default-style {
+  width: 6em;
+  height: 0.1em;
+  background-color: var(--light-grey);
+  border: 1px solid transparent;
+}
+
+figure.default-style {
+  width: 6em;
+  height: 6em;
+  cursor: context-menu;
+}
+
+img.default-style {
+  width: 100%;
+  height: 100%;
+  user-select: none;
+  cursor: context-menu;
+}
+
+details.default-style {
+  width: 20rem;
+  padding: 0.5em;
+  background-color: var(--light-grey);
+  color: var(--black);
+  border-radius: 5px;
+
+  font: {
+    family: roboto_medium;
+    size: 1.1em;
+  }
+
+  > p {
+    color: black;
+
+    font: {
+      family: roboto;
+      size: 1em;
+    }
+  }
+}
+
+h1.default-style {
+  color: var(--white);
+
+  font: {
+    family: roboto;
+  }
+}
+
+p.default-style,
+span.default-style {
+  color: var(--white);
+  font-family: roboto;
+}
+
+code.default-style {
+  color: var(--white);
+  background-color: #eeeeee50;
+  font-style: italic;
+  padding: 0.5em;
+  border-radius: 5px;
+}
+
+blockquote.default-style {
+  color: var(--white);
+  font-family: roboto;
+}
+
+ul.default-style,
+ol.default-style {
+  padding: 0.2em;
+  color: var(--white);
+  font-family: roboto;
+  border: 1px solid transparent;
+
+  > li {
+    border: 1px solid transparent;
+  }
+}
+
+dl.default-style {
+  color: var(--white);
+  font-family: roboto;
+  border: 1px solid transparent;
+
+  > dd {
+    padding-left: 1em;
+  }
+}
+
+form.default-style {
+  width: 20em;
+  height: 5em;
+  background-color: var(--white);
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-flow: row wrap;
+  cursor: context-menu;
+  border: 1px solid var(--light-grey);
+  border-radius: 5px;
+}
+
+input.default-style,
+textarea.default-style,
+select.default-style, option.default-style {
+  width: 7em;
+  padding: 0.5em 1em;
+  border-radius: 5px;
+  border: 2px solid var(--light-grey);
+  font-family: roboto;
+  resize: none;
+}
+
+label.default-style {
+  color: var(--white);
+  font-family: roboto_medium;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-flow: row wrap;
+}
+
+div.default-style-2 {
+  background-color: transparent;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-flow: row wrap;
+}
+
+input[type='checkbox'].default-style,
+input[type='radio'].default-style {
+  width: 1em;
+  margin-right: 1em;
+  font-family: roboto;
+}
+
+input[type="color"].default-style {
+  width: 7em;
+  height: 3em;
+  // padding: 0.5em 1em;
+  border-radius: 5px;
+  border: 2px solid var(--light-grey);
+  font-family: roboto;
+  resize: none;
 }

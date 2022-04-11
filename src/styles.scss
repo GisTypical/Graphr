@@ -113,4 +113,21 @@ p, h1, h2, h3, h4, h5, h6 {
   src: url(assets/fonts/karla/Karla-Medium.ttf);
 }
 
+// Roboto Font
+@font-face {
+  font-family: roboto;
+  src: url(assets/fonts/roboto/Roboto-Regular.ttf);
+}
+
+@font-face {
+  font-family: roboto_medium;
+  src: url(assets/fonts/roboto/Roboto-Medium.ttf);
+}
+
+// Lato Font
+@font-face {
+  font-family: lato;
+  src: url(assets/fonts/lato/Lato-Regular.ttf);
+}
+
 @import '~phosphor-icons/src/css/icons.css'

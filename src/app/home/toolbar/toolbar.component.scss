@@ -75,10 +75,15 @@ header {
   > h1 {
     @include text-gradient(to right, var(--winter-sky), var(--columbia-blue));
     color: transparent;
+    caret-color: var(--columbia-blue);
 
     font: {
       family: raleway;
       size: 1.2em;
+    }
+
+    &[contenteditable]:focus {
+      outline: 1px solid var(--independence);
     }
   }
 }

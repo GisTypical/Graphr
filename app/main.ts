@@ -3,6 +3,7 @@ import * as fs from 'fs';
 import * as path from 'path';
 import * as url from 'url';
 import * as beautify from 'beautify'
+import * as pretty from 'pretty'
 
 let win: BrowserWindow = null;
 const args = process.argv.slice(1);
@@ -87,6 +88,7 @@ try {
     ipcMain.handle('generate', (event, message) => {
       const css = message[0]
       const html = message[1]
+      const pageTitle = message[2]
 
       const result = dialog.showSaveDialogSync({
         title: 'Select the folder path to save the page files',
@@ -101,14 +103,14 @@ try {
           fs.mkdirSync(dirPath)
 
           // CREATING HTML
-          fs.writeFileSync(path.join(dirPath, 'index.html'), beautify(`<!DOCTYPE html>
+          fs.writeFileSync(path.join(dirPath, 'index.html'), pretty(`<!DOCTYPE html>
           <html lang="en">
           
           <head>
             <meta charset="UTF-8">
             <meta http-equiv="X-UA-Compatible" content="IE=edge">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <title>Document</title>
+            <title>${pageTitle}</title>
             <link rel="stylesheet" href="styles.css">
           </head>
           
@@ -116,11 +118,27 @@ try {
             ${html}
           </body>
           
-          </html>`, { format: 'html' }))
+          </html>`))
 
           // CREATING CSS
           fs.writeFileSync(path.join(dirPath, 'styles.css'), beautify(`html, body {
-          position: relative; } ${css}`, { format: 'css' }))
+          position: relative; } ${css}
+          @font-face {
+            font-family: roboto;
+            src: url(Roboto-Regular.ttf);
+          }
+          
+          @font-face {
+              font-family: roboto_medium;
+              src: url(Roboto-Medium.ttf);
+          }`, { format: 'css' }))
+
+          //CREATING FONTS
+          fs.copyFileSync(path.join(__dirname, '..', 'src', 'assets', 'fonts', 'roboto', 'Roboto-Regular.ttf'), 
+          path.join(dirPath, 'Roboto-Regular.ttf'))
+
+          fs.copyFileSync(path.join(__dirname, '..', 'src', 'assets', 'fonts', 'roboto', 'Roboto-Medium.ttf'),
+          path.join(dirPath, 'Roboto-Medium.ttf'))
 
           return 'Page files created successfully ✨'
 

@@ -8,6 +8,9 @@ export default interface ElementAttributes {
   color: string;
   bgColor: string;
   hasFill: boolean;
+  hasGradient: boolean;
+  gradient: string;
+  gradientDirection: string;
   opacity: number;
   zIndex: number;
   // Border Attributes

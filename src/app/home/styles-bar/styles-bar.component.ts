@@ -1,7 +1,8 @@
 import { Component, OnInit, Renderer2 } from '@angular/core';
 import { SelectedElementsService } from '../../core/services/selected-elements/selected-elements.service';
 import ElementAttributes from '../../shared/interfaces/element-attributes';
-import getRgbAlpha from '../../shared/utils/get-rgb-alpha';
+import separateAlpha from '../../shared/utils/get-rgb-alpha';
+import getRgbs from '../../shared/utils/get-rgbs';
 import rgb2hex from '../../shared/utils/rgb2hex';
 
 @Component({
@@ -58,9 +59,20 @@ export class StylesBarComponent implements OnInit {
       10
     );
 
-    this.elementAtt.hasFill = this.getComputedStyle('backgroundColor') !== 'rgba(0, 0, 0, 0)';
 
-    this.elementAtt.bgColor = rgb2hex(this.getComputedStyle('backgroundColor'));
+    const linearGradient = this.getComputedStyle('backgroundImage');
+
+    const hasGradient = linearGradient !== 'none';
+    const hexArray = hasGradient ? getRgbs(linearGradient) : [];
+
+    // Element has fill is its background color isn't 'rgba(0, 0, 0, 0) or element has gradient
+    this.elementAtt.hasFill = this.getComputedStyle('backgroundColor') !== 'rgba(0, 0, 0, 0)' || (hasGradient && (hexArray[0] !== 'rgba(0, 0, 0, 0)'));
+
+    this.elementAtt.bgColor = !hasGradient ? rgb2hex(this.getComputedStyle('backgroundColor')) : rgb2hex(hexArray[0]);
+
+    this.elementAtt.hasGradient = hasGradient;
+    this.elementAtt.gradientDirection = hasGradient ? linearGradient.match(/-?\d+deg/gm)[0] : '0deg';
+    this.elementAtt.gradient = hasGradient ? rgb2hex(hexArray[1]) : '#000000';
 
     this.elementAtt.borderColor = rgb2hex(this.getComputedStyle('borderColor'));
 
@@ -96,10 +108,17 @@ export class StylesBarComponent implements OnInit {
       this.elementAtt.shadowSpread = parseInt(spread, 10);
 
       const rgba = boxShadow.match(/^rgb(a)?\(\d{1,3}, \d{1,3}, \d{1,3}(, \d+\.?\d*)?\)/gm)[0];
-      const [rgb, alpha] = getRgbAlpha(rgba);
+      const [rgb, alpha] = separateAlpha(rgba);
       this.elementAtt.shadowColor = rgb2hex(rgb);
 
       this.elementAtt.shadowAlpha = Math.round(+alpha * 100);
+    } else {
+      this.elementAtt.shadowX = 0;
+      this.elementAtt.shadowY = 0;
+      this.elementAtt.shadowBlur = 0;
+      this.elementAtt.shadowSpread = 0;
+      this.elementAtt.shadowColor = 'black';
+      this.elementAtt.shadowAlpha = 100;
     }
 
     const blur = this.getComputedStyle('filter');
@@ -137,6 +156,7 @@ export class StylesBarComponent implements OnInit {
     const pixelBased = ['width', 'height', 'border-radius', 'border-width'];
     const degBased = ['rotation'];
     const percentBased = ['opacity'];
+    const backgroundBased = ['background-color', 'background', 'gradient-direction'];
 
     // Element attribute that's being changed
     const attribute = input.name;
@@ -155,6 +175,13 @@ export class StylesBarComponent implements OnInit {
       const valuePercent = `${input.value}%`;
       this.renderer.setStyle(this.selectedElement, attribute, valuePercent);
       return;
+    }
+    if (backgroundBased.indexOf(attribute) !== -1 && this.elementAtt.hasGradient) {
+      this.renderer.setStyle(
+        this.selectedElement,
+        'background',
+        `linear-gradient(${this.elementAtt.gradientDirection}, ${this.elementAtt.hasFill? this.elementAtt.bgColor : 'transparent'}, ${this.elementAtt.gradient})`
+      );
     }
 
     this.renderer.setStyle(this.selectedElement, input.name, input.value);
@@ -210,46 +237,79 @@ export class StylesBarComponent implements OnInit {
     );
   }
 
+  changeGradient() {
+    this.renderer.setStyle(
+      this.selectedElement,
+      'background',
+      `linear-gradient(${this.elementAtt.gradientDirection}, ${this.elementAtt.hasFill ? this.elementAtt.bgColor : 'transparent'}, ${this.elementAtt.gradient})`
+    );
+  }
+
+  /**
+   * TOGGLES
+   */
+
   toggleFill() {
-    const settedColor = this.elementAtt.hasFill ? '#FFFFFF' : 'transparent';
+    const settedColor = this.elementAtt.hasFill ? this.elementAtt.bgColor : 'transparent';
     this.renderer.setStyle(
       this.selectedElement,
       'background-color',
       settedColor
     );
 
-    // Set default background color
-    this.elementAtt.bgColor = '#FFFFFF';
+    if (this.elementAtt.hasGradient) {
+      this.renderer.setStyle(
+        this.selectedElement,
+        'background',
+        `linear-gradient(${this.elementAtt.gradientDirection}, ${settedColor}, ${this.elementAtt.gradient})`
+      );
+    }
+
   }
 
   toggleBorder() {
-    const settedBorder = this.elementAtt.hasBorder ? 'solid 2px black' : 'none';
+    const settedBorder = this.elementAtt.hasBorder ? `
+      ${this.elementAtt.borderStyle} 
+      ${this.elementAtt.borderWidth}px 
+      ${this.elementAtt.borderColor}
+    ` : 'none';
+
     this.renderer.setStyle(
       this.selectedElement,
       'border',
       settedBorder
     );
-
-    // Set default border styles
-    this.elementAtt.borderStyle = this.elementAtt.hasBorder ? 'solid' : 'none';
-    this.elementAtt.borderWidth = this.elementAtt.hasBorder ? 2 : 0;
-    this.elementAtt.borderColor = 'black';
   }
 
 
   toggleBoxShadow() {
-    this.renderer.setStyle(this.selectedElement, 'box-shadow', 'none');
+    const alpha = Math.round((this.elementAtt.shadowAlpha / 100) * 255).toString(16);
+    const settedShadow = this.elementAtt.hasBoxShadow ? `
+      ${this.elementAtt.shadowX}px 
+      ${this.elementAtt.shadowY}px 
+      ${this.elementAtt.shadowBlur}px 
+      ${this.elementAtt.shadowSpread}px 
+      ${this.elementAtt.shadowColor}${alpha}
+    ` : 'none';
 
-    this.elementAtt.shadowX = 0;
-    this.elementAtt.shadowY = 0;
-    this.elementAtt.shadowBlur = 0;
-    this.elementAtt.shadowSpread = 0;
-    this.elementAtt.shadowColor = '#F0F0F0';
-    this.elementAtt.shadowAlpha = 100;
+    this.renderer.setStyle(this.selectedElement, 'box-shadow', settedShadow);
   }
 
   toggleBlur() {
     this.renderer.removeStyle(this.selectedElement, 'filter');
     this.elementAtt.blur = 0;
+  }
+
+  toggleGradient() {
+    if (!this.elementAtt.hasGradient) {
+      this.renderer.removeStyle(this.selectedElement, 'background');
+      this.renderer.setStyle(this.selectedElement, 'background-color', this.elementAtt.hasFill ? this.elementAtt.bgColor : 'transparent');
+    } else {
+      this.renderer.setStyle(
+        this.selectedElement,
+        'background',
+        `linear-gradient(${this.elementAtt.gradientDirection}, ${this.elementAtt.hasFill ? this.elementAtt.bgColor : 'transparent'}, ${this.elementAtt.gradient})`
+      );
+    }
   }
 }

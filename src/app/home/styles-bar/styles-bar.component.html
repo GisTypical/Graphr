@@ -97,11 +97,38 @@
         <input type="checkbox" name="checkbox-fill" id="checkbox-fill" [(ngModel)]="elementAtt.hasFill" (change)="toggleFill()"/>
         <label for="checkbox-fill">Fill</label>
         <input
+        type="color"
+        name="background-color"
+        [(ngModel)]="elementAtt.bgColor"
+        (input)="changeValue($event)"
+        [disabled]="!elementAtt.hasFill"
+        />
+        
+        <!-- ELEMENT GRADIENT -->
+        <hr />
+        <input type="checkbox" name="checkbox-gradient" id="checkbox-gradient" [(ngModel)]="elementAtt.hasGradient" (change)="toggleGradient()"/>
+        <label for="checkbox-gradient">Gradient</label>
+        <select
+          name="gradient-direction"
+          [(ngModel)]="elementAtt.gradientDirection"
+          (change)="changeValue($event)"
+          [disabled]="!elementAtt.hasGradient"
+        >
+          <option  value="0deg" selected>North</option>
+          <option value="90deg">East</option>
+          <option value="180deg">South</option>
+          <option value="270deg">West</option>
+          <option value="45deg">North-West</option>
+          <option value="315deg">North-East</option>
+          <option value="135deg">South-West</option>
+          <option value="225deg">South-East</option>
+        </select>
+        <input
           type="color"
-          name="background-color"
-          [(ngModel)]="elementAtt.bgColor"
-          (input)="changeValue($event)"
-          [disabled]="!elementAtt.hasFill"
+          name="background"
+          [(ngModel)]="elementAtt.gradient"
+          (input)="changeGradient($event)"
+          [disabled]="!elementAtt.hasGradient"
         />
 
         <!-- ELEMENT BORDER -->

@@ -94,8 +94,8 @@
 
         <!-- ELEMENT FILL -->
         <hr />
-        <input type="checkbox" name="checkbox-fill" [(ngModel)]="elementAtt.hasFill" (change)="toggleFill()"/>
-        <label for="background-color">Fill</label>
+        <input type="checkbox" name="checkbox-fill" id="checkbox-fill" [(ngModel)]="elementAtt.hasFill" (change)="toggleFill()"/>
+        <label for="checkbox-fill">Fill</label>
         <input
           type="color"
           name="background-color"
@@ -106,8 +106,8 @@
 
         <!-- ELEMENT BORDER -->
         <hr />
-        <input type="checkbox" [(ngModel)]="elementAtt.hasBorder" name="checkbox-stroke" (change)="toggleBorder()" />
-        <label for="border">Border Color</label>
+        <input type="checkbox" [(ngModel)]="elementAtt.hasBorder" id="checkbox-stroke" name="checkbox-stroke" (change)="toggleBorder()" />
+        <label for="checkbox-stroke">Border Color</label>
         <input
           type="color"
           name="border-color"
@@ -161,10 +161,100 @@
         </div>
 
         <hr />
+
+        <!-- ELEMENT EFFECTS -->
+        <div>
+          <!-- BOX SHADOW -->
+          <div>
+            <input type="checkbox" [(ngModel)]="elementAtt.hasBoxShadow" name="checkbox-shadow" id="checkbox-shadow" (change)="toggleBoxShadow()">
+            <label for="checkbox-shadow">Drop Shadow</label>
+          </div>
+          <div class="grid" *ngIf="elementAtt.hasBoxShadow">
+            <div class="label-input">
+              <label for="shadow-offsetx">X</label>
+              <input
+                type="number"
+                name="shadow-offsetx"
+                [(ngModel)]="elementAtt.shadowX"
+                (input)="changeShadow()"
+              />
+            </div>
+
+            <div class="label-input">
+              <label for="shadow-offsety">Y</label>
+              <input
+                type="number"
+                name="shadow-offsety"
+                [(ngModel)]="elementAtt.shadowY"
+                (input)="changeShadow()"
+              />
+            </div>
+
+            <div class="label-input">
+              <label for="shadow-blur">Blur</label>
+              <input
+                type="number"
+                name="shadow-blur"
+                [(ngModel)]="elementAtt.shadowBlur"
+                (input)="changeShadow()"
+              />
+            </div>
+
+            <div class="label-input">
+              <label for="shadow-spread">Spread</label>
+              <input
+                type="number"
+                name="shadow-spread"
+                [(ngModel)]="elementAtt.shadowSpread"
+                (input)="changeShadow()"
+              />
+            </div>
+
+            <input
+              type="color"
+              name="shadow-color"
+              [(ngModel)]="elementAtt.shadowColor"
+              (input)="changeShadow()"
+            />
+
+            <input
+              min="0"
+              max="100"
+              type="number"
+              name="shadow-opacity"
+              [(ngModel)]="elementAtt.shadowAlpha"
+              (input)="changeShadow()"
+            />
+          </div>
+          <div>
+            <input 
+              type="checkbox" 
+              [(ngModel)]="elementAtt.hasBlur"
+              name="checkbox-blur" 
+              id="checkbox-blur" 
+              (change)="toggleBlur()"
+            >
+            <label for="checkbox-blur">Drop Shadow</label>
+
+            <div *ngIf="elementAtt.hasBlur">
+              <div class="label-input">
+                <label for="shadow-blur">Blur</label>
+                <input
+                min="0"
+                type="number"
+                name="blur"
+                [(ngModel)]="elementAtt.blur"
+                (input)="changeBlur()"
+                />
+              </div>
+            </div>
+            
+          </div>
+          
+        </div>
         
       </form>
 
-      <p>{{ elementAtt | json }}</p>
     </ng-container>
 
     <!-- When no element is selected -->

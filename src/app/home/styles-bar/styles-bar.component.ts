@@ -198,7 +198,7 @@ export class StylesBarComponent implements OnInit {
     this.renderer.setStyle(
       this.selectedElement,
       'box-shadow',
-      this.elementAtt.hasBoxShadow
+      shadowString
     );
   }
 
@@ -238,7 +238,7 @@ export class StylesBarComponent implements OnInit {
 
 
   toggleBoxShadow() {
-    this.renderer.removeStyle(this.selectedElement, 'box-shadow');
+    this.renderer.setStyle(this.selectedElement, 'box-shadow', 'none');
 
     this.elementAtt.shadowX = 0;
     this.elementAtt.shadowY = 0;

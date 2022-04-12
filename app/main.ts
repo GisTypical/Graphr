@@ -122,7 +122,7 @@ try {
 
           // CREATING CSS
           fs.writeFileSync(path.join(dirPath, 'styles.css'), beautify(`html, body {
-          position: relative; } ${css}
+          position: relative; user-select: none; font-family: roboto; } ${css}
           @font-face {
             font-family: roboto;
             src: url(Roboto-Regular.ttf);

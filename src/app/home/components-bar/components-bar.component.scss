@@ -132,14 +132,7 @@ aside {
     family: karla_medium;
     size: 0.65em;
   }
-
-  // > span {
-  //   background-color: var(--independence);
-  //   width: 5.64rem;
-  //   padding: 0.1em;
-  //   border-radius: 0px 0px 10px 10px;
-  //   text-align: center;
-  // }
+  
   > .component-title {
     background-color: var(--independence);
     width: 5.64rem;
@@ -307,16 +300,8 @@ label.default-style {
   flex-flow: row wrap;
 }
 
-div.default-style-2 {
-  background-color: transparent;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-flow: row wrap;
-}
-
-input[type='checkbox'].default-style,
-input[type='radio'].default-style {
+input[type="checkbox"].default-style,
+input[type="radio"].default-style {
   width: 1em;
   margin-right: 1em;
   font-family: roboto;
@@ -325,7 +310,6 @@ input[type='radio'].default-style {
 input[type="color"].default-style {
   width: 7em;
   height: 3em;
-  // padding: 0.5em 1em;
   border-radius: 5px;
   border: 2px solid var(--light-grey);
   font-family: roboto;

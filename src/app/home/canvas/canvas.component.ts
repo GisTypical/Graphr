@@ -2,6 +2,7 @@
 import { CdkDragDrop, DragDrop, DragRef, Point } from '@angular/cdk/drag-drop';
 import { Component, ElementRef, HostListener, Renderer2 } from '@angular/core';
 import { SelectedElementsService } from '../../core/services/selected-elements/selected-elements.service';
+import * as uuid from 'uuid';
 
 @Component({
   selector: 'app-canvas',
@@ -27,15 +28,6 @@ export class CanvasComponent {
       }
       this.clearSelectedElements();
     }
-
-    // if (event.key === 'Enter') {
-    //   for (const element of this.selectedElements) {
-    //     console.log(element.tagName, element);
-    //     if ((element as HTMLElement).tagName === 'SPAN') {
-    //       event.preventDefault();
-    //     }
-    //   }
-    // }
   }
 
   @HostListener('click', ['$event'])
@@ -77,6 +69,8 @@ export class CanvasComponent {
         }
       });
     }
+
+    this.generateUUID(clonedComponent);
 
     // Append element for making width and height accessible
     this.renderer.appendChild(this.canvas.nativeElement, clonedComponent);
@@ -172,5 +166,16 @@ export class CanvasComponent {
       dropPoint.y > canvasRect.y + canvasRect.height - componentRect.height;
 
     return outOfBoundsX || outOfBoundsY;
+  }
+
+  private generateUUID(component: HTMLElement) {
+    const myUUID = uuid.v4();
+    component.id = `_${myUUID}`;
+
+    if (component.children.length > 0) {
+      for (let index = 0; index < component.children.length; index++) {
+        this.generateUUID(component.children[index] as HTMLElement);
+      }
+    }
   }
 }

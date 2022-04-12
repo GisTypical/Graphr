@@ -59,7 +59,7 @@
               </li>
               <div *cdkDragPlaceholder></div>
               <details class="default-style" *cdkDragPreview>
-                <summary>A title</summary>
+                <summary><span>A title</span></summary>
                 <p>Some text here</p>
               </details>
             </div>
@@ -271,14 +271,14 @@
               <li class="component">
                 <label for="checkbox" class="default-style">
                   <input type="checkbox" class="default-style">
-                  A checkbox
+                  <span>A checkbox</span>
                 </label>
                 <span class="component-title">Check list</span>
               </li>
               <div *cdkDragPlaceholder></div>
               <label for="checkbox" class="default-style" *cdkDragPreview>
                 <input type="checkbox" class="default-style">
-                A checkbox
+                <span>A checkbox</span>
               </label>
             </div>
           </article>
@@ -286,16 +286,16 @@
           <article>
             <div cdkDrag>
               <li class="component">
-                <label for="checkbox" class="default-style">
+                <label for="" class="default-style">
                   <input type="radio" name="radio" id="radio" class="default-style">
-                  A radio
+                  <span>A radio</span>
                 </label>
                 <span class="component-title">Radio list</span>
               </li>
               <div *cdkDragPlaceholder></div>
-              <label for="checkbox" class="default-style" *cdkDragPreview>
+              <label for="" class="default-style" *cdkDragPreview>
                 <input type="radio" name="radio" id="radio" class="default-style">
-                A radio
+                <span>A radio</span>
               </label>
             </div>
           </article>
@@ -307,7 +307,7 @@
                 <span class="component-title">Date picker</span>
               </li>
               <div *cdkDragPlaceholder></div>
-              <li *cdkDragPreview><span>Date picker</span></li>
+              <input *cdkDragPreview type="date" class="default-style">
             </div>
           </article>
 
@@ -318,7 +318,8 @@
                 <span class="component-title">Textarea</span>
               </li>
               <div *cdkDragPlaceholder></div>
-              <textarea *cdkDragPreview class="default-style" name="textarea" id="textarea" placeholder="A textarea"></textarea>
+              <textarea *cdkDragPreview class="default-style" name="textarea" id="textarea"
+                placeholder="A textarea"></textarea>
             </div>
           </article>
 
@@ -345,7 +346,7 @@
                 <span class="component-title">Select</span>
               </li>
               <div *cdkDragPlaceholder></div>
-              <select name="items" id="items" *cdkDragPreview>
+              <select class="default-style" name="items" id="items" *cdkDragPreview>
                 <option>Item 1</option>
                 <option>Item 2</option>
                 <option>Item 3</option>

@@ -11,9 +11,14 @@ import rgb2hex from '../../shared/utils/rgb2hex';
   styleUrls: ['./styles-bar.component.scss'],
 })
 export class StylesBarComponent implements OnInit {
+  // Dragged elements
   selectedElement: HTMLElement;
   canvasRect: DOMRect;
   elementAtt: ElementAttributes = {} as ElementAttributes;
+
+  // Popups
+  isShadowMenu = false;
+  isBlurMenu = false;
 
   constructor(
     private selectedService: SelectedElementsService,
@@ -66,7 +71,8 @@ export class StylesBarComponent implements OnInit {
     const hexArray = hasGradient ? getRgbs(linearGradient) : [];
 
     // Element has fill is its background color isn't 'rgba(0, 0, 0, 0) or element has gradient
-    this.elementAtt.hasFill = this.getComputedStyle('backgroundColor') !== 'rgba(0, 0, 0, 0)' || (hasGradient && (hexArray[0] !== 'rgba(0, 0, 0, 0)'));
+    this.elementAtt.hasFill =
+      this.getComputedStyle('backgroundColor') !== 'rgba(0, 0, 0, 0)' || (hasGradient && (hexArray[0] !== 'rgba(0, 0, 0, 0)'));
 
     this.elementAtt.bgColor = !hasGradient ? rgb2hex(this.getComputedStyle('backgroundColor')) : rgb2hex(hexArray[0]);
 
@@ -180,7 +186,11 @@ export class StylesBarComponent implements OnInit {
       this.renderer.setStyle(
         this.selectedElement,
         'background',
-        `linear-gradient(${this.elementAtt.gradientDirection}, ${this.elementAtt.hasFill? this.elementAtt.bgColor : 'transparent'}, ${this.elementAtt.gradient})`
+        `
+          linear-gradient(${this.elementAtt.gradientDirection}, 
+          ${this.elementAtt.hasFill? this.elementAtt.bgColor : 'transparent'}, 
+          ${this.elementAtt.gradient})
+        `
       );
     }
 
@@ -241,7 +251,11 @@ export class StylesBarComponent implements OnInit {
     this.renderer.setStyle(
       this.selectedElement,
       'background',
-      `linear-gradient(${this.elementAtt.gradientDirection}, ${this.elementAtt.hasFill ? this.elementAtt.bgColor : 'transparent'}, ${this.elementAtt.gradient})`
+      `
+        linear-gradient(${this.elementAtt.gradientDirection}, 
+        ${this.elementAtt.hasFill ? this.elementAtt.bgColor : 'transparent'}, 
+        ${this.elementAtt.gradient})
+      `
     );
   }
 
@@ -308,8 +322,20 @@ export class StylesBarComponent implements OnInit {
       this.renderer.setStyle(
         this.selectedElement,
         'background',
-        `linear-gradient(${this.elementAtt.gradientDirection}, ${this.elementAtt.hasFill ? this.elementAtt.bgColor : 'transparent'}, ${this.elementAtt.gradient})`
+        `
+          linear-gradient(${this.elementAtt.gradientDirection}, 
+          ${this.elementAtt.hasFill ? this.elementAtt.bgColor : 'transparent'}, 
+          ${this.elementAtt.gradient})
+        `
       );
     }
+  }
+
+  toggleShadowMenu() {
+    this.isShadowMenu = !this.isShadowMenu;
+  }
+
+  toggleBlurMenu() {
+    this.isBlurMenu = !this.isBlurMenu;
   }
 }

@@ -63,22 +63,6 @@ export class ToolbarComponent implements OnInit {
         rule = rule.replace('{ ', '');
         rule = rule.replace(' }', '');
 
-        // Colors
-        rule = rule.replace('var(--winter-sky)', '#f52276');
-        rule = rule.replace('var(--plum-web)', '#f0a5f1');
-        rule = rule.replace('var(--columbia-blue)', '#ccecfc');
-        rule = rule.replace('var(--dogwood-rose)', '#d61b66');
-        rule = rule.replace('var(--french-mauve)', '#d895da');
-        rule = rule.replace('var(--pewter-blue)', '#a9c6d3');
-        rule = rule.replace('var(--dark-purple)', '#3a2d46');
-        rule = rule.replace('var(--english-violet)', '#4c4057');
-        rule = rule.replace('var(--independence)', '#5c5166');
-        rule = rule.replace('var(--dark-liver)', '#2b2134');
-        rule = rule.replace('var(--black)', '#000000');
-        rule = rule.replace('var(--mid-grey)', '#bbbbbb');
-        rule = rule.replace('var(--light-grey)', '#eeeeee');
-        rule = rule.replace('var(--white)', '#ffffff');
-
         const tagName = htmlElement.tagName;
         const parentTagName = htmlElement.parentElement.tagName;
 
@@ -173,6 +157,36 @@ export class ToolbarComponent implements OnInit {
       let elementStyles = htmlElement.style.cssText;
       elementStyles = elementStyles.replace(/top: \d+/, `top: ${top}`);
       elementStyles = elementStyles.replace(/left: \d+/, `left: ${left}`);
+      elementStyles += 'transition: filter 0.2s ease-in-out 0s, border-color 0.2s ease-in-out 0s, background-color 0.2s ease-in-out 0s;';
+
+      if (htmlElement.classList.contains('hover')) {
+        let hoverNot = cssRules[38].cssText;
+        hoverNot = hoverNot.replace(cssRules[38].selectorText, '');
+        hoverNot = hoverNot.replace('{', '');
+        hoverNot = hoverNot.replace('}', '');
+
+        css += `#${htmlElement.id}${cssRules[38].selectorText} { ${hoverNot} }`;
+      }
+
+      if (htmlElement.classList.contains('active')) {
+        let active = cssRules[39].cssText;
+
+        active = active.replace(cssRules[39].selectorText, '');
+        active = active.replace('{', '');
+        active = active.replace('}', '');
+
+        css += `#${htmlElement.id}${cssRules[39].selectorText} { ${active} }`;
+      }
+
+      if (htmlElement.classList.contains('focus')) {
+        let focus = cssRules[40].cssText;
+
+        focus = focus.replace(cssRules[40].selectorText, '');
+        focus = focus.replace('{', '');
+        focus = focus.replace('}', '');
+
+        css += `#${htmlElement.id}${cssRules[40].selectorText} { ${focus} }`;
+      }
 
       if (htmlElement.children.length > 0) {
         css += `#${htmlElement.id} { ${elementRules}\n${elementStyles} }\n${this.generateCSS(htmlElement.children, cssRules)}`;
@@ -199,17 +213,20 @@ export class ToolbarComponent implements OnInit {
         elementTag = elementTag.replace(/>/, `>${this.generateHTML(htmlElement.children)}`);
       }
 
+      elementTag = elementTag.replace(/ng-untouched ng-pristine ng-val\s*id/, '');
       elementTag = elementTag.replace(/_ngcontent-\w+-\w+=""/, '');
       elementTag = elementTag.replace(`style="${cssText}"`, '');
       elementTag = elementTag.replace(/contenteditable="\w*"/, '');
       elementTag = elementTag.replace(/spellcheck="\w*"/, '');
-      elementTag = elementTag.replace(/class="(\w*\-?\w*\s?)*"/, '');
+      elementTag = elementTag.replace('default-style', '');
+      elementTag = elementTag.replace('selected', '');
       elementTag = elementTag.replace(/open="\w*"/, '');
       elementTag = elementTag.replace(/novalidate=""/, '');
 
       elementTag = elementTag.replace(/\w+\s*/, htmlElement.tagName.toLowerCase());
       elementTag = elementTag.replace('" ', '"');
-      elementTag = elementTag.replace(/type=/, ' type=');
+      elementTag = elementTag.replace('class', ' class');
+      elementTag = elementTag.replace('type=', ' type=');
       elementTag = elementTag.replace('id', ' id');
       elementTag = elementTag.replace('for=', ' for=');
       elementTag = elementTag.replace('src', ' src');
@@ -229,6 +246,22 @@ export class ToolbarComponent implements OnInit {
       let rule = stylesheet[index].cssText;
       rule = rule.replace(/\[_ngcontent-\w*-\w*\]/g, '');
 
+      // Colors
+      rule = rule.replace('var(--winter-sky)', '#f52276');
+      rule = rule.replace('var(--plum-web)', '#f0a5f1');
+      rule = rule.replace('var(--columbia-blue)', '#ccecfc');
+      rule = rule.replace('var(--dogwood-rose)', '#d61b66');
+      rule = rule.replace('var(--french-mauve)', '#d895da');
+      rule = rule.replace('var(--pewter-blue)', '#a9c6d3');
+      rule = rule.replace('var(--dark-purple)', '#3a2d46');
+      rule = rule.replace('var(--english-violet)', '#4c4057');
+      rule = rule.replace('var(--independence)', '#5c5166');
+      rule = rule.replace('var(--dark-liver)', '#2b2134');
+      rule = rule.replace('var(--black)', '#000000');
+      rule = rule.replace('var(--mid-grey)', '#bbbbbb');
+      rule = rule.replace('var(--light-grey)', '#eeeeee');
+      rule = rule.replace('var(--white)', '#ffffff');
+
       let selectorText = stylesheet[index].selectorText;
       selectorText = selectorText.replace(/\[_ngcontent-\w*-\w*\]/g, '');
 
@@ -243,7 +276,6 @@ export class ToolbarComponent implements OnInit {
     const css = this.generateCSS(canvasChildren, cssRules);
     const html = this.generateHTML(canvasChildren);
     const pageTitle = document.querySelector('.title h1').textContent;
-    console.log(html);
 
     this.electronService.invoke('generate', css, html, pageTitle)
       .then(result => console.log(result));

@@ -6,6 +6,10 @@
  * @returns a string in HEX color format
  */
 const rgb2hex = (rgb: string) => {
+  if (rgb === 'rgba(0, 0, 0, 0)') {
+    return '#000000';
+  }
+
   // Choose correct separator
   const sep = rgb.indexOf(',') > -1 ? ',' : ' ';
   // Turn "rgb(r,g,b)" into [r,g,b]

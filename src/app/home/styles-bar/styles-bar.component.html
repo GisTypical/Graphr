@@ -8,9 +8,9 @@
     <!-- When a element is selected -->
     <ng-container *ngIf="isElementSelected(); else placeholder">
       <form>
-        <div class="grid">
+        <div class="grid dimensions styles-group">
           <!-- TOP POSITION OF ELEMENT -->
-          <div class="label-input">
+          <div class="dimension-input">
             <label for="left">X</label>
             <input
               min="0"
@@ -22,7 +22,7 @@
           </div>
 
           <!-- LEFT POSITION OF ELEMENT -->
-          <div class="label-input">
+          <div class="dimension-input">
             <label for="top">Y</label>
             <input
               min="0"
@@ -34,7 +34,7 @@
           </div>
 
           <!-- WIDTH OF ELEMENT -->
-          <div class="label-input">
+          <div class="dimension-input">
             <label for="width">W</label>
             <input
               min="0"
@@ -46,7 +46,7 @@
           </div>
 
           <!-- HEIGHT OF ELEMENT -->
-          <div class="label-input">
+          <div class="dimension-input">
             <label for="height">H</label>
             <input
               min="0"
@@ -58,7 +58,7 @@
           </div>
 
           <!-- ROTATION OF ELEMENT -->
-          <div class="label-input">
+          <div class="dimension-input">
             <label for="rotation">Rot.</label>
             <input
               type="number"
@@ -69,7 +69,7 @@
           </div>
 
           <!-- BORDER RADIUS OF ELEMENT -->
-          <div class="label-input">
+          <div class="dimension-input">
             <label for="border-radius">Rad.</label>
             <input
               min="0"
@@ -80,8 +80,70 @@
             />
           </div>
 
+
+        </div>
+
+        <div class="styles-group">
+          <!-- ELEMENT FILL -->
+          <div class="flex element-color justify-between">
+
+            <div class="checkbox-label">
+              <input type="checkbox" name="checkbox-fill" id="checkbox-fill" [(ngModel)]="elementAtt.hasFill" (change)="toggleFill()"/>
+              <label for="checkbox-fill">Fill</label>
+            </div>
+              
+            <input
+              type="color"
+              name="background-color"
+              [(ngModel)]="elementAtt.bgColor"
+              (input)="changeValue($event)"
+              [disabled]="!elementAtt.hasFill"
+            />
+          </div>
+          
+          <!-- ELEMENT GRADIENT -->
+          <div class="flex element-color justify-between">
+            <div class="checkbox-label">
+
+              <input 
+                type="checkbox"
+                name="checkbox-gradient" 
+                id="checkbox-gradient" 
+                [(ngModel)]="elementAtt.hasGradient" 
+                (change)="toggleGradient()"
+              />
+
+              <label for="checkbox-gradient">Gradient</label>
+              
+            </div>
+            <select
+              class="gradient-select"
+              name="gradient-direction"
+              [(ngModel)]="elementAtt.gradientDirection"
+              (change)="changeValue($event)"
+              [disabled]="!elementAtt.hasGradient"
+            >
+              <option  value="0deg" selected>North</option>
+              <option value="90deg">East</option>
+              <option value="180deg">South</option>
+              <option value="270deg">West</option>
+              <option value="45deg">North-West</option>
+              <option value="315deg">North-East</option>
+              <option value="135deg">South-West</option>
+              <option value="225deg">South-East</option>
+            </select>
+
+            <input
+              type="color"
+              name="background"
+              [(ngModel)]="elementAtt.gradient"
+              (input)="changeGradient($event)"
+              [disabled]="!elementAtt.hasGradient"
+            />
+          </div>
+
           <!-- TEXT COLOR OF ELEMENT -->
-          <div class="label-input">
+          <div class="flex element-color justify-between">
             <label for="color">Text Color</label>
             <input
               type="color"
@@ -91,62 +153,179 @@
             />
           </div>
         </div>
+        
+        <!-- ELEMENT BORDER -->
+        <div class="styles-group">
 
-        <hr />
-        <input type="checkbox" name="checkbox-fill" />
-        <label for="background-color">Fill</label>
-        <input
-          type="color"
-          name="background-color"
-          [(ngModel)]="elementAtt.bgColor"
-          (input)="changeValue($event)"
-        />
+          <!-- BORDER COLOR -->
+          <div class="flex justify-between">
+            <input 
+              type="checkbox"
+              [(ngModel)]="elementAtt.hasBorder"
+              id="checkbox-stroke"
+              name="checkbox-stroke"
+              (change)="toggleBorder()"
+            />
+            <label for="checkbox-stroke">Border Color</label>
 
-        <hr />
-        <input type="checkbox" name="checkbox-stroke" />
-        <label for="border">Border Color</label>
-        <input
-          type="color"
-          name="border-color"
-          [(ngModel)]="elementAtt.borderColor"
-          (input)="changeValue($event)"
-        />
+            <input
+              type="color"
+              name="border-color"
+              [(ngModel)]="elementAtt.borderColor"
+              (input)="changeValue($event)"
+              [disabled]="!elementAtt.hasBorder"
+            />
+          </div>
+        
+          <div class="flex justify-between border-style">
+            <!-- BORDER STYLE -->
+            <select
+              class="border-style-select"
+              name="border-style"
+              [(ngModel)]="elementAtt.borderStyle"
+              (change)="changeValue($event)"
+              [disabled]="!elementAtt.hasBorder"
+            >
+              <option value="solid">Solid</option>
+              <option value="dashed">Dashed</option>
+              <option value="dotted">Dotted</option>
+              <option value="inset">Inset</option>
+              <option value="outset">Outset</option>
+            </select>
 
-        <select
-          name="border-style"
-          [(ngModel)]="elementAtt.borderStyle"
-          (change)="changeValue($event)"
-        >
-          <option value="solid">Solid</option>
-          <option value="dashed">Dashed</option>
-          <option value="dotted">Dotted</option>
-          <option value="inset">Inset</option>
-          <option value="outset">Outset</option>
-        </select>
+            <!-- BORDER WIDTH -->
+            <input
+              min="0"
+              type="number"
+              name="border-width"
+              [(ngModel)]="elementAtt.borderWidth"
+              (input)="changeValue($event)"
+              [disabled]="!elementAtt.hasBorder"
+            />
+          </div>
+        </div>
 
-        <label for="border-width">Border Width</label>
-        <input
-          min="0"
-          type="number"
-          name="border-width"
-          [(ngModel)]="elementAtt.borderWidth"
-          (input)="changeValue($event)"
-        />
+        
+        <!-- ELEMENT OPACITY -->
+        <div class="styles-group">
+          <div class="flex justify-between">
+            <label for="opacity">Opacity</label>
+            <input
+              min="0"
+              max="100"
+              type="number"
+              name="opacity"
+              [(ngModel)]="elementAtt.opacity"
+              (input)="changeValue($event)"
+            />
+          </div>
+        </div>
 
-        <hr />
+        <!-- ELEMENT Z-INDEX -->
+        <div class="styles-group">
+          <p class="group-title">Organize</p>
+          <div class="flex organize-buttons">
+            <button class="organize-button" (click)="sendBackward()">Send Backward</button>
+            <button class="organize-button" (click)="sendForward()">Send Forward</button>
+          </div>
+        </div>
 
-        <label for="opacity">Opacity</label>
-        <input
-          min="0"
-          max="100"
-          type="number"
-          name="opacity"
-          [(ngModel)]="elementAtt.opacity"
-          (input)="changeValue($event)"
-        />
+        <!-- ELEMENT EFFECTS -->
+        <div class="styles-group">
+          <p class="group-title">Effects</p>
+
+          <!-- BOX SHADOW -->
+          <div class="checkbox-label">
+            <input type="checkbox" [(ngModel)]="elementAtt.hasBoxShadow" name="checkbox-shadow" id="checkbox-shadow" (change)="toggleBoxShadow()">
+            <label class="label-drop" (click)="toggleShadowMenu()">Drop Shadow</label>
+          </div>
+
+          <!-- POPUP -->
+          <div class="popup grid shadow-popup" *ngIf="isShadowMenu">
+            <div class="label-input">
+              <label for="shadow-offsetx">X</label>
+              <input
+                type="number"
+                name="shadow-offsetx"
+                [(ngModel)]="elementAtt.shadowX"
+                (input)="changeShadow()"
+              />
+            </div>
+
+            <div class="label-input">
+              <label for="shadow-offsety">Y</label>
+              <input
+                type="number"
+                name="shadow-offsety"
+                [(ngModel)]="elementAtt.shadowY"
+                (input)="changeShadow()"
+              />
+            </div>
+
+            <div class="label-input">
+              <label for="shadow-blur">Blur</label>
+              <input
+                type="number"
+                name="shadow-blur"
+                [(ngModel)]="elementAtt.shadowBlur"
+                (input)="changeShadow()"
+              />
+            </div>
+
+            <div class="label-input">
+              <label for="shadow-spread">Spread</label>
+              <input
+                type="number"
+                name="shadow-spread"
+                [(ngModel)]="elementAtt.shadowSpread"
+                (input)="changeShadow()"
+              />
+            </div>
+
+            <div class="justify-between">
+              <input
+                type="color"
+                name="shadow-color"
+                [(ngModel)]="elementAtt.shadowColor"
+                (input)="changeShadow()"
+              />
+              <input
+                class=""
+                min="0"
+                max="100"
+                type="number"
+                name="shadow-opacity"
+                [(ngModel)]="elementAtt.shadowAlpha"
+                (input)="changeShadow()"
+              />
+            </div>
+          </div>
+
+          <!-- ELEMENT BLUR -->
+          <div class="checkbox-label">
+            <input 
+              type="checkbox" 
+              [(ngModel)]="elementAtt.hasBlur"
+              name="checkbox-blur" 
+              id="checkbox-blur" 
+              (change)="toggleBlur()"
+            >
+            <label class="label-drop" (click)="toggleBlurMenu()">Object Blur</label>
+          </div>
+
+          <!-- POPUP -->
+          <div class="popup opacity-popup" *ngIf="isBlurMenu">
+            <label for="shadow-blur">Blur</label>
+            <input
+              min="0"
+              type="number"
+              name="blur"
+              [(ngModel)]="elementAtt.blur"
+              (input)="changeBlur()"
+            />
+          </div>
+        </div>
       </form>
-
-      <p>{{ elementAtt | json }}</p>
     </ng-container>
 
     <!-- When no element is selected -->

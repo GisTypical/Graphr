@@ -1,3 +1,5 @@
+// Stylesbar styles
+
 aside {
   background-color: var(--dark-purple);
   width: 14.2em;
@@ -46,7 +48,6 @@ aside {
   justify-content: flex-start;
   align-items: center;
   flex-flow: column wrap;
-  padding: 1.6em;
   text-align: center;
   color: var(--french-mauve);
 
@@ -63,29 +64,218 @@ aside {
   }
 }
 
-.label-input {
+form { 
   display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  margin-top: 0.5rem;
+}
+
+.styles-group {
+  background-color: var(--english-violet);
+  border-radius: 0.5em;
+  padding: 1em 0.5em;
+  margin: 0 0.75em;
+  color: var(--light-grey);
+}
+
+.group-title {
   font-family: karla_medium;
   font-size: 0.8rem;
-  gap: 1em;
+  color: var(--light-grey);
+  text-align: left;
+  margin-bottom: 0.5em;
+}
 
-  input[type="number"] {
-    width: 4em;
-    background-color: transparent;
-    border: none;
-    color: white;
+.dimensions { 
+  grid-template-columns: 1fr 1fr;
+  justify-items: center;
+  gap: 1rem 2rem;
 
-    &::-webkit-inner-spin-button {
-      appearance: none;
+  .dimension-input {
+    display: flex;
+    gap: 0.8em;
+    color: var(--winter-sky);
+    font-weight: bold;
+    align-items: center;
+  
+    input[type="number"] {
+      background-color: transparent;
+  
+      &::-webkit-inner-spin-button {
+        appearance: none;
+      }
     }
   }
 }
 
-.grid { 
-  display: grid;
-  grid-template-columns: 1fr 1fr;
+.label-input {
+  display: flex;
+  gap: 0.8em;
+  align-items: center;
+  color: var(--light-grey);
+}
 
-  :last-child {
-    grid-column: 1/3;
+.element-color {
+  margin-bottom: 0.5em;
+
+  &:last-child {
+    margin-bottom: 0;
   }
+}
+
+.checkbox-label {
+  display: flex;
+  align-items: center;
+  gap: 0.5em;
+}
+
+.gradient-select {
+  width: 3.2rem;
+}
+
+.border-style {
+  margin-top: 0.5em;
+  margin-right: 0.5em;
+}
+
+.border-style-select {
+  width: 5rem;
+}
+
+.organize-buttons {
+  gap: 0.3em;
+}
+
+.organize-button {
+  color: var(--light-grey);
+  font-size: 0.75rem;
+  padding: 0.5rem 0.3rem;
+  font-family: karla_medium;
+  background-color: var(--winter-sky);
+  border-radius: 0.75em;
+  border: none;
+}
+
+.organize-button:active {
+  background-color: var(--dogwood-rose);
+}
+
+.popup {
+  position: absolute;
+  background-color: var(--english-violet);
+  width: 12.375rem;
+  border: 1px solid;
+  border-image: linear-gradient(to right, var(--winter-sky), var(--columbia-blue)) 1;
+  align-items: center;
+
+  font: {
+    family: karla;
+    size: 0.8em;
+  }
+}
+
+.shadow-popup {
+  height: 8.75rem;
+  grid-template-columns: 1fr 1fr;
+  justify-items: start;
+  gap: 1rem 1rem;
+  padding: 0.5rem 1rem;
+
+  div {
+    display: flex;
+    gap: 0.8em;
+    color: var(--winter-sky);
+    font-weight: bold;
+    align-items: center;
+  
+    input[type="number"] {
+      background-color: transparent;
+  
+      &::-webkit-inner-spin-button {
+        appearance: none;
+      }
+    }
+
+    &:last-child{
+      margin-right: 0.5em;
+
+      input[type="number"]{
+        background-color: var(--dark-liver);
+      }
+    }
+  }
+
+  div:last-child {
+    grid-column: 1/3;
+    width: 100%;
+  }
+}
+
+.opacity-popup { 
+  height: 3rem;
+  display: flex;
+  gap: 1em;
+  align-content: center;
+  padding-left: 1.5em;
+}
+
+.label-drop {
+  user-select: none;
+  width: 100%;
+  text-align: left;
+}
+
+// General
+
+.grid {
+  display: grid;
+}
+
+.flex {
+  display: flex;
+}
+
+input[type="color"] {
+  border: 0;
+  padding: 3px;
+  height: 1.5rem;
+  background-color: var(--independence);
+  border-radius: 0.2em;
+}
+
+input[type="color"]::-webkit-color-swatch-wrapper {
+  padding: 0;
+}
+
+input[type="color"]::-webkit-color-swatch {
+  border: none;
+  border-radius: 0.2em;
+}
+
+input[type="checkbox"] {
+  accent-color: var(--columbia-blue);
+}
+
+input[type="number"], select {
+  width: 2.5em;
+  background-color: var(--dark-purple);
+  color: var(--light-grey);
+  border: none;
+  font-family: karla_medium;
+  font-size: 0.8rem;
+
+  &::-webkit-inner-spin-button {
+    appearance: none;
+  }
+}
+
+label {
+  font-family: karla_medium;
+  font-size: 0.8rem;
+}
+
+.justify-between {
+  justify-content: space-between;
+  align-items: center;
 }

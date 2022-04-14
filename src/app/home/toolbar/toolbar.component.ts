@@ -49,7 +49,7 @@ export class ToolbarComponent implements OnInit {
     this.isMoveMenuOpen = !this.isMoveMenuOpen;
   }
 
-  // Generate CSS
+  // GENERATE CSS
   generateCSS(canvasChildren, cssRules): string {
     let css = '';
 
@@ -57,6 +57,7 @@ export class ToolbarComponent implements OnInit {
       const htmlElement = canvasChildren[index] as HTMLElement;
       let elementRules = '';
 
+      // Adding default styles to the css rule
       for (let j = 0; j < cssRules.length; j++) {
         let rule = cssRules[j].cssText;
         rule = rule.replace(cssRules[j].selectorText, '');
@@ -66,7 +67,6 @@ export class ToolbarComponent implements OnInit {
         const tagName = htmlElement.tagName;
         const parentTagName = htmlElement.parentElement.tagName;
 
-        // Adding default styles to the css rule
         switch (true) {
           case tagName === 'DIV' && cssRules[j].selectorText === 'div.default-style':
             elementRules += rule;
@@ -147,6 +147,7 @@ export class ToolbarComponent implements OnInit {
         }
       }
 
+      // Calculating real position for the element
       this.canvasRect = htmlElement.parentElement.getBoundingClientRect();
       const elementTop = parseInt(htmlElement.style.top, 10);
       const top = elementTop - this.canvasRect.top;
@@ -154,11 +155,29 @@ export class ToolbarComponent implements OnInit {
       const elementLeft = parseInt(htmlElement.style.left, 10);
       const left = elementLeft - this.canvasRect.left;
 
+      // Getting and formatting element styles from style attribute
       let elementStyles = htmlElement.style.cssText;
+
       elementStyles = elementStyles.replace(/top: \d+/, `top: ${top}`);
       elementStyles = elementStyles.replace(/left: \d+/, `left: ${left}`);
-      elementStyles += 'transition: filter 0.2s ease-in-out 0s, border-color 0.2s ease-in-out 0s, background-color 0.2s ease-in-out 0s;';
+      elementStyles += `transition: filter 0.2s ease-in-out 0s, border-color 0.2s ease-in-out 0s, 
+      background-color 0.2s ease-in-out 0s, opacity 0.8s ease-in-out 0s, top 1.2s ease-out 0s,
+      left 1.2s ease-out 0s;`;
 
+      // Verifying if the element has a js animation
+      if (htmlElement.hasAttribute('fadeIn')) {
+        elementStyles += 'opacity: 0';
+      }
+
+      if (htmlElement.hasAttribute('slideDown')) {
+        elementStyles = elementStyles.replace(/top: \d+/, `top: -100`);
+      }
+
+      if (htmlElement.hasAttribute('slideToRight')) {
+        elementStyles = elementStyles.replace(/left: \d+/, `left: -1000`);
+      }
+
+      // Verifying if the element has a css animation
       if (htmlElement.classList.contains('hover')) {
         let hoverNot = cssRules[38].cssText;
         hoverNot = hoverNot.replace(cssRules[38].selectorText, '');
@@ -188,6 +207,7 @@ export class ToolbarComponent implements OnInit {
         css += `#${htmlElement.id}${cssRules[40].selectorText} { ${focus} }`;
       }
 
+      // Verifying if the element has children
       if (htmlElement.children.length > 0) {
         css += `#${htmlElement.id} { ${elementRules}\n${elementStyles} }\n${this.generateCSS(htmlElement.children, cssRules)}`;
       } else {
@@ -198,7 +218,7 @@ export class ToolbarComponent implements OnInit {
     return css;
   }
 
-  // Generate HTML
+  // GENERATE HTML
   generateHTML(canvasChildren): string {
     let html = '';
 
@@ -222,6 +242,9 @@ export class ToolbarComponent implements OnInit {
       elementTag = elementTag.replace('selected', '');
       elementTag = elementTag.replace(/open="\w*"/, '');
       elementTag = elementTag.replace(/novalidate=""/, '');
+      elementTag = elementTag.replace('fadein=""', '');
+      elementTag = elementTag.replace('slidedown=""', '');
+      elementTag = elementTag.replace('slidetoright=""', '');
 
       elementTag = elementTag.replace(/\w+\s*/, htmlElement.tagName.toLowerCase());
       elementTag = elementTag.replace('" ', '"');
@@ -236,6 +259,53 @@ export class ToolbarComponent implements OnInit {
     }
     return html;
   }
+
+
+  // GENERATE JS
+  generateJS(canvasChildren) {
+    let js = '';
+
+    for (let index = 0; index < canvasChildren.length; index++) {
+      const htmlElement = canvasChildren[index] as HTMLLIElement;
+
+      if (htmlElement.hasAttribute('fadeIn')) {
+        const opacity = htmlElement.style.opacity === '' ? 1 : htmlElement.style.opacity;
+
+        js += `const fadeIn_${index} = new FadeInAnimation('${htmlElement.id}', ${opacity})
+        fadeIn_${index}.fadeIn()\n`;
+      }
+
+      if (htmlElement.hasAttribute('slideDown')) {
+        // Calculating real position for the element
+        this.canvasRect = htmlElement.parentElement.getBoundingClientRect();
+        const elementTop = parseInt(htmlElement.style.top, 10);
+        const top = elementTop - this.canvasRect.top;
+
+        const elementLeft = parseInt(htmlElement.style.left, 10);
+        const left = elementLeft - this.canvasRect.left;
+
+        js += `const slideDown_${index} = new SlideAnimation('${htmlElement.id}', '${top}px', '${left}px')
+        slideDown_${index}.slideDown()\n`;
+      }
+
+      if (htmlElement.hasAttribute('slideToRight')) {
+        this.canvasRect = htmlElement.parentElement.getBoundingClientRect();
+        const elementTop = parseInt(htmlElement.style.top, 10);
+        const top = elementTop - this.canvasRect.top;
+
+        const elementLeft = parseInt(htmlElement.style.left, 10);
+        const left = elementLeft - this.canvasRect.left;
+
+        js += `const slideToRight_${index} = new SlideAnimation('${htmlElement.id}', '${top}px', '${left}px')
+        slideToRight_${index}.slideToRight()\n`;
+      }
+
+      js += '\n';
+    }
+
+    return js;
+  }
+
 
   // GENERATE PAGE FILES
   generatePageFiles(): void {
@@ -276,8 +346,10 @@ export class ToolbarComponent implements OnInit {
     const css = this.generateCSS(canvasChildren, cssRules);
     const html = this.generateHTML(canvasChildren);
     const pageTitle = document.querySelector('.title h1').textContent;
+    const js = this.generateJS(canvasChildren);
+    console.log(html);
 
-    this.electronService.invoke('generate', css, html, pageTitle)
+    this.electronService.invoke('generate', html, css, js, pageTitle)
       .then(result => console.log(result));
   }
 }

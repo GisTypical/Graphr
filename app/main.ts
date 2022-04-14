@@ -87,9 +87,10 @@ try {
     });
 
     ipcMain.handle('generate', (event, message) => {
-      const css = message[0]
-      const html = message[1]
-      const pageTitle = message[2]
+      const html = message[0]
+      const css = message[1]
+      const js = message[2]
+      const pageTitle = message[3]
 
       const result = dialog.showSaveDialogSync({
         title: 'Select the folder path to save the page files',
@@ -117,6 +118,7 @@ try {
           
           <body>
             ${html}
+            <script src="index.js"></script>
           </body>
           
           </html>`))
@@ -134,12 +136,48 @@ try {
               src: url(Roboto-Medium.ttf);
           }`, { format: 'css' }))
 
+          // CREATING JS
+          fs.writeFileSync(path.join(dirPath, 'index.js'), beautify(`class FadeInAnimation {
+
+            constructor(elementID, opacity) {
+                this.elementID = elementID
+                this.opacity = opacity
+            }
+        
+            fadeIn() {
+                const element = document.getElementById(this.elementID)
+                element.style.opacity = this.opacity
+            }
+          }
+
+          class SlideAnimation {
+            constructor(elementID, top, left) {
+                this.elementID = elementID
+                this.top = top
+                this.left = left
+            }
+        
+            slideDown() {
+                const element = document.getElementById(this.elementID)
+                element.style.top = this.top
+            }
+
+            slideToRight() {
+              const element = document.getElementById(this.elementID)
+              element.style.left = this.left
+            }
+          }
+          
+          window.onload = () => {
+              ${js}
+          }`, { format: 'js' }))
+
           //CREATING FONTS
-          fs.copyFileSync(path.join(__dirname, '..', 'src', 'assets', 'fonts', 'roboto', 'Roboto-Regular.ttf'), 
-          path.join(dirPath, 'Roboto-Regular.ttf'))
+          fs.copyFileSync(path.join(__dirname, '..', 'src', 'assets', 'fonts', 'roboto', 'Roboto-Regular.ttf'),
+            path.join(dirPath, 'Roboto-Regular.ttf'))
 
           fs.copyFileSync(path.join(__dirname, '..', 'src', 'assets', 'fonts', 'roboto', 'Roboto-Medium.ttf'),
-          path.join(dirPath, 'Roboto-Medium.ttf'))
+            path.join(dirPath, 'Roboto-Medium.ttf'))
 
           return 'Page files created successfully ✨'
 

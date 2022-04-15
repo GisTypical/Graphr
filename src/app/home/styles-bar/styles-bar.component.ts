@@ -8,7 +8,7 @@ import rgb2hex from '../../shared/utils/rgb2hex';
 @Component({
   selector: 'app-styles-bar',
   templateUrl: './styles-bar.component.html',
-  styleUrls: ['./styles-bar.component.scss'],
+  styleUrls: ['./styles-bar.component.scss']
 })
 export class StylesBarComponent implements OnInit {
   // Dragged elements
@@ -131,6 +131,13 @@ export class StylesBarComponent implements OnInit {
 
     this.elementAtt.hasBlur = blur !== 'none';
     this.elementAtt.blur = this.elementAtt.hasBlur ? parseInt(blur.match(/\d+/gm)[0], 10) : 0;
+
+    this.elementAtt.hasHover = this.selectedElement.classList.contains('hover');
+    this.elementAtt.hasActive = this.selectedElement.classList.contains('active');
+    this.elementAtt.hasFocus = this.selectedElement.classList.contains('focus');
+    this.elementAtt.hasFadeIn = this.selectedElement.hasAttribute('fadeIn');
+    this.elementAtt.hasSlideDown = this.selectedElement.hasAttribute('slideDown');
+    this.elementAtt.hasSlideToRight = this.selectedElement.hasAttribute('slideToRight');
   }
 
   isElementSelected(): boolean {
@@ -188,7 +195,7 @@ export class StylesBarComponent implements OnInit {
         'background',
         `
           linear-gradient(${this.elementAtt.gradientDirection}, 
-          ${this.elementAtt.hasFill? this.elementAtt.bgColor : 'transparent'}, 
+          ${this.elementAtt.hasFill ? this.elementAtt.bgColor : 'transparent'}, 
           ${this.elementAtt.gradient})
         `
       );
@@ -337,5 +344,126 @@ export class StylesBarComponent implements OnInit {
 
   toggleBlurMenu() {
     this.isBlurMenu = !this.isBlurMenu;
+  }
+
+  toggleHover() {
+    if (!this.selectedElement.classList.contains('hover')) {
+      this.renderer.addClass(this.selectedElement, 'hover');
+    } else {
+      this.renderer.removeClass(this.selectedElement, 'hover');
+    }
+  }
+
+  toggleActive() {
+    if (!this.selectedElement.classList.contains('active')) {
+      this.renderer.addClass(this.selectedElement, 'active');
+    } else {
+      this.renderer.removeClass(this.selectedElement, 'active');
+    }
+  }
+
+  toggleFocus() {
+    if (!this.selectedElement.classList.contains('focus')) {
+      this.renderer.addClass(this.selectedElement, 'focus');
+    } else {
+      this.renderer.removeClass(this.selectedElement, 'focus');
+    }
+  }
+
+  toggleFadeIn() {
+    if (!this.selectedElement.hasAttribute('fadeIn')) {
+      this.renderer.setAttribute(this.selectedElement, 'fadeIn', '');
+    } else {
+      this.renderer.removeAttribute(this.selectedElement, 'fadeIn');
+    }
+  }
+
+  toggleSlideDown() {
+    if (!this.selectedElement.hasAttribute('slideDown')) {
+      this.renderer.setAttribute(this.selectedElement, 'slideDown', '');
+    } else {
+      this.renderer.removeAttribute(this.selectedElement, 'slideDown');
+    }
+  }
+
+  toggleSlideToRight() {
+    if (!this.selectedElement.hasAttribute('slideToRight')) {
+      this.renderer.setAttribute(this.selectedElement, 'slideToRight', '');
+    } else {
+      this.renderer.removeAttribute(this.selectedElement, 'slideToRight');
+    }
+  }
+
+  hasChildren() {
+    const isUl = this.selectedElement.tagName === 'UL';
+    const isOl = this.selectedElement.tagName === 'OL';
+    const isSelect = this.selectedElement.tagName === 'SELECT';
+    const isDl = this.selectedElement.tagName === 'DL';
+
+    return isUl || isOl || isSelect || isDl;
+  }
+
+  addItem() {
+    // UL AND OL
+    if (this.selectedElement.tagName === 'UL' || this.selectedElement.tagName === 'OL') {
+      const li = this.renderer.createElement('li');
+      const liText = this.renderer.createText('New item');
+
+      const ngID = this.selectedElement.outerHTML.match(/_ngcontent-\w+-\w+/);
+
+      this.selectedService.generateUUID(li);
+      this.renderer.setAttribute(li, ngID[0], '');
+
+      this.renderer.appendChild(li, liText);
+      this.renderer.appendChild(this.selectedElement, li);
+
+      const oldNgID = (li as HTMLElement).attributes[0];
+      this.renderer.removeAttribute(li, oldNgID.name);
+    }
+
+    // SELECT
+    if (this.selectedElement.tagName === 'SELECT') {
+      const option = this.renderer.createElement('option');
+      const optionText = this.renderer.createText('New option');
+
+      const ngID = this.selectedElement.outerHTML.match(/_ngcontent-\w+-\w+/);
+
+      this.selectedService.generateUUID(option);
+      this.renderer.setAttribute(option, ngID[0], '');
+
+      this.renderer.appendChild(option, optionText);
+      this.renderer.appendChild(this.selectedElement, option);
+
+      const oldNgID = (option as HTMLElement).attributes[0];
+      this.renderer.removeAttribute(option, oldNgID.name);
+    }
+
+    // DL
+    if (this.selectedElement.tagName === 'DL') {
+      const dt = this.renderer.createElement('dt');
+      const dtText = this.renderer.createText('New title');
+
+      const dd = this.renderer.createElement('dd');
+      const ddText = this.renderer.createText('New description');
+
+      const ngID = this.selectedElement.outerHTML.match(/_ngcontent-\w+-\w+/);
+
+      this.selectedService.generateUUID(dt);
+      this.selectedService.generateUUID(dd);
+
+      this.renderer.setAttribute(dt, ngID[0], '');
+      this.renderer.setAttribute(dd, ngID[0], '');
+
+      this.renderer.appendChild(dt, dtText);
+      this.renderer.appendChild(dd, ddText);
+      this.renderer.appendChild(this.selectedElement, dt);
+      this.renderer.appendChild(this.selectedElement, dd);
+
+      const oldNgDtID = (dt as HTMLElement).attributes[0];
+      const oldNgDDID = (dd as HTMLElement).attributes[0];
+
+      this.renderer.removeAttribute(dt, oldNgDtID.name);
+      this.renderer.removeAttribute(dd, oldNgDDID.name);
+    }
   }
 }

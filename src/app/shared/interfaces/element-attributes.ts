@@ -30,4 +30,11 @@ export default interface ElementAttributes {
   // Blur
   hasBlur: boolean;
   blur: number;
+  //Animations
+  hasHover: boolean;
+  hasActive: boolean;
+  hasFocus: boolean;
+  hasFadeIn: boolean;
+  hasSlideDown: boolean;
+  hasSlideToRight: boolean;
 }

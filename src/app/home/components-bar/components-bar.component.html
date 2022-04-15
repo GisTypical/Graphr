@@ -26,23 +26,11 @@
           <article>
             <div cdkDrag>
               <li class="component">
-                <figure class="default-style">
-                  <img src="../../../assets/images/image.png" alt="Image Component" class="default-style">
-                </figure>
+                <img class="default-style" src="../../../assets/images/image.png" alt="Image Component" class="default-style">
                 <span class="component-title">Image</span>
               </li>
               <div *cdkDragPlaceholder></div>
-              <figure class="default-style" *cdkDragPreview>
-                <img src="../../../assets/images/image.png" alt="Image Component" class="default-style">
-              </figure>
-            </div>
-          </article>
-
-          <article>
-            <div cdkDrag>
-              <li class="component"><span class="component-title">Table</span></li>
-              <div *cdkDragPlaceholder></div>
-              <li *cdkDragPreview><span>Table</span></li>
+              <img class="default-style" src="../../../assets/images/image.png" alt="Image Component" class="default-style" *cdkDragPreview>
             </div>
           </article>
 
@@ -87,14 +75,6 @@
         <ul class="flex" cdkDropList cdkDropListSortingDisabled>
           <article>
             <div cdkDrag>
-              <li class="component"><span class="component-title">Link text</span></li>
-              <div *cdkDragPlaceholder></div>
-              <li *cdkDragPreview><span>Link text</span></li>
-            </div>
-          </article>
-
-          <article>
-            <div cdkDrag>
               <li class="component">
                 <p class="default-style">A paragraph</p>
                 <span class="component-title">Paragraph</span>
@@ -107,11 +87,22 @@
           <article>
             <div cdkDrag>
               <li class="component">
-                <h1 class="default-style">A header</h1>
-                <span class="component-title">Heading</span>
+                <h1 class="default-style">A big title</h1>
+                <span class="component-title">Title</span>
               </li>
               <div *cdkDragPlaceholder></div>
-              <h1 class="default-style" *cdkDragPreview>A header</h1>
+              <h1 class="default-style" *cdkDragPreview>A big title</h1>
+            </div>
+          </article>
+
+          <article>
+            <div cdkDrag>
+              <li class="component">
+                <h2 class="default-style">A subtitle</h2>
+                <span class="component-title">Subtitle</span>
+              </li>
+              <div *cdkDragPlaceholder></div>
+              <h2 class="default-style" *cdkDragPreview>A subtitle</h2>
             </div>
           </article>
 
@@ -214,6 +205,7 @@
           </article>
         </ul>
       </details>
+      
 
       <!--Forms dropdown-->
       <details class="details" open #forms_dropdown (toggle)="toggleDetails()">
@@ -240,7 +232,40 @@
                 <span class="component-title">Text input</span>
               </li>
               <div *cdkDragPlaceholder></div>
-              <input type="text" class="default-style" *cdkDragPreview>
+              <input type="text" class="default-style" placeholder="Text" *cdkDragPreview>
+            </div>
+          </article>
+
+          <article>
+            <div cdkDrag>
+              <li class="component">
+                <input type="password" class="default-style" placeholder="Password">
+                <span class="component-title">Password input</span>
+              </li>
+              <div *cdkDragPlaceholder></div>
+              <input type="password" class="default-style" placeholder="Password" *cdkDragPreview>
+            </div>
+          </article>
+
+          <article>
+            <div cdkDrag>
+              <li class="component">
+                <input type="email" class="default-style" placeholder="Email">
+                <span class="component-title">Email input</span>
+              </li>
+              <div *cdkDragPlaceholder></div>
+              <input type="email" class="default-style" placeholder="Email" *cdkDragPreview>
+            </div>
+          </article>
+
+          <article>
+            <div cdkDrag>
+              <li class="component">
+                <input type="tel" class="default-style" placeholder="Phone">
+                <span class="component-title">Phone input</span>
+              </li>
+              <div *cdkDragPlaceholder></div>
+              <input type="tel" class="default-style" placeholder="Phone" *cdkDragPreview>
             </div>
           </article>
 

@@ -19,6 +19,7 @@ export class ToolbarComponent implements OnInit {
   isMoveMenuOpen = false;
   isElectron = true;
   canvasRect: DOMRect;
+  success: boolean;
 
   constructor(
     private renderer: Renderer2,
@@ -49,7 +50,7 @@ export class ToolbarComponent implements OnInit {
     this.isMoveMenuOpen = !this.isMoveMenuOpen;
   }
 
-  // Generate CSS
+  // GENERATE CSS
   generateCSS(canvasChildren, cssRules): string {
     let css = '';
 
@@ -57,32 +58,16 @@ export class ToolbarComponent implements OnInit {
       const htmlElement = canvasChildren[index] as HTMLElement;
       let elementRules = '';
 
+      // Adding default styles to the css rule
       for (let j = 0; j < cssRules.length; j++) {
         let rule = cssRules[j].cssText;
         rule = rule.replace(cssRules[j].selectorText, '');
         rule = rule.replace('{ ', '');
         rule = rule.replace(' }', '');
 
-        // Colors
-        rule = rule.replace('var(--winter-sky)', '#f52276');
-        rule = rule.replace('var(--plum-web)', '#f0a5f1');
-        rule = rule.replace('var(--columbia-blue)', '#ccecfc');
-        rule = rule.replace('var(--dogwood-rose)', '#d61b66');
-        rule = rule.replace('var(--french-mauve)', '#d895da');
-        rule = rule.replace('var(--pewter-blue)', '#a9c6d3');
-        rule = rule.replace('var(--dark-purple)', '#3a2d46');
-        rule = rule.replace('var(--english-violet)', '#4c4057');
-        rule = rule.replace('var(--independence)', '#5c5166');
-        rule = rule.replace('var(--dark-liver)', '#2b2134');
-        rule = rule.replace('var(--black)', '#000000');
-        rule = rule.replace('var(--mid-grey)', '#bbbbbb');
-        rule = rule.replace('var(--light-grey)', '#eeeeee');
-        rule = rule.replace('var(--white)', '#ffffff');
-
         const tagName = htmlElement.tagName;
         const parentTagName = htmlElement.parentElement.tagName;
 
-        // Adding default styles to the css rule
         switch (true) {
           case tagName === 'DIV' && cssRules[j].selectorText === 'div.default-style':
             elementRules += rule;
@@ -106,6 +91,9 @@ export class ToolbarComponent implements OnInit {
             elementRules += rule;
             break;
           case tagName === 'H1' && cssRules[j].selectorText === 'h1.default-style':
+            elementRules += rule;
+            break;
+          case tagName === 'H2' && cssRules[j].selectorText === 'h2.default-style':
             elementRules += rule;
             break;
           case parentTagName === 'APP-CANVAS' && tagName === 'P' && cssRules[j].selectorText === 'p.default-style, span.default-style':
@@ -135,17 +123,17 @@ export class ToolbarComponent implements OnInit {
           case tagName === 'FORM' && cssRules[j].selectorText === 'form.default-style':
             elementRules += rule;
             break;
-          case tagName === 'INPUT' && htmlElement.getAttribute('type') !== 'color' &&
-            cssRules[j].selectorText === 'input.default-style, textarea.default-style, select.default-style, option.default-style':
+          case tagName === 'INPUT' && htmlElement.getAttribute('type') !== 'color' && htmlElement.getAttribute('type') !== 'range' && htmlElement.getAttribute('type') !== 'file' &&
+            cssRules[j].selectorText === 'input.default-style:not(input[type="range"], input[type="checkbox"], input[type="radio"], input[type="file"]), textarea.default-style, select.default-style, option.default-style':
             elementRules += rule;
             break;
-          case tagName === 'TEXTAREA' && cssRules[j].selectorText === 'input.default-style, textarea.default-style, select.default-style, option.default-style':
+          case tagName === 'TEXTAREA' && cssRules[j].selectorText === 'input.default-style:not(input[type="range"], input[type="checkbox"], input[type="radio"], input[type="file"]), textarea.default-style, select.default-style, option.default-style':
             elementRules += rule;
             break;
-          case tagName === 'SELECT' && cssRules[j].selectorText === 'input.default-style, textarea.default-style, select.default-style, option.default-style':
+          case tagName === 'SELECT' && cssRules[j].selectorText === 'input.default-style:not(input[type="range"], input[type="checkbox"], input[type="radio"], input[type="file"]), textarea.default-style, select.default-style, option.default-style':
             elementRules += rule;
             break;
-          case tagName === 'OPTION' && cssRules[j].selectorText === 'input.default-style, textarea.default-style, select.default-style, option.default-style':
+          case tagName === 'OPTION' && cssRules[j].selectorText === 'input.default-style:not(input[type="range"], input[type="checkbox"], input[type="radio"], input[type="file"]), textarea.default-style, select.default-style, option.default-style':
             elementRules += rule;
             break;
           case tagName === 'LABEL' && cssRules[j].selectorText === 'label.default-style':
@@ -158,11 +146,24 @@ export class ToolbarComponent implements OnInit {
           case tagName === 'INPUT' && htmlElement.getAttribute('type') === 'color' && cssRules[j].selectorText === 'input[type="color"].default-style':
             elementRules += rule;
             break;
+          case tagName === 'INPUT' && htmlElement.getAttribute('type') === 'range' && cssRules[j].selectorText === 'input[type="range"].default-style':
+            elementRules += rule;
+            break;
+          case tagName === 'DL' && cssRules[j].selectorText === 'dl.default-style':
+            elementRules += rule;
+            break;
+          case tagName === 'DT' && cssRules[j].selectorText === 'dl.default-style > dt':
+            elementRules += rule;
+            break;
+          case tagName === 'DD' && cssRules[j].selectorText === 'dl.default-style > dd':
+            elementRules += rule;
+            break;
           default:
             break;
         }
       }
 
+      // Calculating real position for the element
       this.canvasRect = htmlElement.parentElement.getBoundingClientRect();
       const elementTop = parseInt(htmlElement.style.top, 10);
       const top = elementTop - this.canvasRect.top;
@@ -170,10 +171,70 @@ export class ToolbarComponent implements OnInit {
       const elementLeft = parseInt(htmlElement.style.left, 10);
       const left = elementLeft - this.canvasRect.left;
 
+      // Getting and formatting element styles from style attribute
       let elementStyles = htmlElement.style.cssText;
+
       elementStyles = elementStyles.replace(/top: \d+/, `top: ${top}`);
       elementStyles = elementStyles.replace(/left: \d+/, `left: ${left}`);
+      elementStyles += `transition: filter 0.2s ease-in-out 0s, border-color 0.2s ease-in-out 0s, 
+      background-color 0.2s ease-in-out 0s, opacity 0.8s ease-in-out 0s, top 1.2s ease-out 0s,
+      left 1.2s ease-out 0s;`;
 
+      // Verifying if the element has a js animation
+      if (htmlElement.hasAttribute('fadeIn')) {
+        elementStyles += 'opacity: 0';
+      }
+
+      if (htmlElement.hasAttribute('slideDown')) {
+        elementStyles = elementStyles.replace(/top: \d+/, `top: -100`);
+      }
+
+      if (htmlElement.hasAttribute('slideToRight')) {
+        elementStyles = elementStyles.replace(/left: \d+/, `left: -1000`);
+      }
+
+      // Verifying if the element has a css animation
+      if (htmlElement.classList.contains('hover')) {
+        let hoverNot = cssRules[42].cssText;
+        hoverNot = hoverNot.replace(cssRules[42].selectorText, '');
+        hoverNot = hoverNot.replace('{', '');
+        hoverNot = hoverNot.replace('}', '');
+
+        css += `#${htmlElement.id}${cssRules[42].selectorText} { ${hoverNot} }`;
+      }
+
+      if (htmlElement.classList.contains('active')) {
+        let active = cssRules[43].cssText;
+
+        active = active.replace(cssRules[43].selectorText, '');
+        active = active.replace('{', '');
+        active = active.replace('}', '');
+
+        css += `#${htmlElement.id}${cssRules[43].selectorText} { ${active} }`;
+      }
+
+      if (htmlElement.classList.contains('focus')) {
+        let focus = cssRules[44].cssText;
+
+        focus = focus.replace(cssRules[44].selectorText, '');
+        focus = focus.replace('{', '');
+        focus = focus.replace('}', '');
+
+        css += `#${htmlElement.id}${cssRules[44].selectorText} { ${focus} }`;
+      }
+
+      // Verifying if element is an input range
+      if (htmlElement.hasAttribute('type') && htmlElement.getAttribute('type') === 'range') {
+        let rangeThumb = cssRules[41].cssText;
+
+        rangeThumb = rangeThumb.replace(cssRules[41].selectorText, '');
+        rangeThumb = rangeThumb.replace('{', '');
+        rangeThumb = rangeThumb.replace('}', '');
+
+        css += `#${htmlElement.id}::-webkit-slider-thumb { ${rangeThumb} }`;
+      }
+
+      // Verifying if the element has children
       if (htmlElement.children.length > 0) {
         css += `#${htmlElement.id} { ${elementRules}\n${elementStyles} }\n${this.generateCSS(htmlElement.children, cssRules)}`;
       } else {
@@ -184,7 +245,7 @@ export class ToolbarComponent implements OnInit {
     return css;
   }
 
-  // Generate HTML
+  // GENERATE HTML
   generateHTML(canvasChildren): string {
     let html = '';
 
@@ -199,17 +260,23 @@ export class ToolbarComponent implements OnInit {
         elementTag = elementTag.replace(/>/, `>${this.generateHTML(htmlElement.children)}`);
       }
 
+      elementTag = elementTag.replace(/ng-untouched ng-pristine ng-val\s*id/, '');
       elementTag = elementTag.replace(/_ngcontent-\w+-\w+=""/, '');
       elementTag = elementTag.replace(`style="${cssText}"`, '');
       elementTag = elementTag.replace(/contenteditable="\w*"/, '');
       elementTag = elementTag.replace(/spellcheck="\w*"/, '');
-      elementTag = elementTag.replace(/class="(\w*\-?\w*\s?)*"/, '');
+      elementTag = elementTag.replace('default-style', '');
+      elementTag = elementTag.replace('selected', '');
       elementTag = elementTag.replace(/open="\w*"/, '');
       elementTag = elementTag.replace(/novalidate=""/, '');
+      elementTag = elementTag.replace('fadein=""', '');
+      elementTag = elementTag.replace('slidedown=""', '');
+      elementTag = elementTag.replace('slidetoright=""', '');
 
       elementTag = elementTag.replace(/\w+\s*/, htmlElement.tagName.toLowerCase());
       elementTag = elementTag.replace('" ', '"');
-      elementTag = elementTag.replace(/type=/, ' type=');
+      elementTag = elementTag.replace('class', ' class');
+      elementTag = elementTag.replace('type=', ' type=');
       elementTag = elementTag.replace('id', ' id');
       elementTag = elementTag.replace('for=', ' for=');
       elementTag = elementTag.replace('src', ' src');
@@ -220,6 +287,53 @@ export class ToolbarComponent implements OnInit {
     return html;
   }
 
+
+  // GENERATE JS
+  generateJS(canvasChildren) {
+    let js = '';
+
+    for (let index = 0; index < canvasChildren.length; index++) {
+      const htmlElement = canvasChildren[index] as HTMLLIElement;
+
+      if (htmlElement.hasAttribute('fadeIn')) {
+        const opacity = htmlElement.style.opacity === '' ? 1 : htmlElement.style.opacity;
+
+        js += `const fadeIn_${index} = new FadeInAnimation('${htmlElement.id}', ${opacity})
+        fadeIn_${index}.fadeIn()\n`;
+      }
+
+      if (htmlElement.hasAttribute('slideDown')) {
+        // Calculating real position for the element
+        this.canvasRect = htmlElement.parentElement.getBoundingClientRect();
+        const elementTop = parseInt(htmlElement.style.top, 10);
+        const top = elementTop - this.canvasRect.top;
+
+        const elementLeft = parseInt(htmlElement.style.left, 10);
+        const left = elementLeft - this.canvasRect.left;
+
+        js += `const slideDown_${index} = new SlideAnimation('${htmlElement.id}', '${top}px', '${left}px')
+        slideDown_${index}.slideDown()\n`;
+      }
+
+      if (htmlElement.hasAttribute('slideToRight')) {
+        this.canvasRect = htmlElement.parentElement.getBoundingClientRect();
+        const elementTop = parseInt(htmlElement.style.top, 10);
+        const top = elementTop - this.canvasRect.top;
+
+        const elementLeft = parseInt(htmlElement.style.left, 10);
+        const left = elementLeft - this.canvasRect.left;
+
+        js += `const slideToRight_${index} = new SlideAnimation('${htmlElement.id}', '${top}px', '${left}px')
+        slideToRight_${index}.slideToRight()\n`;
+      }
+
+      js += '\n';
+    }
+
+    return js;
+  }
+
+
   // GENERATE PAGE FILES
   generatePageFiles(): void {
     const stylesheet: any = document.styleSheets[5].cssRules;
@@ -228,6 +342,22 @@ export class ToolbarComponent implements OnInit {
     for (let index = 0; index < stylesheet.length; index++) {
       let rule = stylesheet[index].cssText;
       rule = rule.replace(/\[_ngcontent-\w*-\w*\]/g, '');
+
+      // Colors
+      rule = rule.replace('var(--winter-sky)', '#f52276');
+      rule = rule.replace('var(--plum-web)', '#f0a5f1');
+      rule = rule.replace('var(--columbia-blue)', '#ccecfc');
+      rule = rule.replace('var(--dogwood-rose)', '#d61b66');
+      rule = rule.replace('var(--french-mauve)', '#d895da');
+      rule = rule.replace('var(--pewter-blue)', '#a9c6d3');
+      rule = rule.replace('var(--dark-purple)', '#3a2d46');
+      rule = rule.replace('var(--english-violet)', '#4c4057');
+      rule = rule.replace('var(--independence)', '#5c5166');
+      rule = rule.replace('var(--dark-liver)', '#2b2134');
+      rule = rule.replace('var(--black)', '#000000');
+      rule = rule.replace('var(--mid-grey)', '#bbbbbb');
+      rule = rule.replace('var(--light-grey)', '#eeeeee');
+      rule = rule.replace('var(--white)', '#ffffff');
 
       let selectorText = stylesheet[index].selectorText;
       selectorText = selectorText.replace(/\[_ngcontent-\w*-\w*\]/g, '');
@@ -243,9 +373,39 @@ export class ToolbarComponent implements OnInit {
     const css = this.generateCSS(canvasChildren, cssRules);
     const html = this.generateHTML(canvasChildren);
     const pageTitle = document.querySelector('.title h1').textContent;
-    console.log(html);
+    const js = this.generateJS(canvasChildren);
+    const spinner = document.getElementById('spinner');
 
-    this.electronService.invoke('generate', css, html, pageTitle)
-      .then(result => console.log(result));
+    this.electronService.invoke('generate', html, css, js, pageTitle)
+      .then(result => {
+        spinner.style.opacity = '1';
+        spinner.style.visibility = 'visible';
+
+        if (result) {
+          spinner.style.opacity = '0';
+          spinner.style.visibility = 'hidden';
+
+          const container = document.getElementById('success-generate');
+          container.style.opacity = '1';
+          container.style.visibility = 'visible';
+
+          setTimeout(() => {
+            container.style.opacity = '0';
+            container.style.visibility = 'hidden';
+          }, 2000);
+        } else {
+          spinner.style.opacity = '0';
+          spinner.style.visibility = 'hidden';
+
+          const container = document.getElementById('fail-generate');
+          container.style.opacity = '1';
+          container.style.visibility = 'visible';
+
+          setTimeout(() => {
+            container.style.opacity = '0';
+            container.style.visibility = 'hidden';
+          }, 2000);
+        }
+      });
   }
 }

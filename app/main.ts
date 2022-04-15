@@ -24,6 +24,7 @@ function createWindow(): BrowserWindow {
     titleBarStyle: 'hidden',
     frame: false,
     webPreferences: {
+      webSecurity: false,
       nodeIntegration: true,
       allowRunningInsecureContent: serve ? true : false,
       contextIsolation: false, // false if you want to run e2e test with Spectron
@@ -86,10 +87,23 @@ try {
       return 'Pong!';
     });
 
+    ipcMain.handle('image', (event, message) => {
+      const img = dialog.showOpenDialogSync({
+        title: 'Select an image',
+        filters: [{ name: 'Images', extensions: ['jpg', 'jpeg', 'png', 'svg'] }]
+      })
+
+      if (img !== undefined) {
+        const imgPath = path.normalize(img[0])
+        return imgPath
+      }
+    })
+
     ipcMain.handle('generate', (event, message) => {
-      const css = message[0]
-      const html = message[1]
-      const pageTitle = message[2]
+      const html = message[0]
+      const css = message[1]
+      const js = message[2]
+      const pageTitle = message[3]
 
       const result = dialog.showSaveDialogSync({
         title: 'Select the folder path to save the page files',
@@ -117,6 +131,7 @@ try {
           
           <body>
             ${html}
+            <script src="index.js"></script>
           </body>
           
           </html>`))
@@ -134,18 +149,54 @@ try {
               src: url(Roboto-Medium.ttf);
           }`, { format: 'css' }))
 
+          // CREATING JS
+          fs.writeFileSync(path.join(dirPath, 'index.js'), beautify(`class FadeInAnimation {
+
+            constructor(elementID, opacity) {
+                this.elementID = elementID
+                this.opacity = opacity
+            }
+        
+            fadeIn() {
+                const element = document.getElementById(this.elementID)
+                element.style.opacity = this.opacity
+            }
+          }
+
+          class SlideAnimation {
+            constructor(elementID, top, left) {
+                this.elementID = elementID
+                this.top = top
+                this.left = left
+            }
+        
+            slideDown() {
+                const element = document.getElementById(this.elementID)
+                element.style.top = this.top
+            }
+
+            slideToRight() {
+              const element = document.getElementById(this.elementID)
+              element.style.left = this.left
+            }
+          }
+          
+          window.onload = () => {
+              ${js}
+          }`, { format: 'js' }))
+
           //CREATING FONTS
-          fs.copyFileSync(path.join(__dirname, '..', 'src', 'assets', 'fonts', 'roboto', 'Roboto-Regular.ttf'), 
-          path.join(dirPath, 'Roboto-Regular.ttf'))
+          fs.copyFileSync(path.join(__dirname, '..', 'src', 'assets', 'fonts', 'roboto', 'Roboto-Regular.ttf'),
+            path.join(dirPath, 'Roboto-Regular.ttf'))
 
           fs.copyFileSync(path.join(__dirname, '..', 'src', 'assets', 'fonts', 'roboto', 'Roboto-Medium.ttf'),
-          path.join(dirPath, 'Roboto-Medium.ttf'))
+            path.join(dirPath, 'Roboto-Medium.ttf'))
 
-          return 'Page files created successfully ✨'
+          return true
 
         } catch (error) {
           console.error(error)
-          return 'Something went wrong 😭'
+          return false
         }
       }
     })

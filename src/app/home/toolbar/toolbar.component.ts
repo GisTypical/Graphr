@@ -119,17 +119,17 @@ export class ToolbarComponent implements OnInit {
           case tagName === 'FORM' && cssRules[j].selectorText === 'form.default-style':
             elementRules += rule;
             break;
-          case tagName === 'INPUT' && htmlElement.getAttribute('type') !== 'color' &&
-            cssRules[j].selectorText === 'input.default-style, textarea.default-style, select.default-style, option.default-style':
+          case tagName === 'INPUT' && htmlElement.getAttribute('type') !== 'color' && htmlElement.getAttribute('type') !== 'range' && htmlElement.getAttribute('type') !== 'file' &&
+            cssRules[j].selectorText === 'input.default-style:not(input[type="range"], input[type="checkbox"], input[type="radio"], input[type="file"]), textarea.default-style, select.default-style, option.default-style':
             elementRules += rule;
             break;
-          case tagName === 'TEXTAREA' && cssRules[j].selectorText === 'input.default-style, textarea.default-style, select.default-style, option.default-style':
+          case tagName === 'TEXTAREA' && cssRules[j].selectorText === 'input.default-style:not(input[type="range"], input[type="checkbox"], input[type="radio"], input[type="file"]), textarea.default-style, select.default-style, option.default-style':
             elementRules += rule;
             break;
-          case tagName === 'SELECT' && cssRules[j].selectorText === 'input.default-style, textarea.default-style, select.default-style, option.default-style':
+          case tagName === 'SELECT' && cssRules[j].selectorText === 'input.default-style:not(input[type="range"], input[type="checkbox"], input[type="radio"], input[type="file"]), textarea.default-style, select.default-style, option.default-style':
             elementRules += rule;
             break;
-          case tagName === 'OPTION' && cssRules[j].selectorText === 'input.default-style, textarea.default-style, select.default-style, option.default-style':
+          case tagName === 'OPTION' && cssRules[j].selectorText === 'input.default-style:not(input[type="range"], input[type="checkbox"], input[type="radio"], input[type="file"]), textarea.default-style, select.default-style, option.default-style':
             elementRules += rule;
             break;
           case tagName === 'LABEL' && cssRules[j].selectorText === 'label.default-style':
@@ -140,6 +140,9 @@ export class ToolbarComponent implements OnInit {
             elementRules += rule;
             break;
           case tagName === 'INPUT' && htmlElement.getAttribute('type') === 'color' && cssRules[j].selectorText === 'input[type="color"].default-style':
+            elementRules += rule;
+            break;
+          case tagName === 'INPUT' && htmlElement.getAttribute('type') === 'range' && cssRules[j].selectorText === 'input[type="range"].default-style':
             elementRules += rule;
             break;
           default:
@@ -179,22 +182,22 @@ export class ToolbarComponent implements OnInit {
 
       // Verifying if the element has a css animation
       if (htmlElement.classList.contains('hover')) {
-        let hoverNot = cssRules[38].cssText;
-        hoverNot = hoverNot.replace(cssRules[38].selectorText, '');
+        let hoverNot = cssRules[40].cssText;
+        hoverNot = hoverNot.replace(cssRules[40].selectorText, '');
         hoverNot = hoverNot.replace('{', '');
         hoverNot = hoverNot.replace('}', '');
 
-        css += `#${htmlElement.id}${cssRules[38].selectorText} { ${hoverNot} }`;
+        css += `#${htmlElement.id}${cssRules[40].selectorText} { ${hoverNot} }`;
       }
 
       if (htmlElement.classList.contains('active')) {
-        let active = cssRules[39].cssText;
+        let active = cssRules[41].cssText;
 
-        active = active.replace(cssRules[39].selectorText, '');
+        active = active.replace(cssRules[41].selectorText, '');
         active = active.replace('{', '');
         active = active.replace('}', '');
 
-        css += `#${htmlElement.id}${cssRules[39].selectorText} { ${active} }`;
+        css += `#${htmlElement.id}${cssRules[41].selectorText} { ${active} }`;
       }
 
       if (htmlElement.classList.contains('focus')) {
@@ -204,7 +207,17 @@ export class ToolbarComponent implements OnInit {
         focus = focus.replace('{', '');
         focus = focus.replace('}', '');
 
-        css += `#${htmlElement.id}${cssRules[40].selectorText} { ${focus} }`;
+        css += `#${htmlElement.id}${cssRules[41].selectorText} { ${focus} }`;
+      }
+
+      if (htmlElement.hasAttribute('type') && htmlElement.getAttribute('type') === 'range') {
+        let rangeThumb = cssRules[39].cssText;
+
+        rangeThumb = rangeThumb.replace(cssRules[39].selectorText, '');
+        rangeThumb = rangeThumb.replace('{', '');
+        rangeThumb = rangeThumb.replace('}', '');
+
+        css += `#${htmlElement.id}::-webkit-slider-thumb { ${rangeThumb} }`;
       }
 
       // Verifying if the element has children
@@ -341,13 +354,14 @@ export class ToolbarComponent implements OnInit {
       });
     }
 
+    console.log(cssRules);
+
     const canvas = document.getElementsByTagName('app-canvas')[0].children;
     const canvasChildren = Array.from(canvas);
     const css = this.generateCSS(canvasChildren, cssRules);
     const html = this.generateHTML(canvasChildren);
     const pageTitle = document.querySelector('.title h1').textContent;
     const js = this.generateJS(canvasChildren);
-    console.log(html);
 
     this.electronService.invoke('generate', html, css, js, pageTitle)
       .then(result => console.log(result));

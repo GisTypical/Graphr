@@ -146,7 +146,10 @@ aside {
   user-select: none;
   font-family: roboto;
   transition: filter 0.2s ease-in-out 0s, border-color 0.2s ease-in-out 0s,
-    background-color 0.2s ease-in-out 0s;
+    background-color 0.15s ease-in-out 0s, opacity 0.2s ease-in-out 0s,
+    color 0.1s ease-in-out 0s, width 0.2s ease-in-out 0s, height 0.2s ease-in-out 0s,
+    border-radius 0.2s ease-in-out 0s, border-width 0.2s ease-in-out 0s,
+    border-style 0.2s ease-in-out 0s, z-index 0.2s ease-in-out 0s;
 }
 
 button.default-style {
@@ -224,7 +227,17 @@ h1.default-style {
 
   font: {
     family: roboto;
+    size: 1.7em;
   }
+}
+
+h2.default-style {
+  color: var(--white);
+
+  font: {
+    family: roboto;
+    size: 1.35em
+  };
 }
 
 p.default-style,
@@ -282,7 +295,7 @@ form.default-style {
   border-radius: 5px;
 }
 
-input.default-style,
+input.default-style:not(input[type="range"], input[type="checkbox"], input[type="radio"], input[type="file"]),
 textarea.default-style,
 select.default-style,
 option.default-style {
@@ -317,6 +330,26 @@ input[type="color"].default-style {
   border: 2px solid var(--light-grey);
   font-family: roboto;
   resize: none;
+}
+
+input[type="range"].default-style {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 85px;
+  height: 7px;
+  background-color: var(--light-grey);
+  opacity: 0.9;
+  border-radius: 5px;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 15px;
+  height: 15px;
+  background: var(--french-mauve);
+  cursor: pointer;
+  border-radius: 50%;
 }
 
 .hover:hover {

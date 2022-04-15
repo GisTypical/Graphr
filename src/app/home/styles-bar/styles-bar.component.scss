@@ -2,12 +2,25 @@
 
 aside {
   background-color: var(--dark-purple);
-  width: 14.2em;
+  width: 15.2em;
   height: 55.5em;
   display: flex;
   justify-content: flex-start;
   align-items: center;
   flex-flow: column wrap;
+}
+
+::-webkit-scrollbar {
+  width: 0.45em;
+}
+
+::-webkit-scrollbar-track {
+  background-color: var(--english-violet);
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: var(--independence);
+  border-radius: 10px;
 }
 
 .tabs {
@@ -28,18 +41,20 @@ aside {
     font: {
       family: questrial;
       size: 0.8em;
-    };
+    }
   }
 }
 
 .deactivated {
   background-color: transparent;
   color: var(--french-mauve);
+  transition: all 0.2s ease-in-out 0s;
 }
 
 .activated {
   background-color: var(--independence);
   color: var(--columbia-blue);
+  transition: all 0.2s ease-in-out 0s;
 }
 
 .content {
@@ -50,12 +65,14 @@ aside {
   flex-flow: column wrap;
   text-align: center;
   color: var(--french-mauve);
+  overflow-y: scroll;
+  padding-block: 1em;
 
   > p {
     font: {
       family: karla_medium;
       size: 0.8em;
-    };
+    }
   }
 
   > i {
@@ -64,7 +81,7 @@ aside {
   }
 }
 
-form { 
+form {
   display: flex;
   flex-direction: column;
   gap: 0.8rem;
@@ -74,7 +91,7 @@ form {
 .styles-group {
   background-color: var(--english-violet);
   border-radius: 0.5em;
-  padding: 1em 0.5em;
+  padding: 1em 0.8em;
   margin: 0 0.75em;
   color: var(--light-grey);
 }
@@ -87,7 +104,7 @@ form {
   margin-bottom: 0.5em;
 }
 
-.dimensions { 
+.dimensions {
   grid-template-columns: 1fr 1fr;
   justify-items: center;
   gap: 1rem 2rem;
@@ -98,10 +115,10 @@ form {
     color: var(--winter-sky);
     font-weight: bold;
     align-items: center;
-  
-    input[type="number"] {
+
+    input[type='number'] {
       background-color: transparent;
-  
+
       &::-webkit-inner-spin-button {
         appearance: none;
       }
@@ -155,6 +172,12 @@ form {
   background-color: var(--winter-sky);
   border-radius: 0.75em;
   border: none;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out 0s;
+}
+
+.organize-button:hover {
+  background-color: var(--dogwood-rose);
 }
 
 .organize-button:active {
@@ -163,10 +186,12 @@ form {
 
 .popup {
   position: absolute;
-  background-color: var(--english-violet);
+  background: 
+    linear-gradient(var(--english-violet), var(--english-violet)) padding-box,
+    linear-gradient(to right, var(--winter-sky), var(--columbia-blue)) border-box;
   width: 12.375rem;
-  border: 1px solid;
-  border-image: linear-gradient(to right, var(--winter-sky), var(--columbia-blue)) 1;
+  border-radius: 10px;
+  border: 1px solid transparent;
   align-items: center;
 
   font: {
@@ -188,19 +213,19 @@ form {
     color: var(--winter-sky);
     font-weight: bold;
     align-items: center;
-  
-    input[type="number"] {
+
+    input[type='number'] {
       background-color: transparent;
-  
+
       &::-webkit-inner-spin-button {
         appearance: none;
       }
     }
 
-    &:last-child{
+    &:last-child {
       margin-right: 0.5em;
 
-      input[type="number"]{
+      input[type='number'] {
         background-color: var(--dark-liver);
       }
     }
@@ -212,7 +237,7 @@ form {
   }
 }
 
-.opacity-popup { 
+.opacity-popup {
   height: 3rem;
   display: flex;
   gap: 1em;
@@ -224,6 +249,19 @@ form {
   user-select: none;
   width: 100%;
   text-align: left;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-flow: row wrap;
+  transition: background-color 0.2s ease-in-out 0s;
+
+  > i {
+    color: var(--columbia-blue);
+  }
+}
+
+.label-drop:hover {
+  background-color: var(--independence);
 }
 
 // General
@@ -236,38 +274,49 @@ form {
   display: flex;
 }
 
-input[type="color"] {
+input[type='color'] {
   border: 0;
   padding: 3px;
   height: 1.5rem;
   background-color: var(--independence);
   border-radius: 0.2em;
+  cursor: pointer;
 }
 
-input[type="color"]::-webkit-color-swatch-wrapper {
+input[type='color']::-webkit-color-swatch-wrapper {
   padding: 0;
 }
 
-input[type="color"]::-webkit-color-swatch {
+input[type='color']::-webkit-color-swatch {
   border: none;
   border-radius: 0.2em;
 }
 
-input[type="checkbox"] {
+input[type='checkbox'] {
   accent-color: var(--columbia-blue);
 }
 
-input[type="number"], select {
+input[type='checkbox']:hover {
+  accent-color: var(--pewter-blue);
+}
+
+input[type='number'],
+select {
   width: 2.5em;
   background-color: var(--dark-purple);
   color: var(--light-grey);
   border: none;
   font-family: karla_medium;
   font-size: 0.8rem;
+  transition: background-color 0.2s ease-in-out 0s;
 
   &::-webkit-inner-spin-button {
     appearance: none;
   }
+}
+
+select:hover {
+  background-color: var(--dark-liver);
 }
 
 label {

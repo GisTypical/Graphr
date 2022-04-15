@@ -131,6 +131,13 @@ export class StylesBarComponent implements OnInit {
 
     this.elementAtt.hasBlur = blur !== 'none';
     this.elementAtt.blur = this.elementAtt.hasBlur ? parseInt(blur.match(/\d+/gm)[0], 10) : 0;
+
+    this.elementAtt.hasHover = this.selectedElement.classList.contains('hover');
+    this.elementAtt.hasActive = this.selectedElement.classList.contains('active');
+    this.elementAtt.hasFocus = this.selectedElement.classList.contains('focus');
+    this.elementAtt.hasFadeIn = this.selectedElement.hasAttribute('fadeIn');
+    this.elementAtt.hasSlideDown = this.selectedElement.hasAttribute('slideDown');
+    this.elementAtt.hasSlideToRight = this.selectedElement.hasAttribute('slideToRight');
   }
 
   isElementSelected(): boolean {
@@ -188,7 +195,7 @@ export class StylesBarComponent implements OnInit {
         'background',
         `
           linear-gradient(${this.elementAtt.gradientDirection}, 
-          ${this.elementAtt.hasFill? this.elementAtt.bgColor : 'transparent'}, 
+          ${this.elementAtt.hasFill ? this.elementAtt.bgColor : 'transparent'}, 
           ${this.elementAtt.gradient})
         `
       );
@@ -337,5 +344,53 @@ export class StylesBarComponent implements OnInit {
 
   toggleBlurMenu() {
     this.isBlurMenu = !this.isBlurMenu;
+  }
+
+  toggleHover() {
+    if (!this.selectedElement.classList.contains('hover')) {
+      this.renderer.addClass(this.selectedElement, 'hover');
+    } else {
+      this.renderer.removeClass(this.selectedElement, 'hover');
+    }
+  }
+
+  toggleActive() {
+    if (!this.selectedElement.classList.contains('active')) {
+      this.renderer.addClass(this.selectedElement, 'active');
+    } else {
+      this.renderer.removeClass(this.selectedElement, 'active');
+    }
+  }
+
+  toggleFocus() {
+    if (!this.selectedElement.classList.contains('focus')) {
+      this.renderer.addClass(this.selectedElement, 'focus');
+    } else {
+      this.renderer.removeClass(this.selectedElement, 'focus');
+    }
+  }
+
+  toggleFadeIn() {
+    if (!this.selectedElement.hasAttribute('fadeIn')) {
+      this.renderer.setAttribute(this.selectedElement, 'fadeIn', '');
+    } else {
+      this.renderer.removeAttribute(this.selectedElement, 'fadeIn');
+    }
+  }
+
+  toggleSlideDown() {
+    if (!this.selectedElement.hasAttribute('slideDown')) {
+      this.renderer.setAttribute(this.selectedElement, 'slideDown', '');
+    } else {
+      this.renderer.removeAttribute(this.selectedElement, 'slideDown');
+    }
+  }
+
+  toggleSlideToRight() {
+    if (!this.selectedElement.hasAttribute('slideToRight')) {
+      this.renderer.setAttribute(this.selectedElement, 'slideToRight', '');
+    } else {
+      this.renderer.removeAttribute(this.selectedElement, 'slideToRight');
+    }
   }
 }

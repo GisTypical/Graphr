@@ -1,6 +1,6 @@
 <aside>
   <div class="tabs">
-    <button type="button" class="deactivated">Styles</button>
+    <button type="button" [ngClass]="isElementSelected() ? 'activated' : 'deactivated'">Styles</button>
     <button type="button" class="deactivated">Presets</button>
   </div>
 
@@ -137,7 +137,7 @@
               type="color"
               name="background"
               [(ngModel)]="elementAtt.gradient"
-              (input)="changeGradient($event)"
+              (input)="changeGradient()"
               [disabled]="!elementAtt.hasGradient"
             />
           </div>
@@ -237,7 +237,10 @@
           <!-- BOX SHADOW -->
           <div class="checkbox-label">
             <input type="checkbox" [(ngModel)]="elementAtt.hasBoxShadow" name="checkbox-shadow" id="checkbox-shadow" (change)="toggleBoxShadow()">
-            <label class="label-drop" (click)="toggleShadowMenu()">Drop Shadow</label>
+            <label class="label-drop" (click)="toggleShadowMenu()">
+              Drop Shadow
+              <i [ngClass]="isShadowMenu ? 'ph-caret-up' : 'ph-caret-down'"></i>
+            </label>
           </div>
 
           <!-- POPUP -->
@@ -310,7 +313,10 @@
               id="checkbox-blur" 
               (change)="toggleBlur()"
             >
-            <label class="label-drop" (click)="toggleBlurMenu()">Object Blur</label>
+            <label class="label-drop" (click)="toggleBlurMenu()">
+              Object Blur
+              <i [ngClass]="isBlurMenu ? 'ph-caret-up' : 'ph-caret-down'"></i>
+            </label>
           </div>
 
           <!-- POPUP -->
@@ -323,6 +329,47 @@
               [(ngModel)]="elementAtt.blur"
               (input)="changeBlur()"
             />
+          </div>
+        </div>
+
+        <!--ELEMENT ANIMATIONS-->
+        <div class="styles-group">
+          <p class="group-title">Animations</p>
+
+          <!--ON HOVER-->
+          <div class="checkbox-label">
+            <input type="checkbox" [(ngModel)]="elementAtt.hasHover" name="checkbox-hover" id="checkbox-hover" (change)="toggleHover()">
+            <label for="checkbox-hover">On hover</label>
+          </div>
+
+          <!--ON ACTIVE-->
+          <div class="checkbox-label">
+            <input type="checkbox" [(ngModel)]="elementAtt.hasActive" name="checkbox-active" id="checkbox-active" (change)="toggleActive()">
+            <label for="checkbox-active">On active</label>
+          </div>
+
+          <!--ON FOCUS-->
+          <div class="checkbox-label">
+            <input type="checkbox" [(ngModel)]="elementAtt.hasFocus" name="checkbox-focus" id="checkbox-focus" (change)="toggleFocus()">
+            <label for="checkbox-focus">On focus</label>
+          </div>
+
+          <!--FADE IN-->
+          <div class="checkbox-label">
+            <input type="checkbox" [(ngModel)]="elementAtt.hasFadeIn" name="checkbox-fadein" id="checkbox-fadein" (change)="toggleFadeIn()">
+            <label for="checkbox-fadein">Fade in</label>
+          </div>
+
+          <!--SLIDE DOWN-->
+          <div class="checkbox-label">
+            <input type="checkbox" [(ngModel)]="elementAtt.hasSlideDown" name="checkbox-slidedown" id="checkbox-slidedown" (change)="toggleSlideDown()">
+            <label for="checkbox-slidedown">Slide down</label>
+          </div>
+
+          <!--SLIDE TO RIGHT-->
+          <div class="checkbox-label">
+            <input type="checkbox" [(ngModel)]="elementAtt.hasSlideToRight" name="checkbox-slidetoright" id="checkbox-slidetoright" (change)="toggleSlideToRight()">
+            <label for="checkbox-slidetoright">Slide to right</label>
           </div>
         </div>
       </form>

@@ -2,7 +2,6 @@
 import { CdkDragDrop, DragDrop, DragRef, Point } from '@angular/cdk/drag-drop';
 import { Component, ElementRef, HostListener, Renderer2 } from '@angular/core';
 import { SelectedElementsService } from '../../core/services/selected-elements/selected-elements.service';
-import * as uuid from 'uuid';
 import { ElectronService } from '../../core/services';
 
 @Component({
@@ -72,7 +71,7 @@ export class CanvasComponent {
       });
     }
 
-    this.generateUUID(clonedComponent);
+    this.selectedService.generateUUID(clonedComponent);
 
     // Append element for making width and height accessible
     this.renderer.appendChild(this.canvas.nativeElement, clonedComponent);
@@ -83,6 +82,7 @@ export class CanvasComponent {
 
     // Add selection click event for every new element in canvas
     clonedComponent.addEventListener('click', (e) => this.selectElements(e));
+
     // Add event when element is move in canvas
     dragComponent.ended.subscribe((dragEnd) => this.moved(dragEnd));
 
@@ -91,7 +91,7 @@ export class CanvasComponent {
       this.renderer.removeChild(this.canvas.nativeElement, clonedComponent);
     }
 
-    if(clonedComponent.tagName === 'IMG') {
+    if (clonedComponent.tagName === 'IMG') {
       this.electronService.invoke('image').then(img => {
         (clonedComponent as HTMLImageElement).src = img || '../../../assets/images/image.png';
         console.log(img);
@@ -175,16 +175,5 @@ export class CanvasComponent {
       dropPoint.y > canvasRect.y + canvasRect.height - componentRect.height;
 
     return outOfBoundsX || outOfBoundsY;
-  }
-
-  private generateUUID(component: HTMLElement) {
-    const myUUID = uuid.v4();
-    component.id = `_${myUUID}`;
-
-    if (component.children.length > 0) {
-      for (let index = 0; index < component.children.length; index++) {
-        this.generateUUID(component.children[index] as HTMLElement);
-      }
-    }
   }
 }

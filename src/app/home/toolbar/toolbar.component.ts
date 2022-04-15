@@ -19,6 +19,7 @@ export class ToolbarComponent implements OnInit {
   isMoveMenuOpen = false;
   isElectron = true;
   canvasRect: DOMRect;
+  success: boolean;
 
   constructor(
     private renderer: Renderer2,
@@ -92,6 +93,9 @@ export class ToolbarComponent implements OnInit {
           case tagName === 'H1' && cssRules[j].selectorText === 'h1.default-style':
             elementRules += rule;
             break;
+          case tagName === 'H2' && cssRules[j].selectorText === 'h2.default-style':
+            elementRules += rule;
+            break;
           case parentTagName === 'APP-CANVAS' && tagName === 'P' && cssRules[j].selectorText === 'p.default-style, span.default-style':
             elementRules += rule;
             break;
@@ -145,6 +149,15 @@ export class ToolbarComponent implements OnInit {
           case tagName === 'INPUT' && htmlElement.getAttribute('type') === 'range' && cssRules[j].selectorText === 'input[type="range"].default-style':
             elementRules += rule;
             break;
+          case tagName === 'DL' && cssRules[j].selectorText === 'dl.default-style':
+            elementRules += rule;
+            break;
+          case tagName === 'DT' && cssRules[j].selectorText === 'dl.default-style > dt':
+            elementRules += rule;
+            break;
+          case tagName === 'DD' && cssRules[j].selectorText === 'dl.default-style > dd':
+            elementRules += rule;
+            break;
           default:
             break;
         }
@@ -182,38 +195,39 @@ export class ToolbarComponent implements OnInit {
 
       // Verifying if the element has a css animation
       if (htmlElement.classList.contains('hover')) {
-        let hoverNot = cssRules[40].cssText;
-        hoverNot = hoverNot.replace(cssRules[40].selectorText, '');
+        let hoverNot = cssRules[42].cssText;
+        hoverNot = hoverNot.replace(cssRules[42].selectorText, '');
         hoverNot = hoverNot.replace('{', '');
         hoverNot = hoverNot.replace('}', '');
 
-        css += `#${htmlElement.id}${cssRules[40].selectorText} { ${hoverNot} }`;
+        css += `#${htmlElement.id}${cssRules[42].selectorText} { ${hoverNot} }`;
       }
 
       if (htmlElement.classList.contains('active')) {
-        let active = cssRules[41].cssText;
+        let active = cssRules[43].cssText;
 
-        active = active.replace(cssRules[41].selectorText, '');
+        active = active.replace(cssRules[43].selectorText, '');
         active = active.replace('{', '');
         active = active.replace('}', '');
 
-        css += `#${htmlElement.id}${cssRules[41].selectorText} { ${active} }`;
+        css += `#${htmlElement.id}${cssRules[43].selectorText} { ${active} }`;
       }
 
       if (htmlElement.classList.contains('focus')) {
-        let focus = cssRules[40].cssText;
+        let focus = cssRules[44].cssText;
 
-        focus = focus.replace(cssRules[40].selectorText, '');
+        focus = focus.replace(cssRules[44].selectorText, '');
         focus = focus.replace('{', '');
         focus = focus.replace('}', '');
 
-        css += `#${htmlElement.id}${cssRules[41].selectorText} { ${focus} }`;
+        css += `#${htmlElement.id}${cssRules[44].selectorText} { ${focus} }`;
       }
 
+      // Verifying if element is an input range
       if (htmlElement.hasAttribute('type') && htmlElement.getAttribute('type') === 'range') {
-        let rangeThumb = cssRules[39].cssText;
+        let rangeThumb = cssRules[41].cssText;
 
-        rangeThumb = rangeThumb.replace(cssRules[39].selectorText, '');
+        rangeThumb = rangeThumb.replace(cssRules[41].selectorText, '');
         rangeThumb = rangeThumb.replace('{', '');
         rangeThumb = rangeThumb.replace('}', '');
 
@@ -354,16 +368,44 @@ export class ToolbarComponent implements OnInit {
       });
     }
 
-    console.log(cssRules);
-
     const canvas = document.getElementsByTagName('app-canvas')[0].children;
     const canvasChildren = Array.from(canvas);
     const css = this.generateCSS(canvasChildren, cssRules);
     const html = this.generateHTML(canvasChildren);
     const pageTitle = document.querySelector('.title h1').textContent;
     const js = this.generateJS(canvasChildren);
+    const spinner = document.getElementById('spinner');
 
     this.electronService.invoke('generate', html, css, js, pageTitle)
-      .then(result => console.log(result));
+      .then(result => {
+        spinner.style.opacity = '1';
+        spinner.style.visibility = 'visible';
+
+        if (result) {
+          spinner.style.opacity = '0';
+          spinner.style.visibility = 'hidden';
+
+          const container = document.getElementById('success-generate');
+          container.style.opacity = '1';
+          container.style.visibility = 'visible';
+
+          setTimeout(() => {
+            container.style.opacity = '0';
+            container.style.visibility = 'hidden';
+          }, 2000);
+        } else {
+          spinner.style.opacity = '0';
+          spinner.style.visibility = 'hidden';
+
+          const container = document.getElementById('fail-generate');
+          container.style.opacity = '1';
+          container.style.visibility = 'visible';
+
+          setTimeout(() => {
+            container.style.opacity = '0';
+            container.style.visibility = 'hidden';
+          }, 2000);
+        }
+      });
   }
 }

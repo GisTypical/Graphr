@@ -176,6 +176,10 @@ form {
   transition: background-color 0.2s ease-in-out 0s;
 }
 
+.add-item {
+  flex: 1;
+}
+
 .organize-button:hover {
   background-color: var(--dogwood-rose);
 }

@@ -372,6 +372,12 @@
             <label for="checkbox-slidetoright">Slide to right</label>
           </div>
         </div>
+
+        <div class="styles-group" *ngIf="hasChildren()">
+          <div class="flex organize-buttons">
+            <button class="organize-button add-item" (click)="addItem()">Add item</button>
+          </div>
+        </div>
       </form>
     </ng-container>
 

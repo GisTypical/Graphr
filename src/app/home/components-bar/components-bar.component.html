@@ -26,16 +26,10 @@
           <article>
             <div cdkDrag>
               <li class="component">
-                <!-- <figure class="default-style">
-                  <img src="../../../assets/images/image.png" alt="Image Component" class="default-style">
-                </figure> -->
                 <img class="default-style" src="../../../assets/images/image.png" alt="Image Component" class="default-style">
                 <span class="component-title">Image</span>
               </li>
               <div *cdkDragPlaceholder></div>
-              <!-- <figure class="default-style" *cdkDragPreview>
-                <img src="../../../assets/images/image.png" alt="Image Component" class="default-style">
-              </figure> -->
               <img class="default-style" src="../../../assets/images/image.png" alt="Image Component" class="default-style" *cdkDragPreview>
             </div>
           </article>
@@ -188,8 +182,30 @@
               </ol>
             </div>
           </article>
+
+          <article>
+            <div cdkDrag>
+              <li class="component">
+                <dl class="default-style">
+                  <dt>Coffee</dt>
+                  <dd>Black hot drink</dd>
+                  <dt>Milk</dt>
+                  <dd>White cold drink</dd>
+                </dl>
+                <span class="component-title">Description list</span>
+              </li>
+              <div *cdkDragPlaceholder></div>
+              <dl class="default-style" *cdkDragPreview>
+                <dt>Coffee</dt>
+                <dd>Black hot drink</dd>
+                <dt>Milk</dt>
+                <dd>White cold drink</dd>
+              </dl>
+            </div>
+          </article>
         </ul>
       </details>
+      
 
       <!--Forms dropdown-->
       <details class="details" open #forms_dropdown (toggle)="toggleDetails()">

@@ -147,9 +147,10 @@ aside {
   font-family: roboto;
   transition: filter 0.2s ease-in-out 0s, border-color 0.2s ease-in-out 0s,
     background-color 0.15s ease-in-out 0s, opacity 0.2s ease-in-out 0s,
-    color 0.1s ease-in-out 0s, width 0.2s ease-in-out 0s, height 0.2s ease-in-out 0s,
-    border-radius 0.2s ease-in-out 0s, border-width 0.2s ease-in-out 0s,
-    border-style 0.2s ease-in-out 0s, z-index 0.2s ease-in-out 0s;
+    color 0.1s ease-in-out 0s, width 0.2s ease-in-out 0s,
+    height 0.2s ease-in-out 0s, border-radius 0.2s ease-in-out 0s,
+    border-width 0.2s ease-in-out 0s, border-style 0.2s ease-in-out 0s,
+    z-index 0.2s ease-in-out 0s;
 }
 
 button.default-style {
@@ -194,8 +195,6 @@ figure.default-style {
 }
 
 img.default-style {
-  // width: 100%;
-  // height: 100%;
   width: 6em;
   height: 6em;
   user-select: none;
@@ -238,8 +237,8 @@ h2.default-style {
 
   font: {
     family: roboto;
-    size: 1.35em
-  };
+    size: 1.35em;
+  }
 }
 
 p.default-style,
@@ -278,8 +277,14 @@ dl.default-style {
   font-family: roboto;
   border: 1px solid transparent;
 
+  > dt {
+    background-color: #eeeeee50;
+    padding: 0.1em 0.3em;
+    border-radius: 5px;
+  }
+
   > dd {
-    padding-left: 1em;
+    margin-bottom: 0.6em;
   }
 }
 

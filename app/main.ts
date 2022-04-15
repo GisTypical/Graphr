@@ -192,11 +192,11 @@ try {
           fs.copyFileSync(path.join(__dirname, '..', 'src', 'assets', 'fonts', 'roboto', 'Roboto-Medium.ttf'),
             path.join(dirPath, 'Roboto-Medium.ttf'))
 
-          return 'Page files created successfully ✨'
+          return true
 
         } catch (error) {
           console.error(error)
-          return 'Something went wrong 😭'
+          return false
         }
       }
     })

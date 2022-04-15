@@ -24,6 +24,7 @@ function createWindow(): BrowserWindow {
     titleBarStyle: 'hidden',
     frame: false,
     webPreferences: {
+      webSecurity: false,
       nodeIntegration: true,
       allowRunningInsecureContent: serve ? true : false,
       contextIsolation: false, // false if you want to run e2e test with Spectron
@@ -85,6 +86,18 @@ try {
       console.log('se ha hecho un invoke!', message);
       return 'Pong!';
     });
+
+    ipcMain.handle('image', (event, message) => {
+      const img = dialog.showOpenDialogSync({
+        title: 'Select an image',
+        filters: [{ name: 'Images', extensions: ['jpg', 'jpeg', 'png', 'svg'] }]
+      })
+
+      if (img !== undefined) {
+        const imgPath = path.normalize(img[0])
+        return imgPath
+      }
+    })
 
     ipcMain.handle('generate', (event, message) => {
       const html = message[0]

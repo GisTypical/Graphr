@@ -194,8 +194,10 @@ figure.default-style {
 }
 
 img.default-style {
-  width: 100%;
-  height: 100%;
+  // width: 100%;
+  // height: 100%;
+  width: 6em;
+  height: 6em;
   user-select: none;
   cursor: context-menu;
 }

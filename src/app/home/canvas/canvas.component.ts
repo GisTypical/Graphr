@@ -3,6 +3,7 @@ import { CdkDragDrop, DragDrop, DragRef, Point } from '@angular/cdk/drag-drop';
 import { Component, ElementRef, HostListener, Renderer2 } from '@angular/core';
 import { SelectedElementsService } from '../../core/services/selected-elements/selected-elements.service';
 import * as uuid from 'uuid';
+import { ElectronService } from '../../core/services';
 
 @Component({
   selector: 'app-canvas',
@@ -16,7 +17,8 @@ export class CanvasComponent {
     private dragDrop: DragDrop,
     private renderer: Renderer2,
     private canvas: ElementRef,
-    private selectedService: SelectedElementsService
+    private selectedService: SelectedElementsService,
+    private electronService: ElectronService
   ) { }
 
   @HostListener('keydown', ['$event'])
@@ -87,6 +89,13 @@ export class CanvasComponent {
     // Remove added element if it is out of bounds
     if (this.isOutOfBounds(event.dropPoint, clonedComponent)) {
       this.renderer.removeChild(this.canvas.nativeElement, clonedComponent);
+    }
+
+    if(clonedComponent.tagName === 'IMG') {
+      this.electronService.invoke('image').then(img => {
+        (clonedComponent as HTMLImageElement).src = img || '../../../assets/images/image.png';
+        console.log(img);
+      });
     }
   }
 

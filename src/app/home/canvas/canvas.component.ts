@@ -166,6 +166,12 @@ export class CanvasComponent implements AfterViewInit {
     let elementX = (event.dropPoint.x - Math.round(canvasX)) / this.canvasScale;
     let elementY = (event.dropPoint.y - Math.round(canvasY)) / this.canvasScale;
 
+    // Drop element in movement, in the exact pointer position that it was picked up
+    // eslint-disable-next-line no-underscore-dangle
+    elementX = elementX - (event.source as any)._pickupPositionInElement.x / this.canvasScale;
+    // eslint-disable-next-line no-underscore-dangle
+    elementY = elementY - (event.source as any)._pickupPositionInElement.y / this.canvasScale;
+
     this.renderer.setStyle(draggedElement, 'left', `${elementX}px`);
     this.renderer.setStyle(draggedElement, 'top', `${elementY}px`);
   }

@@ -1,5 +1,9 @@
 :host {
+  position: absolute;
+  top: 0;
+  left: 0;
+  aspect-ratio: 16/9;
   height: 55.5em;
-  width: 100%;
   caret-color: var(--dogwood-rose);
+  background-color: var(--dark-liver);
 }

@@ -1,16 +1,25 @@
 /* eslint-disable @typescript-eslint/prefer-for-of */
 import { CdkDragDrop, DragDrop, DragRef, Point } from '@angular/cdk/drag-drop';
-import { Component, ElementRef, HostListener, Renderer2 } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  HostListener,
+  Renderer2,
+  AfterViewInit,
+} from '@angular/core';
 import { SelectedElementsService } from '../../core/services/selected-elements/selected-elements.service';
 import { ElectronService } from '../../core/services';
+import panzoom, { Transform } from 'panzoom';
 
 @Component({
   selector: 'app-canvas',
   templateUrl: './canvas.component.html',
   styleUrls: ['./canvas.component.scss', '../home.component.scss'],
 })
-export class CanvasComponent {
+export class CanvasComponent implements AfterViewInit {
   selectedElements: HTMLElement[] = [];
+
+  private canvasScale: number;
 
   constructor(
     private dragDrop: DragDrop,
@@ -47,18 +56,16 @@ export class CanvasComponent {
     const component = event.item.getRootElement().firstChild.firstChild;
     const clonedComponent = component.cloneNode(true) as HTMLElement;
 
+    const { x: canvasX, y: canvasY } = this.currentCanvasRect();
+
+    // Calculate element's dropped position relying on the canvas `transform`
+    const x = (event.dropPoint.x - Math.round(canvasX)) / this.canvasScale;
+    const y = (event.dropPoint.y - Math.round(canvasY)) / this.canvasScale;
+
     // Set styles to component
     this.renderer.setStyle(clonedComponent, 'position', 'absolute');
-    this.renderer.setStyle(
-      clonedComponent,
-      'left',
-      `${event.dropPoint.x.toString()}px`
-    );
-    this.renderer.setStyle(
-      clonedComponent,
-      'top',
-      `${event.dropPoint.y.toString()}px`
-    );
+    this.renderer.setStyle(clonedComponent, 'left', `${x}px`);
+    this.renderer.setStyle(clonedComponent, 'top', `${y}px`);
 
     this.renderer.setAttribute(clonedComponent, 'contenteditable', 'true');
     this.renderer.setAttribute(clonedComponent, 'spellcheck', 'false');
@@ -78,13 +85,16 @@ export class CanvasComponent {
 
     // Create draggable element from clonedComponent
     const dragComponent = this.dragDrop.createDrag(clonedComponent);
-    dragComponent.withBoundaryElement(this.canvas);
 
     // Add selection click event for every new element in canvas
     clonedComponent.addEventListener('click', (e) => this.selectElements(e));
 
     // Add event when element is move in canvas
     dragComponent.ended.subscribe((dragEnd) => this.moved(dragEnd));
+
+    // constrainPosition determines how the element moves while dragging
+    dragComponent.constrainPosition = (point, dragRef) =>
+      this.constrainPosition(dragRef, point);
 
     // Remove added element if it is out of bounds
     if (this.isOutOfBounds(event.dropPoint, clonedComponent)) {
@@ -97,6 +107,20 @@ export class CanvasComponent {
         console.log(img);
       });
     }
+  }
+
+  ngAfterViewInit(): void {
+    // When component starts convert canvas in a panzoom element
+    const panzoomCanvas = panzoom(this.canvas.nativeElement, {
+      beforeMouseDown: (e) => !e.ctrlKey,
+      maxZoom: 1.1,
+      minZoom: 0.1,
+    });
+
+    // Update canvas scale with every canvas transform
+    panzoomCanvas.on('transform', (e) => {
+      this.canvasScale = panzoomCanvas.getTransform().scale;
+    });
   }
 
   private selectElements(e: MouseEvent) {
@@ -135,19 +159,15 @@ export class CanvasComponent {
     event.source.reset();
 
     const draggedElement = event.source.getRootElement();
-    const elementRect = draggedElement.getBoundingClientRect();
 
-    const elPosition = {
-      x: elementRect.x + event.distance.x,
-      y: elementRect.y + event.distance.y,
-    };
-    // If pointer is out of bounds return (TODO: can be reworked)
-    if (this.isOutOfBounds(elPosition, draggedElement)) {
-      return;
-    }
+    const { x: canvasX, y: canvasY } = this.currentCanvasRect();
 
-    this.renderer.setStyle(draggedElement, 'left', `${elPosition.x}px`);
-    this.renderer.setStyle(draggedElement, 'top', `${elPosition.y}px`);
+    // Calculate element position based of canvas location, and scale
+    let elementX = (event.dropPoint.x - Math.round(canvasX)) / this.canvasScale;
+    let elementY = (event.dropPoint.y - Math.round(canvasY)) / this.canvasScale;
+
+    this.renderer.setStyle(draggedElement, 'left', `${elementX}px`);
+    this.renderer.setStyle(draggedElement, 'top', `${elementY}px`);
   }
 
   /**
@@ -163,17 +183,45 @@ export class CanvasComponent {
     component: HTMLElement
   ) {
     // Get Canvas Dimensions
-    const canvasRect = this.canvas.nativeElement.getBoundingClientRect();
+    const {
+      x: canvasX,
+      y: canvasY,
+      width: canvasWidth,
+      height: canvasHeight,
+    } = this.currentCanvasRect();
+
     const componentRect = component.getBoundingClientRect();
 
     const outOfBoundsX =
-      dropPoint.x < canvasRect.x ||
-      dropPoint.x > canvasRect.x + canvasRect.width - componentRect.width;
+      dropPoint.x < canvasX ||
+      dropPoint.x > canvasX + canvasWidth - componentRect.width;
 
     const outOfBoundsY =
-      dropPoint.y < canvasRect.y ||
-      dropPoint.y > canvasRect.y + canvasRect.height - componentRect.height;
+      dropPoint.y < canvasY ||
+      dropPoint.y > canvasY + canvasHeight - componentRect.height;
 
     return outOfBoundsX || outOfBoundsY;
+  }
+
+  private constrainPosition(dragRef: DragRef<any>, point: Point) {
+    let zoomMoveXDifference = 0;
+    let zoomMoveYDifference = 0;
+
+    // Set element movement constrain based on the canvas scale and the element free position
+    if (this.canvasScale !== 1) {
+      zoomMoveXDifference =
+        (1 - this.canvasScale) * dragRef.getFreeDragPosition().x;
+      zoomMoveYDifference =
+        (1 - this.canvasScale) * dragRef.getFreeDragPosition().y;
+    }
+
+    return {
+      x: point.x + zoomMoveXDifference,
+      y: point.y + zoomMoveYDifference,
+    };
+  }
+
+  private currentCanvasRect(): DOMRect {
+    return this.canvas.nativeElement.getBoundingClientRect();
   }
 }

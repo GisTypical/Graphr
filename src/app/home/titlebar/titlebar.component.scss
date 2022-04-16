@@ -9,6 +9,7 @@
   align-items: center;
   flex-flow: row wrap;
   -webkit-app-region: drag;
+  z-index: 1;
 
   .no-drag {
     -webkit-app-region: no-drag;

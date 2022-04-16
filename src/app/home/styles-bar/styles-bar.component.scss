@@ -1,4 +1,7 @@
 // Stylesbar styles
+:host {
+  z-index: 1;
+}
 
 aside {
   background-color: var(--dark-purple);

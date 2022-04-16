@@ -1,4 +1,5 @@
 import { Component, OnInit, Renderer2 } from '@angular/core';
+import { APP_CONFIG } from '../../../environments/environment';
 import { SelectedElementsService } from '../../core/services/selected-elements/selected-elements.service';
 import ElementAttributes from '../../shared/interfaces/element-attributes';
 import separateAlpha from '../../shared/utils/get-rgb-alpha';
@@ -19,6 +20,10 @@ export class StylesBarComponent implements OnInit {
   // Popups
   isShadowMenu = false;
   isBlurMenu = false;
+
+  // Element Attributs
+  link: string;
+
 
   constructor(
     private selectedService: SelectedElementsService,
@@ -132,12 +137,26 @@ export class StylesBarComponent implements OnInit {
     this.elementAtt.hasBlur = blur !== 'none';
     this.elementAtt.blur = this.elementAtt.hasBlur ? parseInt(blur.match(/\d+/gm)[0], 10) : 0;
 
+    // Animations
     this.elementAtt.hasHover = this.selectedElement.classList.contains('hover');
     this.elementAtt.hasActive = this.selectedElement.classList.contains('active');
     this.elementAtt.hasFocus = this.selectedElement.classList.contains('focus');
     this.elementAtt.hasFadeIn = this.selectedElement.hasAttribute('fadeIn');
     this.elementAtt.hasSlideDown = this.selectedElement.hasAttribute('slideDown');
     this.elementAtt.hasSlideToRight = this.selectedElement.hasAttribute('slideToRight');
+
+    // Anchor and Image
+    this.elementAtt.href = this.selectedElement.getAttribute('href');
+    this.elementAtt.source = this.selectedElement.getAttribute('src');
+
+    // Select
+    if (this.selectedElement.tagName === 'SELECT') {
+      const children = this.selectedElement.children;
+      this.elementAtt.optionChildren = Array.from(children);
+    }
+
+    this.elementAtt.fontSize = parseInt(this.getComputedStyle('fontSize'), 10);
+    this.elementAtt.fontWeight = parseInt(this.getComputedStyle('fontWeight'), 10);
   }
 
   isElementSelected(): boolean {
@@ -166,10 +185,11 @@ export class StylesBarComponent implements OnInit {
 
   changeValue({ target: input }) {
     // Refactor this into another file
-    const pixelBased = ['width', 'height', 'border-radius', 'border-width'];
+    const pixelBased = ['width', 'height', 'border-radius', 'border-width', 'font-size'];
     const degBased = ['rotation'];
     const percentBased = ['opacity'];
     const backgroundBased = ['background-color', 'background', 'gradient-direction'];
+    const numberBased = ['font-weight'];
 
     // Element attribute that's being changed
     const attribute = input.name;
@@ -199,6 +219,11 @@ export class StylesBarComponent implements OnInit {
           ${this.elementAtt.gradient})
         `
       );
+    }
+
+    if (numberBased.indexOf(attribute) !== -1) {
+      const valueNum = parseInt(input.value, 10);
+      this.renderer.setStyle(this.selectedElement, attribute, valueNum);
     }
 
     this.renderer.setStyle(this.selectedElement, input.name, input.value);
@@ -430,12 +455,15 @@ export class StylesBarComponent implements OnInit {
 
       this.selectedService.generateUUID(option);
       this.renderer.setAttribute(option, ngID[0], '');
+      this.renderer.setAttribute(option, 'value', 'New option');
 
       this.renderer.appendChild(option, optionText);
       this.renderer.appendChild(this.selectedElement, option);
 
       const oldNgID = (option as HTMLElement).attributes[0];
       this.renderer.removeAttribute(option, oldNgID.name);
+
+      this.elementAtt.optionChildren.push(option);
     }
 
     // DL
@@ -460,10 +488,30 @@ export class StylesBarComponent implements OnInit {
       this.renderer.appendChild(this.selectedElement, dd);
 
       const oldNgDtID = (dt as HTMLElement).attributes[0];
-      const oldNgDDID = (dd as HTMLElement).attributes[0];
+      const oldNgDdID = (dd as HTMLElement).attributes[0];
 
       this.renderer.removeAttribute(dt, oldNgDtID.name);
-      this.renderer.removeAttribute(dd, oldNgDDID.name);
+      this.renderer.removeAttribute(dd, oldNgDdID.name);
     }
   }
+
+  deleteItem() {
+    if (this.selectedElement.tagName === 'SELECT') {
+      this.selectedElement.removeChild(this.selectedElement.lastChild);
+      this.elementAtt.optionChildren.pop();
+    }
+  }
+
+  setLink(e: Event) {
+    (this.selectedElement as HTMLAnchorElement).href = (e.target as HTMLInputElement).value;
+  }
+
+  setSource(e: Event) {
+    (this.selectedElement as HTMLImageElement).src = (e.target as HTMLInputElement).value;
+  }
+
+  setOptionValue(e: Event, index) {
+   (this.selectedElement.children[index] as HTMLOptionElement).value = (e.target as HTMLInputElement).value;
+  }
+
 }

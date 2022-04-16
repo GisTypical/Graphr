@@ -76,6 +76,17 @@
           <article>
             <div cdkDrag>
               <li class="component">
+                <a class="default-style">A link</a>
+                <span class="component-title">Link text</span>
+              </li>
+              <div *cdkDragPlaceholder></div>
+              <a class="default-style" *cdkDragPreview>A link</a>
+            </div>
+          </article>
+
+          <article>
+            <div cdkDrag>
+              <li class="component">
                 <p class="default-style">A paragraph</p>
                 <span class="component-title">Paragraph</span>
               </li>
@@ -363,19 +374,19 @@
             <div cdkDrag>
               <li class="component">
                 <select name="items" id="items" class="default-style">
-                  <option>Item 1</option>
-                  <option>Item 2</option>
-                  <option>Item 3</option>
-                  <option>Item 4</option>
+                  <option value="Item 1">Item 1</option>
+                  <option value="Item 2">Item 2</option>
+                  <option value="Item 3">Item 3</option>
+                  <option value="Item 4">Item 4</option>
                 </select>
                 <span class="component-title">Select</span>
               </li>
               <div *cdkDragPlaceholder></div>
               <select class="default-style" name="items" id="items" *cdkDragPreview>
-                <option>Item 1</option>
-                <option>Item 2</option>
-                <option>Item 3</option>
-                <option>Item 4</option>
+                <option value="Item 1">Item 1</option>
+                <option value="Item 2">Item 2</option>
+                <option value="Item 3">Item 3</option>
+                <option value="Item 4">Item 4</option>
               </select>
             </div>
           </article>

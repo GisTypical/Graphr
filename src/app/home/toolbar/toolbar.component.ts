@@ -158,6 +158,9 @@ export class ToolbarComponent implements OnInit {
           case tagName === 'DD' && cssRules[j].selectorText === 'dl.default-style > dd':
             elementRules += rule;
             break;
+          case tagName === 'A' && cssRules[j].selectorText === 'a.default-style':
+            elementRules += rule;
+            break;
           default:
             break;
         }
@@ -260,6 +263,7 @@ export class ToolbarComponent implements OnInit {
         elementTag = elementTag.replace(/>/, `>${this.generateHTML(htmlElement.children)}`);
       }
 
+      elementTag = elementTag.replace(/ng-reflect-value="(\w*\s?)*"/, '');
       elementTag = elementTag.replace(/ng-untouched ng-pristine ng-val\s*id/, '');
       elementTag = elementTag.replace(/_ngcontent-\w+-\w+=""/, '');
       elementTag = elementTag.replace(`style="${cssText}"`, '');
@@ -281,6 +285,7 @@ export class ToolbarComponent implements OnInit {
       elementTag = elementTag.replace('for=', ' for=');
       elementTag = elementTag.replace('src', ' src');
       elementTag = elementTag.replace('name', ' name');
+      elementTag = elementTag.replace('value', ' value');
 
       html += `${elementTag}\n`;
     }
@@ -393,7 +398,7 @@ export class ToolbarComponent implements OnInit {
             container.style.opacity = '0';
             container.style.visibility = 'hidden';
           }, 2000);
-        } else {
+        } else if(result === false){
           spinner.style.opacity = '0';
           spinner.style.visibility = 'hidden';
 
@@ -405,6 +410,9 @@ export class ToolbarComponent implements OnInit {
             container.style.opacity = '0';
             container.style.visibility = 'hidden';
           }, 2000);
+        } else {
+          spinner.style.opacity = '0';
+          spinner.style.visibility = 'hidden';
         }
       });
   }

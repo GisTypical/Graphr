@@ -8,6 +8,7 @@ aside {
   justify-content: flex-start;
   align-items: center;
   flex-flow: column wrap;
+  user-select: none;
 }
 
 ::-webkit-scrollbar {
@@ -67,6 +68,7 @@ aside {
   color: var(--french-mauve);
   overflow-y: scroll;
   padding-block: 1em;
+  position: relative;
 
   > p {
     font: {
@@ -197,6 +199,8 @@ form {
   border-radius: 10px;
   border: 1px solid transparent;
   align-items: center;
+  right: 1.5em;
+  margin-top: 0.2em;
 
   font: {
     family: karla;
@@ -258,6 +262,7 @@ form {
   align-items: center;
   flex-flow: row wrap;
   transition: background-color 0.2s ease-in-out 0s;
+  cursor: pointer;
 
   > i {
     color: var(--columbia-blue);
@@ -319,6 +324,24 @@ select {
   }
 }
 
+input[type='text'] {
+  width: 10.5em;
+  background-color: transparent;
+  outline: none;
+  border: none;
+  border-bottom: 1px solid var(--plum-web);
+  color: var(--white);
+
+  font: {
+    size: 0.8rem;
+    family: roboto
+  };
+
+  &::placeholder {
+    color: var(--french-mauve);
+  }
+}
+
 select:hover {
   background-color: var(--dark-liver);
 }
@@ -331,4 +354,27 @@ label {
 .justify-between {
   justify-content: space-between;
   align-items: center;
+}
+
+.link {
+  color: var(--winter-sky);
+}
+
+.edit-items {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  flex-flow: row wrap;
+
+  > button {
+    flex: 1;
+  }
+
+  > button:nth-child(2) {
+    margin-left: 0.8em;
+  }
+
+  > select {
+    flex: 1;
+  }
 }

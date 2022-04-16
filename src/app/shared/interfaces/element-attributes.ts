@@ -13,6 +13,11 @@ export default interface ElementAttributes {
   gradientDirection: string;
   opacity: number;
   zIndex: number;
+  href: string;
+  source: string;
+  optionChildren: Element[];
+  fontSize: number;
+  fontWeight: number;
   // Border Attributes
   borderColor: string;
   borderStyle: string;

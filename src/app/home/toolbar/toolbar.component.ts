@@ -167,12 +167,11 @@ export class ToolbarComponent implements OnInit {
       }
 
       // Calculating real position for the element
-      this.canvasRect = htmlElement.parentElement.getBoundingClientRect();
       const elementTop = parseInt(htmlElement.style.top, 10);
-      const top = elementTop - this.canvasRect.top;
+      const top = elementTop;
 
       const elementLeft = parseInt(htmlElement.style.left, 10);
-      const left = elementLeft - this.canvasRect.left;
+      const left = elementLeft;
 
       // Getting and formatting element styles from style attribute
       let elementStyles = htmlElement.style.cssText;

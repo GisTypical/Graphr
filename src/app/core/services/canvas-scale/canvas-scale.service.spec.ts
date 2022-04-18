@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { ToolbarService } from './toolbar.service';
+import { CanvasScaleService } from './canvas-scale.service';
 
-describe('ToolbarService', () => {
-  let service: ToolbarService;
+describe('CanvasScaleService', () => {
+  let service: CanvasScaleService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(ToolbarService);
+    service = TestBed.inject(CanvasScaleService);
   });
 
   it('should be created', () => {

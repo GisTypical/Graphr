@@ -1,5 +1,13 @@
 /* eslint-disable max-len */
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { CdkDrag, CdkDragMove } from '@angular/cdk/drag-drop';
+import {
+  Component,
+  ElementRef,
+  OnInit,
+  Renderer2,
+  ViewChild,
+} from '@angular/core';
+import { CanvasScaleService } from '../../core/services/canvas-scale/canvas-scale.service';
 
 @Component({
   selector: 'app-components-bar',
@@ -15,9 +23,18 @@ export class ComponentsBarComponent implements OnInit {
   isOpenText = false;
   isOpenForms = false;
 
-  constructor() { }
+  canvasScale = 1;
 
-  ngOnInit(): void { }
+  constructor(
+    private canvasScaleService: CanvasScaleService,
+    private renderer: Renderer2
+  ) {
+    this.canvasScaleService.currentCanvasScale.subscribe((scale) => {
+      this.canvasScale = scale;
+    });
+  }
+
+  ngOnInit(): void {}
 
   toggleDetails(): boolean {
     this.isOpenLayout = this.layoutDropdown.nativeElement.hasAttribute('open');
@@ -25,5 +42,19 @@ export class ComponentsBarComponent implements OnInit {
     this.isOpenForms = this.formsDropdown.nativeElement.hasAttribute('open');
 
     return this.isOpenLayout || this.isOpenText || this.isOpenForms;
+  }
+
+  scalePreview(event: CdkDragMove) {
+    const previewElement = event.source.element.nativeElement
+      .nextElementSibling as HTMLElement;
+
+    this.renderer.setStyle(previewElement, 'transform-origin', 'top left');
+
+    this.renderer.setStyle(
+      previewElement,
+      'transform',
+      `translate(${event.pointerPosition.x}px, ${event.pointerPosition.y}px)` +
+        ` scale(${this.canvasScale})`
+    );
   }
 }

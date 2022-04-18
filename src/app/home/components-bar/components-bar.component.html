@@ -13,7 +13,7 @@
         </summary>
         <ul class="flex" cdkDropList cdkDropListSortingDisabled>
           <article>
-            <div cdkDrag>
+            <div cdkDrag (cdkDragMoved)="scalePreview($event)">
               <li class="component">
                 <div class="default-style"></div>
                 <span class="component-title">Container</span>
@@ -24,7 +24,7 @@
           </article>
 
           <article>
-            <div cdkDrag>
+            <div cdkDrag (cdkDragMoved)="scalePreview($event)">
               <li class="component">
                 <img class="default-style" src="../../../assets/images/image.png" alt="Image Component" class="default-style">
                 <span class="component-title">Image</span>
@@ -35,7 +35,7 @@
           </article>
 
           <article>
-            <div cdkDrag>
+            <div cdkDrag (cdkDragMoved)="scalePreview($event)">
               <li class="component">
                 <details class="default-style">
                   <summary>
@@ -54,7 +54,7 @@
           </article>
 
           <article>
-            <div cdkDrag>
+            <div cdkDrag (cdkDragMoved)="scalePreview($event)">
               <li class="component">
                 <hr class="default-style">
                 <span class="component-title">Divider</span>
@@ -74,7 +74,7 @@
         </summary>
         <ul class="flex" cdkDropList cdkDropListSortingDisabled>
           <article>
-            <div cdkDrag>
+            <div cdkDrag (cdkDragMoved)="scalePreview($event)">
               <li class="component">
                 <a class="default-style">A link</a>
                 <span class="component-title">Link text</span>
@@ -85,7 +85,7 @@
           </article>
 
           <article>
-            <div cdkDrag>
+            <div cdkDrag (cdkDragMoved)="scalePreview($event)">
               <li class="component">
                 <p class="default-style">A paragraph</p>
                 <span class="component-title">Paragraph</span>
@@ -96,7 +96,7 @@
           </article>
 
           <article>
-            <div cdkDrag>
+            <div cdkDrag (cdkDragMoved)="scalePreview($event)">
               <li class="component">
                 <h1 class="default-style">A big title</h1>
                 <span class="component-title">Title</span>
@@ -107,7 +107,7 @@
           </article>
 
           <article>
-            <div cdkDrag>
+            <div cdkDrag (cdkDragMoved)="scalePreview($event)">
               <li class="component">
                 <h2 class="default-style">A subtitle</h2>
                 <span class="component-title">Subtitle</span>
@@ -118,7 +118,7 @@
           </article>
 
           <article>
-            <div cdkDrag>
+            <div cdkDrag (cdkDragMoved)="scalePreview($event)">
               <li class="component">
                 <span class="default-style">A line text</span>
                 <span class="component-title">Line text</span>
@@ -129,7 +129,7 @@
           </article>
 
           <article>
-            <div cdkDrag>
+            <div cdkDrag (cdkDragMoved)="scalePreview($event)">
               <li class="component">
                 <code class="default-style">A line of code</code>
                 <span class="component-title">Code</span>
@@ -140,7 +140,7 @@
           </article>
 
           <article>
-            <div cdkDrag>
+            <div cdkDrag (cdkDragMoved)="scalePreview($event)">
               <li class="component">
                 <blockquote class="default-style">
                   <p>A quote</p>
@@ -157,7 +157,7 @@
           </article>
 
           <article>
-            <div cdkDrag>
+            <div cdkDrag (cdkDragMoved)="scalePreview($event)">
               <li class="component">
                 <ul class="default-style">
                   <li>Item 1</li>
@@ -176,7 +176,7 @@
           </article>
 
           <article>
-            <div cdkDrag>
+            <div cdkDrag (cdkDragMoved)="scalePreview($event)">
               <li class="component">
                 <ol class="default-style">
                   <li>Item 1</li>
@@ -195,7 +195,7 @@
           </article>
 
           <article>
-            <div cdkDrag>
+            <div cdkDrag (cdkDragMoved)="scalePreview($event)">
               <li class="component">
                 <dl class="default-style">
                   <dt>Coffee</dt>
@@ -226,7 +226,7 @@
         </summary>
         <ul class="flex" cdkDropList cdkDropListSortingDisabled>
           <article>
-            <div cdkDrag>
+            <div cdkDrag (cdkDragMoved)="scalePreview($event)">
               <li class="component">
                 <form class="default-style"></form>
                 <span class="component-title">Form container</span>
@@ -237,7 +237,7 @@
           </article>
 
           <article>
-            <div cdkDrag>
+            <div cdkDrag (cdkDragMoved)="scalePreview($event)">
               <li class="component">
                 <input type="text" class="default-style" placeholder="Text">
                 <span class="component-title">Text input</span>
@@ -248,7 +248,7 @@
           </article>
 
           <article>
-            <div cdkDrag>
+            <div cdkDrag (cdkDragMoved)="scalePreview($event)">
               <li class="component">
                 <input type="password" class="default-style" placeholder="Password">
                 <span class="component-title">Password input</span>
@@ -259,7 +259,7 @@
           </article>
 
           <article>
-            <div cdkDrag>
+            <div cdkDrag (cdkDragMoved)="scalePreview($event)">
               <li class="component">
                 <input type="email" class="default-style" placeholder="Email">
                 <span class="component-title">Email input</span>
@@ -270,7 +270,7 @@
           </article>
 
           <article>
-            <div cdkDrag>
+            <div cdkDrag (cdkDragMoved)="scalePreview($event)">
               <li class="component">
                 <input type="tel" class="default-style" placeholder="Phone">
                 <span class="component-title">Phone input</span>
@@ -281,7 +281,7 @@
           </article>
 
           <article>
-            <div cdkDrag>
+            <div cdkDrag (cdkDragMoved)="scalePreview($event)">
               <li class="component">
                 <label class="default-style">An input label</label>
                 <span class="component-title">Label</span>
@@ -292,7 +292,7 @@
           </article>
 
           <article>
-            <div cdkDrag>
+            <div cdkDrag (cdkDragMoved)="scalePreview($event)">
               <li class="component">
                 <input type="number" class="default-style" value="1">
                 <span class="component-title">Number stepper</span>
@@ -303,7 +303,7 @@
           </article>
 
           <article>
-            <div cdkDrag>
+            <div cdkDrag (cdkDragMoved)="scalePreview($event)">
               <li class="component">
                 <label for="checkbox" class="default-style">
                   <input type="checkbox" class="default-style">
@@ -320,7 +320,7 @@
           </article>
 
           <article>
-            <div cdkDrag>
+            <div cdkDrag (cdkDragMoved)="scalePreview($event)">
               <li class="component">
                 <label for="" class="default-style">
                   <input type="radio" name="radio" id="radio" class="default-style">
@@ -337,7 +337,7 @@
           </article>
 
           <article>
-            <div cdkDrag>
+            <div cdkDrag (cdkDragMoved)="scalePreview($event)">
               <li class="component">
                 <input type="date" class="default-style">
                 <span class="component-title">Date picker</span>
@@ -348,7 +348,7 @@
           </article>
 
           <article>
-            <div cdkDrag>
+            <div cdkDrag (cdkDragMoved)="scalePreview($event)">
               <li class="component">
                 <textarea class="default-style" name="textarea" id="textarea" placeholder="A textarea"></textarea>
                 <span class="component-title">Textarea</span>
@@ -360,7 +360,7 @@
           </article>
 
           <article>
-            <div cdkDrag>
+            <div cdkDrag (cdkDragMoved)="scalePreview($event)">
               <li class="component">
                 <input type="file">
                 <span class="component-title">File picker</span>
@@ -371,7 +371,7 @@
           </article>
 
           <article>
-            <div cdkDrag>
+            <div cdkDrag (cdkDragMoved)="scalePreview($event)">
               <li class="component">
                 <select name="items" id="items" class="default-style">
                   <option value="Item 1">Item 1</option>
@@ -392,7 +392,7 @@
           </article>
 
           <article>
-            <div cdkDrag>
+            <div cdkDrag (cdkDragMoved)="scalePreview($event)">
               <li class="component">
                 <button class="default-style">Button</button>
                 <span class="component-title">Button</span>
@@ -403,7 +403,7 @@
           </article>
 
           <article>
-            <div cdkDrag>
+            <div cdkDrag (cdkDragMoved)="scalePreview($event)">
               <li class="component">
                 <input type="range" class="default-style">
                 <span class="component-title">Range</span>
@@ -414,7 +414,7 @@
           </article>
 
           <article>
-            <div cdkDrag>
+            <div cdkDrag (cdkDragMoved)="scalePreview($event)">
               <li class="component">
                 <input type="color" class="default-style">
                 <span class="component-title">Color picker</span>

@@ -49,10 +49,10 @@ export class StylesBarComponent implements OnInit {
 
   getElementAttributes() {
     const elementLeft = parseInt(this.selectedElement.style.left, 10);
-    this.elementAtt.x = elementLeft - Math.round(this.canvasRect.left);
+    this.elementAtt.x = elementLeft;
 
     const elementTop = parseInt(this.selectedElement.style.top, 10);
-    this.elementAtt.y = elementTop - Math.round(this.canvasRect.top);
+    this.elementAtt.y = elementTop;
 
     this.elementAtt.width = this.selectedElement.offsetWidth;
 
@@ -173,13 +173,10 @@ export class StylesBarComponent implements OnInit {
     // Axis depending of the input name (top | left)
     const axis = input.name;
 
-    // Parent value for top or left
-    const canvasValue = this.canvasRect[axis];
-
     this.renderer.setStyle(
       this.selectedElement,
       axis,
-      `${canvasValue + posValue}px`
+      `${posValue}px`
     );
   }
 

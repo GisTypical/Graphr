@@ -10,6 +10,7 @@ import {
 import { SelectedElementsService } from '../../core/services/selected-elements/selected-elements.service';
 import { ElectronService } from '../../core/services';
 import panzoom, { Transform } from 'panzoom';
+import { CanvasScaleService } from '../../core/services/canvas-scale/canvas-scale.service';
 
 @Component({
   selector: 'app-canvas',
@@ -26,7 +27,8 @@ export class CanvasComponent implements AfterViewInit {
     private renderer: Renderer2,
     private canvas: ElementRef,
     private selectedService: SelectedElementsService,
-    private electronService: ElectronService
+    private electronService: ElectronService,
+    private canvasScaleService: CanvasScaleService,
   ) { }
 
   @HostListener('keydown', ['$event'])
@@ -120,6 +122,7 @@ export class CanvasComponent implements AfterViewInit {
     // Update canvas scale with every canvas transform
     panzoomCanvas.on('transform', (e) => {
       this.canvasScale = panzoomCanvas.getTransform().scale;
+      this.canvasScaleService.setCanvasScale(this.canvasScale);
     });
   }
 

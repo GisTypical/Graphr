@@ -15,8 +15,6 @@ function createWindow(): BrowserWindow {
 
   // Create the browser window.
   win = new BrowserWindow({
-    // x: 0,
-    // y: 0,
     width: 1200,
     height: 680,
     minWidth: 940,
@@ -32,7 +30,6 @@ function createWindow(): BrowserWindow {
   });
 
   if (serve) {
-    // win.webContents.openDevTools();
     require('electron-reload')(__dirname, {
       electron: require(path.join(__dirname, '/../node_modules/electron')),
     });
@@ -81,11 +78,6 @@ try {
       if (win.isMaximized()) win.restore()
       else win.maximize()
     })
-    ipcMain.on('ping', (event, message) => console.log(`recieved ${message}!`));
-    ipcMain.handle('pong', (event, message) => {
-      console.log('se ha hecho un invoke!', message);
-      return 'Pong!';
-    });
 
     ipcMain.handle('image', (event, message) => {
       const img = dialog.showOpenDialogSync({

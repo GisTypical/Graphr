@@ -140,9 +140,14 @@ try {
           </html>`))
 
           // CREATING CSS
-          fs.writeFileSync(path.join(dirPath, 'styles.css'), beautify(`html, body {
-          position: relative; user-select: none; font-family: 'Roboto', sans-serif; }
-          ${css}`, { format: 'css' }))
+          fs.writeFileSync(path.join(dirPath, 'styles.css'), beautify(`* {
+            margin: 0;
+            padding: 0;
+          }
+          html, body {
+          position: relative;
+          user-select: none;
+          font-family: 'Roboto', sans-serif; } ${css}`, { format: 'css' }))
 
           // CREATING JS
           fs.writeFileSync(path.join(dirPath, 'index.js'), beautify(`class FadeInAnimation {

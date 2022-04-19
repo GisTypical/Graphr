@@ -168,16 +168,14 @@ export class ToolbarComponent implements OnInit {
 
       // Calculating real position for the element
       const elementTop = parseInt(htmlElement.style.top, 10);
-      const top = elementTop;
-
       const elementLeft = parseInt(htmlElement.style.left, 10);
-      const left = elementLeft;
 
       // Getting and formatting element styles from style attribute
       let elementStyles = htmlElement.style.cssText;
 
-      elementStyles = elementStyles.replace(/top: \d+/, `top: ${top}`);
-      elementStyles = elementStyles.replace(/left: \d+/, `left: ${left}`);
+      elementStyles = elementStyles.replace(/top: \d+/, `top: ${elementTop}`);
+      elementStyles = elementStyles.replace(/left: \d+/, `left: ${elementLeft}`);
+      elementStyles += `box-sizing: border-box;\n`;
       elementStyles += `transition: filter 0.2s ease-in-out 0s, border-color 0.2s ease-in-out 0s, 
       background-color 0.2s ease-in-out 0s, opacity 0.8s ease-in-out 0s, top 1.2s ease-out 0s,
       left 1.2s ease-out 0s;`;
@@ -308,26 +306,22 @@ export class ToolbarComponent implements OnInit {
 
       if (htmlElement.hasAttribute('slideDown')) {
         // Calculating real position for the element
-        this.canvasRect = htmlElement.parentElement.getBoundingClientRect();
         const elementTop = parseInt(htmlElement.style.top, 10);
-        const top = elementTop - this.canvasRect.top;
-
         const elementLeft = parseInt(htmlElement.style.left, 10);
-        const left = elementLeft - this.canvasRect.left;
 
-        js += `const slideDown_${index} = new SlideAnimation('${htmlElement.id}', '${top}px', '${left}px')
+        js += `const slideDown_${index} = new SlideAnimation('${htmlElement.id}', '${elementTop}px', '${elementLeft}px')
         slideDown_${index}.slideDown()\n`;
       }
 
       if (htmlElement.hasAttribute('slideToRight')) {
-        this.canvasRect = htmlElement.parentElement.getBoundingClientRect();
+        // this.canvasRect = htmlElement.parentElement.getBoundingClientRect();
         const elementTop = parseInt(htmlElement.style.top, 10);
-        const top = elementTop - this.canvasRect.top;
+        // const top = elementTop - this.canvasRect.top;
 
         const elementLeft = parseInt(htmlElement.style.left, 10);
-        const left = elementLeft - this.canvasRect.left;
+        // const left = elementLeft - this.canvasRect.left;
 
-        js += `const slideToRight_${index} = new SlideAnimation('${htmlElement.id}', '${top}px', '${left}px')
+        js += `const slideToRight_${index} = new SlideAnimation('${htmlElement.id}', '${elementTop}px', '${elementLeft}px')
         slideToRight_${index}.slideToRight()\n`;
       }
 

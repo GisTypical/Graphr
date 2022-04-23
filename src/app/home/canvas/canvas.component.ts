@@ -69,8 +69,14 @@ export class CanvasComponent implements AfterViewInit {
     this.renderer.setStyle(clonedComponent, 'left', `${x}px`);
     this.renderer.setStyle(clonedComponent, 'top', `${y}px`);
 
-    this.renderer.setAttribute(clonedComponent, 'contenteditable', 'true');
-    this.renderer.setAttribute(clonedComponent, 'spellcheck', 'false');
+    if (clonedComponent.tagName !== 'BUTTON') {
+      this.renderer.setAttribute(clonedComponent, 'contenteditable', 'true');
+      this.renderer.setAttribute(clonedComponent, 'spellcheck', 'false');
+    } else {
+      const span = clonedComponent.children[0];
+      this.renderer.setAttribute(span, 'contenteditable', 'true');
+      this.renderer.setAttribute(span, 'spellcheck', 'false');
+    }
 
     if (clonedComponent.tagName === 'SPAN') {
       clonedComponent.addEventListener('keydown', (e) => {

@@ -166,15 +166,9 @@ export class ToolbarComponent implements OnInit {
         }
       }
 
-      // Calculating real position for the element
-      const elementTop = parseInt(htmlElement.style.top, 10);
-      const elementLeft = parseInt(htmlElement.style.left, 10);
-
       // Getting and formatting element styles from style attribute
       let elementStyles = htmlElement.style.cssText;
 
-      elementStyles = elementStyles.replace(/top: \d+/, `top: ${elementTop}`);
-      elementStyles = elementStyles.replace(/left: \d+/, `left: ${elementLeft}`);
       elementStyles += `box-sizing: border-box;\n`;
       elementStyles += `transition: filter 0.2s ease-in-out 0s, border-color 0.2s ease-in-out 0s, 
       background-color 0.2s ease-in-out 0s, opacity 0.8s ease-in-out 0s, top 1.2s ease-out 0s,
@@ -195,39 +189,39 @@ export class ToolbarComponent implements OnInit {
 
       // Verifying if the element has a css animation
       if (htmlElement.classList.contains('hover')) {
-        let hoverNot = cssRules[42].cssText;
-        hoverNot = hoverNot.replace(cssRules[42].selectorText, '');
-        hoverNot = hoverNot.replace('{', '');
-        hoverNot = hoverNot.replace('}', '');
+        let hover = cssRules[43].cssText;
+        hover = hover.replace(cssRules[43].selectorText, '');
+        hover = hover.replace('{', '');
+        hover = hover.replace('}', '');
 
-        css += `#${htmlElement.id}${cssRules[42].selectorText} { ${hoverNot} }`;
+        css += `#${htmlElement.id}${cssRules[43].selectorText} { ${hover} }`;
       }
 
       if (htmlElement.classList.contains('active')) {
-        let active = cssRules[43].cssText;
+        let active = cssRules[44].cssText;
 
-        active = active.replace(cssRules[43].selectorText, '');
+        active = active.replace(cssRules[44].selectorText, '');
         active = active.replace('{', '');
         active = active.replace('}', '');
 
-        css += `#${htmlElement.id}${cssRules[43].selectorText} { ${active} }`;
+        css += `#${htmlElement.id}${cssRules[44].selectorText} { ${active} }`;
       }
 
       if (htmlElement.classList.contains('focus')) {
-        let focus = cssRules[44].cssText;
+        let focus = cssRules[45].cssText;
 
-        focus = focus.replace(cssRules[44].selectorText, '');
+        focus = focus.replace(cssRules[45].selectorText, '');
         focus = focus.replace('{', '');
         focus = focus.replace('}', '');
 
-        css += `#${htmlElement.id}${cssRules[44].selectorText} { ${focus} }`;
+        css += `#${htmlElement.id}${cssRules[45].selectorText} { ${focus} }`;
       }
 
       // Verifying if element is an input range
       if (htmlElement.hasAttribute('type') && htmlElement.getAttribute('type') === 'range') {
-        let rangeThumb = cssRules[41].cssText;
+        let rangeThumb = cssRules[42].cssText;
 
-        rangeThumb = rangeThumb.replace(cssRules[41].selectorText, '');
+        rangeThumb = rangeThumb.replace(cssRules[42].selectorText, '');
         rangeThumb = rangeThumb.replace('{', '');
         rangeThumb = rangeThumb.replace('}', '');
 
@@ -295,7 +289,7 @@ export class ToolbarComponent implements OnInit {
     let js = '';
 
     for (let index = 0; index < canvasChildren.length; index++) {
-      const htmlElement = canvasChildren[index] as HTMLLIElement;
+      const htmlElement = canvasChildren[index] as HTMLElement;
 
       if (htmlElement.hasAttribute('fadeIn')) {
         const opacity = htmlElement.style.opacity === '' ? 1 : htmlElement.style.opacity;
@@ -305,7 +299,6 @@ export class ToolbarComponent implements OnInit {
       }
 
       if (htmlElement.hasAttribute('slideDown')) {
-        // Calculating real position for the element
         const elementTop = parseInt(htmlElement.style.top, 10);
         const elementLeft = parseInt(htmlElement.style.left, 10);
 
@@ -314,18 +307,12 @@ export class ToolbarComponent implements OnInit {
       }
 
       if (htmlElement.hasAttribute('slideToRight')) {
-        // this.canvasRect = htmlElement.parentElement.getBoundingClientRect();
         const elementTop = parseInt(htmlElement.style.top, 10);
-        // const top = elementTop - this.canvasRect.top;
-
         const elementLeft = parseInt(htmlElement.style.left, 10);
-        // const left = elementLeft - this.canvasRect.left;
 
         js += `const slideToRight_${index} = new SlideAnimation('${htmlElement.id}', '${elementTop}px', '${elementLeft}px')
         slideToRight_${index}.slideToRight()\n`;
       }
-
-      js += '\n';
     }
 
     return js;
@@ -368,17 +355,18 @@ export class ToolbarComponent implements OnInit {
 
     const canvas = document.getElementsByTagName('app-canvas')[0].children;
     const canvasChildren = Array.from(canvas);
-    const css = this.generateCSS(canvasChildren, cssRules);
+
     const html = this.generateHTML(canvasChildren);
-    const pageTitle = document.querySelector('.title h1').textContent;
+    const css = this.generateCSS(canvasChildren, cssRules);
     const js = this.generateJS(canvasChildren);
+    const pageTitle = document.querySelector('.title h1').textContent;
+
     const spinner = document.getElementById('spinner');
+    spinner.style.opacity = '1';
+    spinner.style.visibility = 'visible';
 
     this.electronService.invoke('generate', html, css, js, pageTitle)
       .then(result => {
-        spinner.style.opacity = '1';
-        spinner.style.visibility = 'visible';
-
         if (result) {
           spinner.style.opacity = '0';
           spinner.style.visibility = 'hidden';

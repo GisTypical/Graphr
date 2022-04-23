@@ -15,8 +15,6 @@ function createWindow(): BrowserWindow {
 
   // Create the browser window.
   win = new BrowserWindow({
-    // x: 0,
-    // y: 0,
     width: 1200,
     height: 680,
     minWidth: 940,
@@ -32,7 +30,6 @@ function createWindow(): BrowserWindow {
   });
 
   if (serve) {
-    // win.webContents.openDevTools();
     require('electron-reload')(__dirname, {
       electron: require(path.join(__dirname, '/../node_modules/electron')),
     });
@@ -72,20 +69,12 @@ try {
   // Some APIs can only be used after this event occurs.
   // Added 400 ms to fix the black background issue while using transparent window. More detais at https://github.com/electron/electron/issues/15947
   app.on('ready', () => {
-    /**
-     * Testing IPC
-     */
     ipcMain.on('closeApp', () => win.close())
     ipcMain.on('minimizeApp', () => win.minimize())
     ipcMain.on('maximizeApp', () => {
       if (win.isMaximized()) win.restore()
       else win.maximize()
     })
-    ipcMain.on('ping', (event, message) => console.log(`recieved ${message}!`));
-    ipcMain.handle('pong', (event, message) => {
-      console.log('se ha hecho un invoke!', message);
-      return 'Pong!';
-    });
 
     ipcMain.handle('image', (event, message) => {
       const img = dialog.showOpenDialogSync({

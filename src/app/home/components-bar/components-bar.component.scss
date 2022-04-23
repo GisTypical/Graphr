@@ -164,6 +164,9 @@ button.default-style {
   padding: 0.4em 0.9em;
   border-radius: 2px;
   cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 
   font: {
     family: 'Roboto', sans-serif;

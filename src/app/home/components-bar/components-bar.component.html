@@ -394,11 +394,15 @@
           <article>
             <div cdkDrag (cdkDragMoved)="scalePreview($event)">
               <li class="component">
-                <button class="default-style">Button</button>
+                <button class="default-style">
+                  <span>Button</span>
+                </button>
                 <span class="component-title">Button</span>
               </li>
               <div *cdkDragPlaceholder></div>
-              <button *cdkDragPreview class="default-style">Button</button>
+              <button *cdkDragPreview class="default-style">
+                <span contenteditable>Button</span>
+              </button>
             </div>
           </article>
 

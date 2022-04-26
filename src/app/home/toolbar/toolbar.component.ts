@@ -189,39 +189,43 @@ export class ToolbarComponent implements OnInit {
 
       // Verifying if the element has a css animation
       if (htmlElement.classList.contains('hover')) {
-        let hover = cssRules[43].cssText;
-        hover = hover.replace(cssRules[43].selectorText, '');
+        const indexHover = 44
+        let hover = cssRules[indexHover].cssText;
+        hover = hover.replace(cssRules[indexHover].selectorText, '');
         hover = hover.replace('{', '');
         hover = hover.replace('}', '');
 
-        css += `#${htmlElement.id}${cssRules[43].selectorText} { ${hover} }`;
+        css += `#${htmlElement.id}${cssRules[indexHover].selectorText} { ${hover} }`;
       }
 
       if (htmlElement.classList.contains('active')) {
-        let active = cssRules[44].cssText;
+        const indexActive = 45
+        let active = cssRules[indexActive].cssText;
 
-        active = active.replace(cssRules[44].selectorText, '');
+        active = active.replace(cssRules[indexActive].selectorText, '');
         active = active.replace('{', '');
         active = active.replace('}', '');
 
-        css += `#${htmlElement.id}${cssRules[44].selectorText} { ${active} }`;
+        css += `#${htmlElement.id}${cssRules[indexActive].selectorText} { ${active} }`;
       }
 
       if (htmlElement.classList.contains('focus')) {
-        let focus = cssRules[45].cssText;
+        const indexFocus = 46
+        let focus = cssRules[indexFocus].cssText;
 
-        focus = focus.replace(cssRules[45].selectorText, '');
+        focus = focus.replace(cssRules[indexFocus].selectorText, '');
         focus = focus.replace('{', '');
         focus = focus.replace('}', '');
 
-        css += `#${htmlElement.id}${cssRules[45].selectorText} { ${focus} }`;
+        css += `#${htmlElement.id}${cssRules[indexFocus].selectorText} { ${focus} }`;
       }
 
       // Verifying if element is an input range
       if (htmlElement.hasAttribute('type') && htmlElement.getAttribute('type') === 'range') {
-        let rangeThumb = cssRules[42].cssText;
+        const indexRangeThumb = 43
+        let rangeThumb = cssRules[indexRangeThumb].cssText;
 
-        rangeThumb = rangeThumb.replace(cssRules[42].selectorText, '');
+        rangeThumb = rangeThumb.replace(cssRules[indexRangeThumb].selectorText, '');
         rangeThumb = rangeThumb.replace('{', '');
         rangeThumb = rangeThumb.replace('}', '');
 
@@ -345,7 +349,10 @@ export class ToolbarComponent implements OnInit {
       rule = rule.replace('var(--white)', '#ffffff');
 
       let selectorText = stylesheet[index].selectorText;
-      selectorText = selectorText.replace(/\[_ngcontent-\w*-\w*\]/g, '');
+
+      if (selectorText !== undefined) {
+        selectorText = selectorText.replace(/\[_ngcontent-\w*-\w*\]/g, '');
+      }
 
       cssRules.push({
         cssText: rule,
@@ -379,7 +386,7 @@ export class ToolbarComponent implements OnInit {
             container.style.opacity = '0';
             container.style.visibility = 'hidden';
           }, 2000);
-        } else if(result === false){
+        } else if (result === false) {
           spinner.style.opacity = '0';
           spinner.style.visibility = 'hidden';
 

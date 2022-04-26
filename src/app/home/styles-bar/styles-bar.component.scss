@@ -14,6 +14,12 @@ aside {
   user-select: none;
 }
 
+@media (min-width: 1530px) {
+  aside {
+    height: 88.21vh;
+  }
+}
+
 ::-webkit-scrollbar {
   width: 0.45em;
 }
